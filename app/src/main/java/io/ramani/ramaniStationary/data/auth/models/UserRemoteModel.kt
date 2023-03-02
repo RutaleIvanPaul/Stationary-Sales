@@ -3,28 +3,16 @@ package io.ramani.ramaniStationary.data.auth.models
 import com.google.gson.annotations.SerializedName
 
 data class UserRemoteModel(
-    @SerializedName("fcmToken")
-    val fcmToken: String = "",
-    @SerializedName("token")
-    val token: String = "",
-    @SerializedName("accountType")
-    val accountType: String = "",
-    @SerializedName("companyId")
-    val companyId: String = "",
-    @SerializedName("companyName")
-    val companyName: String = "",
-    @SerializedName("companyType")
-    val companyType: String = "",
-    @SerializedName("userName")
-    val userName: String = "",
+    @SerializedName("id")
+    val id: String = "",
+    @SerializedName("name")
+    val name: String = "",
     @SerializedName("phoneNumber")
     val phoneNumber: String = "",
-    @SerializedName("userId")
-    val userId: String = "",
-    @SerializedName("isAdmin")
-    val isAdmin: Boolean = false,
-    @SerializedName("hasSeenSFAOnboarding")
-    val hasSeenSFAOnboarding: Boolean = false,
+    @SerializedName("token")
+    val token: String = "",
+    @SerializedName("companyId")
+    val companyId: String = "",
     @SerializedName("currency")
     val currency: String = "",
     @SerializedName("timeZone")
@@ -32,6 +20,5 @@ data class UserRemoteModel(
     @SerializedName("roles")
     val roles: List<String> = listOf(),
     @SerializedName("permissions")
-    val permissions: List<String> = listOf()
-
+    val permissions: List<UserPermissionRemoteModel> = listOf()
 )
