@@ -1,4 +1,4 @@
-package io.ramani.ramaniStationary.data.home.models
+package io.ramani.ramaniStationary.data.home.models.response
 
 import com.google.gson.annotations.SerializedName
 

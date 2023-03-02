@@ -1,6 +1,6 @@
 package io.ramani.ramaniStationary.data.home.mappers
 
-import io.ramani.ramaniStationary.data.home.models.DailySalesStatsRemoteModel
+import io.ramani.ramaniStationary.data.home.models.response.DailySalesStatsRemoteModel
 import io.ramani.ramaniStationary.domain.base.mappers.ModelMapper
 import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
 
