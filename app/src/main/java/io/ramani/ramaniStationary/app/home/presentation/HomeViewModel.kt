@@ -1,35 +1,44 @@
-package io.ramani.ramaniStationary.app.auth.presentation
+package io.ramani.ramaniStationary.app.home.presentation
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
-import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
+import io.ramani.ramaniStationary.app.auth.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
+import io.ramani.ramaniStationary.data.home.models.request.DailySalesStatsRequestModel
+import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
+import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
+import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
+import io.ramani.ramaniStationary.domain.home.model.MerchantModel
+import io.ramani.ramaniStationary.domain.home.model.ProductModel
+import io.ramani.ramaniStationary.domain.home.model.TaxModel
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
 
-class LoginViewModel(
+class HomeViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
-    private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
+    private val dailySalesStatsUseCase: BaseSingleUseCase<List<DailySalesStatsModel>, DailySalesStatsRequestModel>,
+    private val getTaxesUseCase: BaseSingleUseCase<List<TaxModel>, GetTaxRequestModel>,
+    private val getProductsUseCase: BaseSingleUseCase<List<ProductModel>, GetProductRequestModel>,
+    private val getMerchantsUseCase: BaseSingleUseCase<List<MerchantModel>, GetMerchantRequestModel>,
     private val prefs: PrefsManager
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
     val loginActionLiveData = MutableLiveData<UserModel>()
-    private lateinit var flow: AuthFlow
+    private lateinit var flow: HomeFlow
     override fun start(args: Map<String, Any?>) {
 
     }
 
+    /*
     fun login(selectedCountryCode: Int, phone: String?, password: String?) {
         if (phone.isNullOrBlank() || password.isNullOrBlank()) {
             validationResponseLiveData.postValue(
@@ -65,22 +74,26 @@ class LoginViewModel(
             })
         }
     }
+    */
 
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
+        private val dailySalesStatsUseCase: BaseSingleUseCase<List<DailySalesStatsModel>, DailySalesStatsRequestModel>,
+        private val getTaxesUseCase: BaseSingleUseCase<List<TaxModel>, GetTaxRequestModel>,
+        private val getProductsUseCase: BaseSingleUseCase<List<ProductModel>, GetProductRequestModel>,
+        private val getMerchantsUseCase: BaseSingleUseCase<List<MerchantModel>, GetMerchantRequestModel>,
         private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-                return LoginViewModel(
+            if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+                return HomeViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    loginUseCase,
+                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
                     prefs
                 ) as T
             }

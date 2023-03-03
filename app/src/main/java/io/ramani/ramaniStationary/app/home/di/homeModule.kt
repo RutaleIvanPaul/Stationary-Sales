@@ -1,31 +1,26 @@
-package io.ramani.ramaniStationary.app.auth.di
+package io.ramani.ramaniStationary.app.home.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import io.ramani.ramaniStationary.app.auth.presentation.LoginViewModel
+import io.ramani.ramaniStationary.app.home.presentation.HomeViewModel
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 
-/**
- * Forgetd by mahmoud on 9/22/17.
- */
-val authModule = Module("authModule") {
+val homeModule = Module("homeModule") {
 
-    import(authDataModule)
-    import(authDomainModule)
+    import(homeDataModule)
+    import(homeDomainModule)
 
-
-
-
-    bind<LoginViewModel>() with factory { fragment: Fragment ->
+    bind<HomeViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
-            fragment, LoginViewModel.Factory(
-                instance(), instance(), instance(), instance("loginUseCase"), instance()
+            fragment, HomeViewModel.Factory(
+                instance(), instance(), instance(),
+                instance("DailySalesStatsUseCase"), instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"),
+                instance()
             )
-        ).get(LoginViewModel::class.java)
+        ).get(HomeViewModel::class.java)
     }
-
 
 }
