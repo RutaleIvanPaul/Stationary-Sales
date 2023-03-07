@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Created by Amr on 9/14/17.
  */
 open class BaseResponse<T>(
-    @SerializedName("statusCode") var status: Long? = 0,
+    @SerializedName("status") var status: Long? = 0,
     @SerializedName("message") var message: String? = "",
     @SerializedName("response") var data: T? = null,
     @SerializedName("meta") var meta: PaginationMetaRemote? = null

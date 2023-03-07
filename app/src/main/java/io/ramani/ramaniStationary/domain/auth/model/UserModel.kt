@@ -6,43 +6,24 @@ import com.google.gson.Gson
 import io.ramani.ramaniStationary.domainCore.entities.IBuilder
 
 data class UserModel(
-    val fcmToken: String = "",
-    val token: String = "",
-    val accountType: String = "",
-    val companyId: String = "",
-    val companyName: String = "",
-    val companyType: String = "",
-    val userName: String = "",
-    val phoneNumber: String = "",
     val uuid: String = "",
-    val isAdmin: Boolean = false,
-    val hasSeenSFAOnboarding: Boolean = false,
+    val name: String = "",
+    val phoneNumber: String = "",
+    val token: String = "",
+    val companyId: String = "",
     val currency: String = "",
-    val timeZone: String = ""
-
+    val timeZone: String = "",
 ) : Parcelable {
 
 
     class Builder : IBuilder<UserModel> {
-        private var fcmToken: String = ""
-        private var token: String = ""
-        private var accountType: String = ""
-        private var companyId: String = ""
-        private var companyName: String = ""
-        private var companyType: String = ""
-        private var userName: String = ""
-        private var phoneNumber: String = ""
         private var uuid: String = ""
-        private var isAdmin: Boolean = false
-        private var hasSeenSFAOnboarding: Boolean = false
+        private var name: String = ""
+        private var phoneNumber: String = ""
+        private var token: String = ""
+        private var companyId: String = ""
         private var currency: String = ""
         private var timeZone: String = ""
-
-        fun fcmToken(fcmToken: String): Builder {
-            this.fcmToken = fcmToken
-            return this
-        }
-
         fun phoneNumber(phoneNumber: String): Builder {
             this.phoneNumber = phoneNumber
             return this
@@ -54,12 +35,7 @@ data class UserModel(
         }
 
         fun name(name: String): Builder {
-            this.userName = name
-            return this
-        }
-
-        fun accountType(accountType: String): Builder {
-            this.accountType = accountType
+            this.name = name
             return this
         }
 
@@ -68,28 +44,8 @@ data class UserModel(
             return this
         }
 
-        fun companyName(companyName: String): Builder {
-            this.companyName = companyName
-            return this
-        }
-
-        fun companyType(companyType: String): Builder {
-            this.companyType = companyType
-            return this
-        }
-
         fun uuid(uuid: String): Builder {
             this.uuid = uuid
-            return this
-        }
-
-        fun isAdmin(isAdmin: Boolean): Builder {
-            this.isAdmin = isAdmin
-            return this
-        }
-
-        fun hasSeenSFAOnboarding(hasSeenSFAOnboarding: Boolean): Builder {
-            this.hasSeenSFAOnboarding = hasSeenSFAOnboarding
             return this
         }
 
@@ -103,20 +59,13 @@ data class UserModel(
             return this
         }
 
-
         override fun build(): UserModel =
             UserModel(
-                fcmToken,
-                token,
-                accountType,
-                companyId,
-                companyName,
-                companyType,
-                userName,
-                phoneNumber,
                 uuid,
-                isAdmin,
-                hasSeenSFAOnboarding,
+                name,
+                phoneNumber,
+                token,
+                companyId,
                 currency,
                 timeZone
             )
@@ -131,12 +80,6 @@ data class UserModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: ""
     )
 
     override fun toString(): String {
@@ -144,17 +87,11 @@ data class UserModel(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(fcmToken)
-        parcel.writeString(token)
-        parcel.writeString(accountType)
-        parcel.writeString(companyId)
-        parcel.writeString(companyName)
-        parcel.writeString(companyType)
-        parcel.writeString(userName)
-        parcel.writeString(phoneNumber)
         parcel.writeString(uuid)
-        parcel.writeByte(if (isAdmin) 1 else 0)
-        parcel.writeByte(if (hasSeenSFAOnboarding) 1 else 0)
+        parcel.writeString(name)
+        parcel.writeString(phoneNumber)
+        parcel.writeString(token)
+        parcel.writeString(companyId)
         parcel.writeString(currency)
         parcel.writeString(timeZone)
     }

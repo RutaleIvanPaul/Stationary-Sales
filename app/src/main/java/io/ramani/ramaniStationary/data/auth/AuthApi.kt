@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthApi {
-    @POST("/auth/03-11-2022/login/api-key")
+    @POST("/auth/login/single-session/03-11-2022")
     fun login(
         @Body loginRequest: LoginRequestModel
     ): Single<BaseResponse<UserRemoteModel>>
