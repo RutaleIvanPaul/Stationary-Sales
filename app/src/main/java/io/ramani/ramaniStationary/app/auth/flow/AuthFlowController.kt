@@ -21,4 +21,14 @@ class AuthFlowController(
         activity.supportFragmentManager?.let { fragment.show(it, "signin_sheet_fragment") }
     }
 
+    override fun openMainNav() {
+        // Go to home screen
+        /*
+        val fragment = MainNavFragment.newInstance()
+        activity.navigationManager?.openAsRoot(
+            fragment
+        )
+        */
+    }
+
 }

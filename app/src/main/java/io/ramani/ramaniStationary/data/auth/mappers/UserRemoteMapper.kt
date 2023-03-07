@@ -7,34 +7,22 @@ import io.ramani.ramaniStationary.domain.base.mappers.ModelMapper
 class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
     override fun mapFrom(from: UserRemoteModel): UserModel =
         UserModel.Builder()
-            .uuid(from.userId)
-            .accountType(from.accountType)
-            .companyId(from.companyId)
-            .companyName(from.companyName)
-            .companyType(from.companyType)
-            .currency(from.currency)
-            .fcmToken(from.fcmToken)
-            .hasSeenSFAOnboarding(from.hasSeenSFAOnboarding)
-            .isAdmin(from.isAdmin)
+            .uuid(from.id)
+            .name(from.name)
             .phoneNumber(from.phoneNumber)
-            .name(from.userName)
-            .timeZone(from.timeZone)
             .token(from.token)
+            .companyId(from.companyId)
+            .currency(from.currency)
+            .timeZone(from.timeZone)
             .build()
 
     override fun mapTo(to: UserModel): UserRemoteModel =
         UserRemoteModel(
-            to.fcmToken,
-            to.token,
-            to.accountType,
-            to.companyId,
-            to.companyName,
-            to.companyType,
-            to.userName,
-            to.phoneNumber,
             to.uuid,
-            to.isAdmin,
-            to.hasSeenSFAOnboarding,
+            to.name,
+            to.phoneNumber,
+            to.token,
+            to.companyId,
             to.currency,
             to.timeZone
         )
