@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.ramani.ramaniStationary.app.auth.flow.HomeFlow
+import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.home.models.request.DailySalesStatsRequestModel
