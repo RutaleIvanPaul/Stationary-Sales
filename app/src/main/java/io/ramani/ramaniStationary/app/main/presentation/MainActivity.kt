@@ -52,6 +52,11 @@ class MainActivity : BaseActivity() {
                 toolbar.title = it
             }
         }
-        flow.openLogin()
+
+        if (viewModel.isUserLoggedInBefore) {
+            flow.openMainNav()
+        } else {
+            flow.openLogin()
+        }
     }
 }

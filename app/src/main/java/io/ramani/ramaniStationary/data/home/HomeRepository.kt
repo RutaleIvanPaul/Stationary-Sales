@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.data.home
 
+import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
 import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
@@ -12,16 +13,16 @@ class HomeRepository(
     private val localAuthDataSource: HomeDataSource
 ): HomeDataSource {
 
-    override fun getDailySalesStats(companyId: String, page: Int, size: Int, startDate: String, endDate: String): Single<List<DailySalesStatsModel>>  =
-        remoteAuthDataSource.getDailySalesStats(companyId, page, size, startDate, endDate)
+    override fun getDailySalesStats(companyId: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>>  =
+        remoteAuthDataSource.getDailySalesStats(companyId, page, startDate, endDate)
 
-    override fun getTaxes(companyId: String, userId: String, date: String, page: Int, size: Int): Single<List<TaxModel>>  =
-        remoteAuthDataSource.getTaxes(companyId, userId, date, page, size)
+    override fun getTaxes(companyId: String, userId: String, date: String, page: Int): Single<PagedList<TaxModel>>  =
+        remoteAuthDataSource.getTaxes(companyId, userId, date, page)
 
-    override fun getProducts(date: String, archived: Boolean, page: Int, size: Int): Single<List<ProductModel>>  =
-        remoteAuthDataSource.getProducts(date, archived, page, size)
+    override fun getProducts(date: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>>  =
+        remoteAuthDataSource.getProducts(date, archived, page)
 
-    override fun getMerchants(date: String, isActive: Boolean, page: Int, size: Int): Single<List<MerchantModel>>  =
-        remoteAuthDataSource.getMerchants(date, isActive, page, size)
+    override fun getMerchants(date: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>>  =
+        remoteAuthDataSource.getMerchants(date, isActive, page)
 
 }

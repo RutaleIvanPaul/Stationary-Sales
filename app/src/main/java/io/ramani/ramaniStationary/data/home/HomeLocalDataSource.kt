@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.data.home
 
 import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
+import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
 import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
@@ -13,18 +14,18 @@ class HomeLocalDataSource(
     private val prefsManager: Prefs
 ) : HomeDataSource, BaseRemoteDataSource() {
 
-    override fun getDailySalesStats(companyId: String, page: Int, size: Int, startDate: String, endDate: String): Single<List<DailySalesStatsModel>> {
+    override fun getDailySalesStats(companyId: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>> {
         TODO("Not yet implemented")
     }
-    override fun getTaxes(companyId: String, userId: String, date: String, page: Int, size: Int): Single<List<TaxModel>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getProducts(date: String, archived: Boolean, page: Int, size: Int ): Single<List<ProductModel>> {
+    override fun getTaxes(companyId: String, userId: String, date: String, page: Int): Single<PagedList<TaxModel>> {
         TODO("Not yet implemented")
     }
 
-    override fun getMerchants(date: String, isActive: Boolean, page: Int, size: Int ): Single<List<MerchantModel>> {
+    override fun getProducts(date: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMerchants(date: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> {
         TODO("Not yet implemented")
     }
 

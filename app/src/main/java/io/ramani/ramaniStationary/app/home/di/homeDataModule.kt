@@ -1,13 +1,12 @@
 package io.ramani.ramaniStationary.app.home.di
 
-import io.ramani.ramaniStationary.data.auth.AuthLocalDataSource
 import io.ramani.ramaniStationary.data.common.network.ServiceHelper
 import io.ramani.ramaniStationary.data.home.HomeApi
+import io.ramani.ramaniStationary.data.home.HomeLocalDataSource
 import io.ramani.ramaniStationary.data.home.HomeRemoteDataSource
 import io.ramani.ramaniStationary.data.home.HomeRepository
 import io.ramani.ramaniStationary.data.home.mappers.*
 import io.ramani.ramaniStationary.data.home.models.response.*
-import io.ramani.ramaniStationary.domain.auth.AuthDataSource
 import io.ramani.ramaniStationary.domain.base.mappers.ModelMapper
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
 import io.ramani.ramaniStationary.domain.home.model.*
@@ -36,12 +35,13 @@ val homeDataModule = Kodein.Module("homeDataModule") {
             instance(),
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }
 
-    bind<AuthDataSource>("localHomeDataSource") with singleton {
-        AuthLocalDataSource(
+    bind<HomeDataSource>("localHomeDataSource") with singleton {
+        HomeLocalDataSource(
             instance()
         )
     }

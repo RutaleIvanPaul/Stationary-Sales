@@ -5,6 +5,5 @@ import io.ramani.ramaniStationary.domain.base.v2.Params
 data class GetProductRequestModel(
     val date:String,
     val archived:Boolean,
-    val page:Int,
-    val size:Int
+    val page:Int
 ) : Params

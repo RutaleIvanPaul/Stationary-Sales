@@ -63,9 +63,10 @@
                         android:src="@mipmap/ic_home_sale_stats" />
 
                     <TextView
+                        android:id="@+id/home_total_sales_tv"
                         style="@style/BoldTextLabel"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:text="TSH 23,300"
+                        android:text="TSH 0"
                         android:textColor="@color/colorTextBlack"
                         android:textSize="16sp" />
 
@@ -94,9 +95,10 @@
                         android:src="@mipmap/ic_home_customers_white" />
 
                     <TextView
+                        android:id="@+id/home_total_customers_tv"
                         style="@style/BoldTextLabel"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/colorTextBlack"
                         android:textSize="16sp" />
 

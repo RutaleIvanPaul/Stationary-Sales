@@ -53,6 +53,7 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
     private fun subscribeLoginResponse() {
         viewModel.loginActionLiveData.observe(this) {
             // Move to start fragment
+            flow.openMainNav()
             dismiss()
         }
     }

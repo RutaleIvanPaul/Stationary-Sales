@@ -5,6 +5,5 @@ import io.ramani.ramaniStationary.domain.base.v2.Params
 data class GetMerchantRequestModel(
     val date:String,
     val isActive:Boolean,
-    val page:Int,
-    val size:Int
+    val page:Int
 ) : Params
