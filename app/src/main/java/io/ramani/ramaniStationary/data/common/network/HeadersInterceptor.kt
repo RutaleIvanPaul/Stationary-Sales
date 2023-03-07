@@ -13,6 +13,9 @@ class HeadersInterceptor(private val headersProvider: HeadersProvider) : Interce
         val authHeader = headers[Headers.HEADER_AUTH] ?: ""
         builder.addHeader(Headers.HEADER_AUTH, authHeader)
 
+        val sessionToken = headers[Headers.HEADER_AUTH_TOKEN] ?: ""
+        builder.addHeader(Headers.HEADER_AUTH_TOKEN, sessionToken)
+
         val languageHeader = headers[Headers.HEADER_LANGUAGE] ?: "en"
         builder.addHeader(Headers.HEADER_LANGUAGE, languageHeader)
 

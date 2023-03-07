@@ -9,6 +9,7 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
 
     companion object {
         const val HEADER_AUTH = "Authorization"
+        const val HEADER_AUTH_TOKEN = "sessionToken"
         const val HEADER_LANGUAGE = "Accept-Language"
         const val HEADER_CONTENT_TYPE = "Content-Type"
         const val HEADER_ACCEPT = "Accept"
@@ -23,9 +24,12 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
         val map = mutableMapOf<String, String>()
         if (prefsManager.hasAccessToken) {
             map[HEADER_AUTH] = "Bearer " + prefsManager.accessToken
+            map[HEADER_AUTH_TOKEN] = "Bearer " + prefsManager.accessToken
         } else {
-            map[HEADER_AUTH] = "Bearer 950ae00bcecbb98c40a9d493648ca2f6f1d2cbc6"
+            map[HEADER_AUTH] = "Bearer "
+            map[HEADER_AUTH_TOKEN] = "Bearer "
         }
+
 
 //        map[HEADER_LANGUAGE] = prefsManager.language.lowercase(Locale.getDefault())
         map[HEADER_CONTENT_TYPE] = HEADER_CONTENT_TYPE_VALUE
