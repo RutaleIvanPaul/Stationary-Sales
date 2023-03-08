@@ -23,6 +23,7 @@
                 android:layout_marginTop="@dimen/_40sdp">
 
                 <TextView
+                    android:id="@+id/home_select_date"
                     style="@style/NormalButton"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
@@ -76,7 +77,9 @@
                         android:text="@string/today_sales"
                         android:textColor="@color/colorTextBlack" />
 
-                    <TextView style="@style/TapToViewButton" />
+                    <TextView
+                        android:id="@+id/home_today_sales_all_view"
+                        style="@style/TapToViewButton" />
                 </LinearLayout>
 
                 <!-- Total Customers -->
@@ -108,7 +111,9 @@
                         android:text="@string/total_customers"
                         android:textColor="@color/colorTextBlack" />
 
-                    <TextView style="@style/TapToViewButton" />
+                    <TextView
+                        android:id="@+id/home_total_customers_all_view"
+                        style="@style/TapToViewButton" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -136,6 +141,7 @@
                 <androidx.cardview.widget.CardView style="@style/NormalCardLayout">
 
                     <RelativeLayout
+                        android:id="@+id/home_create_new_order"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -179,6 +185,7 @@
                 <androidx.cardview.widget.CardView style="@style/NormalCardLayout">
 
                     <RelativeLayout
+                        android:id="@+id/home_sales_report"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -222,6 +229,7 @@
                 <androidx.cardview.widget.CardView style="@style/NormalCardLayout">
 
                     <RelativeLayout
+                        android:id="@+id/home_create_merchant"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -274,4 +282,11 @@
         android:layout_height="@dimen/_20sdp"
         android:layout_margin="@dimen/_20sdp"
         android:src="@mipmap/ic_menu" />
+
+    <ProgressBar
+        android:id="@+id/home_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

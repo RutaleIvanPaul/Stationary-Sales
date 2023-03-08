@@ -16,9 +16,36 @@ class HomeFlowController(
         )
     }
 
-    override fun openSigninSheet() {
-        val fragment = SigninBottomSheetFragment()
-        activity.supportFragmentManager?.let { fragment.show(it, "signin_sheet_fragment") }
+    override fun openAllTodaySales() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openAllCustomers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openCreateNewOrder() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openSalesReports() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openCreateMerchant() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openStock() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openHistory() {
+        TODO("Not yet implemented")
+    }
+
+    override fun openCredit() {
+        TODO("Not yet implemented")
     }
 
 }

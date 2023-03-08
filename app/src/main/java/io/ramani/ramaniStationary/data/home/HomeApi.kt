@@ -29,6 +29,7 @@ interface HomeApi {
 
     @POST("/accounts/{id}/products/16-02-2023")
     fun getProducts(
+        @Path("id") companyId: String,
         @Query("date") date: String,
         @Query("archived") archived: Boolean,
         @Query("page") page: Int,

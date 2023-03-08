@@ -14,10 +14,8 @@ import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestMod
 import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
-import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.exceptions.ItemNotFoundException
-import io.ramani.ramaniStationary.domain.base.mappers.mapFromWith
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
@@ -36,7 +34,6 @@ class HomeViewModel(
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
     private val prefs: PrefsManager
-
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userId = ""
@@ -46,8 +43,18 @@ class HomeViewModel(
 
     val taxesList = mutableListOf<TaxModel>()
     val onTaxesLoadedLiveData = SingleLiveEvent<Boolean>()
-    var hasMoreTaxesToLoad = true
-    var taxPage = 1
+    private var hasMoreTaxesToLoad = true
+    private var taxPage = 1
+
+    val merchantList = mutableListOf<MerchantModel>()
+    val onMerchantsLoadedLiveData = SingleLiveEvent<Boolean>()
+    private var hasMoreMerchantsToLoad = true
+    private var merchantPage = 1
+
+    val productList = mutableListOf<ProductModel>()
+    val onProductsLoadedLiveData = SingleLiveEvent<Boolean>()
+    private var hasMoreProductsToLoad = true
+    private var productPage = 1
 
     private lateinit var flow: HomeFlow
     @SuppressLint("CheckResult")
@@ -56,7 +63,6 @@ class HomeViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
-
         }
     }
 
@@ -79,8 +85,18 @@ class HomeViewModel(
         })
     }
 
+    fun syncData(datetime: String) {
+        // Get last sync data
+        val lastSyncTime = prefs.lastSyncTime
+        getTaxes(lastSyncTime)
+        getProducts(lastSyncTime)
+        getMerchants(lastSyncTime)
+
+        prefs.lastSyncTime = datetime
+    }
+
     @SuppressLint("CheckResult")
-    fun getTaxes(date: String, size: Int) {
+    fun getTaxes(date: String) {
         if (hasMoreTaxesToLoad) {
             isLoadingVisible = true
             if (taxPage == 1) {
@@ -102,6 +118,68 @@ class HomeViewModel(
                     isLoadingVisible = false
                     if (it is ItemNotFoundException) {
                         hasMoreTaxesToLoad = false
+                    } else {
+                        notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                    }
+                })
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun getMerchants(date: String) {
+        if (hasMoreMerchantsToLoad) {
+            isLoadingVisible = true
+            if (merchantPage == 1) {
+                merchantList.clear()
+            }
+
+            sessionManager.getLoggedInUser().subscribeBy {
+                val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(date, true, merchantPage))
+                subscribeSingle(single, onSuccess = {
+                    isLoadingVisible = false
+                    if (it.data.isEmpty()) {
+                        onMerchantsLoadedLiveData.postValue(false)
+                    } else {
+                        merchantList.addAll(it.data)
+                        hasMoreMerchantsToLoad = it.paginationMeta.hasNext
+                        onMerchantsLoadedLiveData.postValue(true)
+                    }
+                }, onError = {
+                    isLoadingVisible = false
+                    if (it is ItemNotFoundException) {
+                        hasMoreMerchantsToLoad = false
+                    } else {
+                        notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                    }
+                })
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun getProducts(date: String) {
+        if (hasMoreProductsToLoad) {
+            isLoadingVisible = true
+            if (productPage == 1) {
+                productList.clear()
+            }
+
+            sessionManager.getLoggedInUser().subscribeBy {
+                val single = getProductsUseCase.getSingle(GetProductRequestModel(companyId, date, false, productPage))
+                subscribeSingle(single, onSuccess = {
+                    isLoadingVisible = false
+                    if (it.data.isEmpty()) {
+                        onProductsLoadedLiveData.postValue(false)
+                    } else {
+                        productList.addAll(it.data)
+                        hasMoreProductsToLoad = it.paginationMeta.hasNext
+                        onProductsLoadedLiveData.postValue(true)
+                    }
+                }, onError = {
+                    isLoadingVisible = false
+                    if (it is ItemNotFoundException) {
+                        hasMoreProductsToLoad = false
                     } else {
                         notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
                     }
