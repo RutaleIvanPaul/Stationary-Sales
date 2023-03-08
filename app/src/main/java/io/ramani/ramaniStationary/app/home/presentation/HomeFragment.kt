@@ -89,15 +89,7 @@ class HomeFragment : BaseFragment() {
             home_total_customers_tv.text = getFormattedAmount(it.first().totalNumberOfCustomers)
         }
 
-        viewModel.onTaxesLoadedLiveData.observe(this) {
-
-        }
-
-        viewModel.onMerchantsLoadedLiveData.observe(this) {
-
-        }
-
-        viewModel.onProductsLoadedLiveData.observe(this) {
+        viewModel.onDataSyncCompletedLiveData.observe(this) {
 
         }
     }

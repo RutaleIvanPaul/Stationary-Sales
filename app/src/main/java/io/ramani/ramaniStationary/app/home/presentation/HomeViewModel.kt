@@ -40,19 +40,17 @@ class HomeViewModel(
     var companyId = ""
 
     val dailySalesStatsActionLiveData = MutableLiveData<List<DailySalesStatsModel>>()
+    val onDataSyncCompletedLiveData = SingleLiveEvent<Boolean>()
 
     val taxesList = mutableListOf<TaxModel>()
-    val onTaxesLoadedLiveData = SingleLiveEvent<Boolean>()
     private var hasMoreTaxesToLoad = true
     private var taxPage = 1
 
     val merchantList = mutableListOf<MerchantModel>()
-    val onMerchantsLoadedLiveData = SingleLiveEvent<Boolean>()
     private var hasMoreMerchantsToLoad = true
     private var merchantPage = 1
 
     val productList = mutableListOf<ProductModel>()
-    val onProductsLoadedLiveData = SingleLiveEvent<Boolean>()
     private var hasMoreProductsToLoad = true
     private var productPage = 1
 
@@ -88,42 +86,7 @@ class HomeViewModel(
     fun syncData(datetime: String) {
         // Get last sync data
         val lastSyncTime = prefs.lastSyncTime
-        getTaxes(lastSyncTime)
-        getProducts(lastSyncTime)
         getMerchants(lastSyncTime)
-
-        prefs.lastSyncTime = datetime
-    }
-
-    @SuppressLint("CheckResult")
-    fun getTaxes(date: String) {
-        if (hasMoreTaxesToLoad) {
-            isLoadingVisible = true
-            if (taxPage == 1) {
-                taxesList.clear()
-            }
-
-            sessionManager.getLoggedInUser().subscribeBy {
-                val single = getTaxesUseCase.getSingle(GetTaxRequestModel(companyId, userId, date, taxPage))
-                subscribeSingle(single, onSuccess = {
-                    isLoadingVisible = false
-                    if (it.data.isEmpty()) {
-                        onTaxesLoadedLiveData.postValue(false)
-                    } else {
-                        taxesList.addAll(it.data)
-                        hasMoreTaxesToLoad = it.paginationMeta.hasNext
-                        onTaxesLoadedLiveData.postValue(true)
-                    }
-                }, onError = {
-                    isLoadingVisible = false
-                    if (it is ItemNotFoundException) {
-                        hasMoreTaxesToLoad = false
-                    } else {
-                        notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-                    }
-                })
-            }
-        }
     }
 
     @SuppressLint("CheckResult")
@@ -138,13 +101,12 @@ class HomeViewModel(
                 val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(date, true, merchantPage))
                 subscribeSingle(single, onSuccess = {
                     isLoadingVisible = false
-                    if (it.data.isEmpty()) {
-                        onMerchantsLoadedLiveData.postValue(false)
-                    } else {
+                    if (!it.data.isEmpty()) {
                         merchantList.addAll(it.data)
                         hasMoreMerchantsToLoad = it.paginationMeta.hasNext
-                        onMerchantsLoadedLiveData.postValue(true)
                     }
+
+                    getProducts(date)
                 }, onError = {
                     isLoadingVisible = false
                     if (it is ItemNotFoundException) {
@@ -152,6 +114,8 @@ class HomeViewModel(
                     } else {
                         notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
                     }
+
+                    onDataSyncCompletedLiveData.postValue(false)
                 })
             }
         }
@@ -169,13 +133,12 @@ class HomeViewModel(
                 val single = getProductsUseCase.getSingle(GetProductRequestModel(companyId, date, false, productPage))
                 subscribeSingle(single, onSuccess = {
                     isLoadingVisible = false
-                    if (it.data.isEmpty()) {
-                        onProductsLoadedLiveData.postValue(false)
-                    } else {
+                    if (!it.data.isEmpty()) {
                         productList.addAll(it.data)
                         hasMoreProductsToLoad = it.paginationMeta.hasNext
-                        onProductsLoadedLiveData.postValue(true)
                     }
+
+                    getTaxes(date)
                 }, onError = {
                     isLoadingVisible = false
                     if (it is ItemNotFoundException) {
@@ -183,11 +146,45 @@ class HomeViewModel(
                     } else {
                         notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
                     }
+
+                    onDataSyncCompletedLiveData.postValue(false)
                 })
             }
         }
     }
 
+    @SuppressLint("CheckResult")
+    fun getTaxes(date: String) {
+        if (hasMoreTaxesToLoad) {
+            isLoadingVisible = true
+            if (taxPage == 1) {
+                taxesList.clear()
+            }
+
+            sessionManager.getLoggedInUser().subscribeBy {
+                val single = getTaxesUseCase.getSingle(GetTaxRequestModel(companyId, userId, date, taxPage))
+                subscribeSingle(single, onSuccess = {
+                    isLoadingVisible = false
+                    if (!it.data.isEmpty()) {
+                        taxesList.addAll(it.data)
+                        hasMoreTaxesToLoad = it.paginationMeta.hasNext
+                    }
+
+                    onDataSyncCompletedLiveData.postValue(true)
+                    prefs.lastSyncTime = date
+                }, onError = {
+                    isLoadingVisible = false
+                    if (it is ItemNotFoundException) {
+                        hasMoreTaxesToLoad = false
+                    } else {
+                        notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                    }
+
+                    onDataSyncCompletedLiveData.postValue(false)
+                })
+            }
+        }
+    }
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
