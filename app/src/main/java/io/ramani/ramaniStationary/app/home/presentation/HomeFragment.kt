@@ -92,6 +92,7 @@ class HomeFragment : BaseFragment() {
         viewModel.onDataSyncCompletedLiveData.observe(this) {
 
         }
+
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -120,46 +121,50 @@ class HomeFragment : BaseFragment() {
 
     private fun setupNav() {
         home_today_sales_all_view.setOnSingleClickListener {
-            // View all today sales
-            flow.openAllTodaySales()
+            if (canNavigate)
+                flow.openAllTodaySales()    // View all today sales
         }
 
         home_total_customers_all_view.setOnSingleClickListener {
-            // View all customers
-            flow.openAllCustomers()
+            if (canNavigate)
+                flow.openAllCustomers() // View all customers
         }
 
         home_create_new_order.setOnSingleClickListener {
-            // Create new order
-            flow.openCreateNewOrder()
+            if (canNavigate)
+                flow.openCreateNewOrder()   // Create new order
         }
 
         home_sales_report.setOnSingleClickListener {
-            // Sales report
-            flow.openSalesReports()
+            if (canNavigate)
+                flow.openSalesReports()     // Sales report
         }
 
         home_create_merchant.setOnSingleClickListener {
-            // Create merchant
-            flow.openCreateMerchant()
+            if (canNavigate)
+                flow.openCreateMerchant()   // Create merchant
         }
     }
 
     private fun setupBottomTab() {
         home_tab_refresh.setOnSingleClickListener {
-            doSyncData()
+            if (canNavigate)
+                doSyncData()
         }
 
         home_nav_stock.setOnSingleClickListener {
-            flow.openStock()
+            if (canNavigate)
+                flow.openStock()
         }
 
         home_nav_history.setOnSingleClickListener {
-            flow.openHistory()
+            if (canNavigate)
+                flow.openHistory()
         }
 
         home_nav_credit.setOnSingleClickListener {
-            flow.openCredit()
+            if (canNavigate)
+                flow.openCredit()
         }
     }
 
@@ -173,6 +178,14 @@ class HomeFragment : BaseFragment() {
     private fun doSyncData() {
         viewModel.syncData(dateFormatter.getCalendarTimeWithDashesFull(Date()))
     }
+
+    private var canNavigate =
+        if (viewModel.isInSync) {
+            errorDialog("Data sync is being done. Please wait until it's finished.")
+            false
+        } else {
+            true
+        }
 
     private fun getDailySalesStats() {
         val dateString = dateFormatter.getCalendarTimeWithDashes(Date())

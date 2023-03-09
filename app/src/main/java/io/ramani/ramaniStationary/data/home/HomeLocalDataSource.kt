@@ -21,7 +21,7 @@ class HomeLocalDataSource(
         TODO("Not yet implemented")
     }
 
-    override fun getProducts(date: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> {
+    override fun getProducts(companyId: String, date: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> {
         TODO("Not yet implemented")
     }
 

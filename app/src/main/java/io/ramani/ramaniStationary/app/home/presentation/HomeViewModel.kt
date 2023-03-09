@@ -40,15 +40,19 @@ class HomeViewModel(
 
     val dailySalesStatsActionLiveData = MutableLiveData<List<DailySalesStatsModel>>()
     val onDataSyncCompletedLiveData = SingleLiveEvent<Boolean>()
+    var isInSync = false
 
     val merchantList = mutableListOf<MerchantModel>()
     private var merchantPage = 1
+    val onMerchantsLoadedLiveData = SingleLiveEvent<Boolean>()
 
     val productList = mutableListOf<ProductModel>()
     private var productPage = 1
+    val onProdutsLoadedLiveData = SingleLiveEvent<Boolean>()
 
     val taxesList = mutableListOf<TaxModel>()
     private var taxPage = 1
+    val onTaxesLoadedLiveData = SingleLiveEvent<Boolean>()
 
     private lateinit var flow: HomeFlow
     @SuppressLint("CheckResult")
@@ -86,7 +90,12 @@ class HomeViewModel(
         merchantPage = 1
         taxPage = 1
         productPage = 1
+
+        isInSync = true
+
         getMerchants(lastSyncTime)
+        getProducts(lastSyncTime)
+        getTaxes(lastSyncTime)
     }
 
     @SuppressLint("CheckResult")
@@ -105,12 +114,13 @@ class HomeViewModel(
                     merchantPage++
                     getMerchants(date)
                 } else {
-                    // Get products
-                    getProducts(date)
+                    onMerchantsLoadedLiveData.postValue(true)
+                    checkSyncStatus(date)
                 }
             }, onError = {
                 isLoadingVisible = false
-                onDataSyncCompletedLiveData.postValue(false)
+                onMerchantsLoadedLiveData.postValue(false)
+                checkSyncStatus(date)
             })
         }
     }
@@ -132,13 +142,14 @@ class HomeViewModel(
                     productPage++
                     getProducts(date)
                 } else {
-                    // Get taxes
-                    getTaxes(date)
+                    onProdutsLoadedLiveData.postValue(true)
+                    checkSyncStatus(date)
                 }
 
             }, onError = {
                 isLoadingVisible = false
-                onDataSyncCompletedLiveData.postValue(false)
+                onProdutsLoadedLiveData.postValue(false)
+                checkSyncStatus(date)
             })
         }
     }
@@ -161,16 +172,30 @@ class HomeViewModel(
                     taxPage++
                     getTaxes(date)
                 } else {
-                    // Complete sync
-                    onDataSyncCompletedLiveData.postValue(true)
-                    prefs.lastSyncTime = date
+                    onTaxesLoadedLiveData.postValue(true)
+                    checkSyncStatus(date)
                 }
             }, onError = {
                 isLoadingVisible = false
-                onDataSyncCompletedLiveData.postValue(false)
+                onTaxesLoadedLiveData.postValue(false)
+                checkSyncStatus(date)
             })
         }
     }
+
+    private fun checkSyncStatus(datetime: String) {
+        val allCompleted = (onMerchantsLoadedLiveData.value == true) &&
+                (onProdutsLoadedLiveData.value == true) &&
+                (onTaxesLoadedLiveData.value == true)
+
+        if (allCompleted)
+            prefs.lastSyncTime = datetime
+
+        isLoadingVisible = false
+        isInSync = false
+        onDataSyncCompletedLiveData.postValue(allCompleted)
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,

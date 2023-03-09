@@ -31,7 +31,7 @@ interface HomeApi {
     fun getProducts(
         @Path("id") companyId: String,
         @Query("date") date: String,
-        @Query("archived") archived: Boolean,
+        @Query("isArchived") archived: Boolean,
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Single<BaseResponse<List<ProductRemoteModel>>>
