@@ -94,7 +94,7 @@ class HomeViewModel(
         isInSync = true
 
         getMerchants(lastSyncTime)
-        getProducts(lastSyncTime)
+        getProducts(lastSyncTime, lastSyncTime)
         getTaxes(lastSyncTime)
     }
 
@@ -126,30 +126,30 @@ class HomeViewModel(
     }
 
     @SuppressLint("CheckResult")
-    fun getProducts(date: String) {
+    fun getProducts(startDate: String, endDate: String) {
         isLoadingVisible = true
         if (productPage == 1) {
             productList.clear()
         }
 
         sessionManager.getLoggedInUser().subscribeBy {
-            val single = getProductsUseCase.getSingle(GetProductRequestModel(companyId, date, false, productPage))
+            val single = getProductsUseCase.getSingle(GetProductRequestModel(companyId, startDate, endDate,false, productPage))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
 
                 productList.addAll(it.data)
                 if (it.paginationMeta.hasNext) {
                     productPage++
-                    getProducts(date)
+                    getProducts(startDate, endDate)
                 } else {
                     onProdutsLoadedLiveData.postValue(true)
-                    checkSyncStatus(date)
+                    checkSyncStatus(endDate)
                 }
 
             }, onError = {
                 isLoadingVisible = false
                 onProdutsLoadedLiveData.postValue(false)
-                checkSyncStatus(date)
+                checkSyncStatus(endDate)
             })
         }
     }

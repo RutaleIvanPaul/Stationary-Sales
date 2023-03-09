@@ -121,49 +121,49 @@ class HomeFragment : BaseFragment() {
 
     private fun setupNav() {
         home_today_sales_all_view.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openAllTodaySales()    // View all today sales
         }
 
         home_total_customers_all_view.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openAllCustomers() // View all customers
         }
 
         home_create_new_order.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openCreateNewOrder()   // Create new order
         }
 
         home_sales_report.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openSalesReports()     // Sales report
         }
 
         home_create_merchant.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openCreateMerchant()   // Create merchant
         }
     }
 
     private fun setupBottomTab() {
         home_tab_refresh.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 doSyncData()
         }
 
         home_nav_stock.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openStock()
         }
 
         home_nav_history.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openHistory()
         }
 
         home_nav_credit.setOnSingleClickListener {
-            if (canNavigate)
+            if (canNavigate())
                 flow.openCredit()
         }
     }
@@ -179,7 +179,7 @@ class HomeFragment : BaseFragment() {
         viewModel.syncData(dateFormatter.getCalendarTimeWithDashesFull(Date()))
     }
 
-    private var canNavigate =
+    private fun canNavigate() =
         if (viewModel.isInSync) {
             errorDialog("Data sync is being done. Please wait until it's finished.")
             false

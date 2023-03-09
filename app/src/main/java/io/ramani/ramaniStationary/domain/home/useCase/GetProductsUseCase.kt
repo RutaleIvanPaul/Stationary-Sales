@@ -18,6 +18,6 @@ class GetProductsUseCase(
 ) {
 
     override fun buildUseCaseSingle(params: GetProductRequestModel?) =
-        homeDataSource.getProducts(params!!.companyId, params.date, params.archived, params.page)
+        homeDataSource.getProducts(params!!.companyId, params.startDate, params.endDate, params.archived, params.page)
 
 }

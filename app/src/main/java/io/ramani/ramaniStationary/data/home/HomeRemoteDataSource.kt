@@ -75,11 +75,12 @@ class HomeRemoteDataSource(
             }
         )
 
-    override fun getProducts(companyId: String, date: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> =
+    override fun getProducts(companyId: String, startDate: String, endDate: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> =
         callSingle(
             homeApi.getProducts(
                 companyId,
-                date,
+                startDate,
+                endDate,
                 archived,
                 page,
                 ApiConstants.PAGINATION_PER_PAGE_SIZE
