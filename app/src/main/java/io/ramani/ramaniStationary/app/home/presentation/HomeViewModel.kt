@@ -93,34 +93,34 @@ class HomeViewModel(
 
         isInSync = true
 
-        getMerchants(lastSyncTime)
+        getMerchants(lastSyncTime, lastSyncTime)
         getProducts(lastSyncTime, lastSyncTime)
         getTaxes(lastSyncTime)
     }
 
     @SuppressLint("CheckResult")
-    fun getMerchants(date: String) {
+    fun getMerchants(startDate: String, endDate: String) {
         isLoadingVisible = true
         if (merchantPage == 1) {
             merchantList.clear()
         }
 
         sessionManager.getLoggedInUser().subscribeBy {
-            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(date, true, merchantPage))
+            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(startDate, endDate, true, merchantPage))
             subscribeSingle(single, onSuccess = {
                 merchantList.addAll(it.data)
 
                 if (it.paginationMeta.hasNext) {
                     merchantPage++
-                    getMerchants(date)
+                    getMerchants(startDate, endDate)
                 } else {
                     onMerchantsLoadedLiveData.postValue(true)
-                    checkSyncStatus(date)
+                    checkSyncStatus(endDate)
                 }
             }, onError = {
                 isLoadingVisible = false
                 onMerchantsLoadedLiveData.postValue(false)
-                checkSyncStatus(date)
+                checkSyncStatus(endDate)
             })
         }
     }

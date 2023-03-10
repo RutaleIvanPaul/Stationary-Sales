@@ -9,7 +9,7 @@ import io.reactivex.Single
 import retrofit2.http.*
 
 interface HomeApi {
-    @POST("/sales-activity/daily-sales-stats/16-02-2023")
+    @GET("/sales-activity/daily-sales-stats/16-02-2023")
     fun getDailyStats(
         @Query("companyId") companyId: String,
         @Query("page") page: Int,
@@ -18,7 +18,7 @@ interface HomeApi {
         @Query("endDate") endDate: String
     ): Single<BaseResponse<List<DailySalesStatsRemoteModel>>>
 
-    @POST("/tax/16-02-2022")
+    @GET("/tax/16-02-2022")
     fun getTaxes(
         @Query("companyId") companyId: String,
         @Query("userId") userId: String,
@@ -27,7 +27,7 @@ interface HomeApi {
         @Query("size") size: Int
     ): Single<BaseResponse<List<TaxRemoteModel>>>
 
-    @POST("/accounts/{id}/products/16-02-2023")
+    @GET("/accounts/{id}/products/16-02-2023")
     fun getProducts(
         @Path("id") companyId: String,
         @Query("startDate") startDate: String,
@@ -37,9 +37,10 @@ interface HomeApi {
         @Query("size") size: Int
     ): Single<BaseResponse<List<ProductRemoteModel>>>
 
-    @POST("/merchants/16-02-2023")
+    @GET("/merchants/16-02-2023")
     fun getMerchants(
-        @Query("date") date: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String,
         @Query("isActive") isActive: Boolean,
         @Query("page") page: Int,
         @Query("size") size: Int

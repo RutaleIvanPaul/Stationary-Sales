@@ -100,10 +100,11 @@ class HomeRemoteDataSource(
             }
         )
 
-    override fun getMerchants(date: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
+    override fun getMerchants(startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
         callSingle(
             homeApi.getMerchants(
-                date,
+                startDate,
+                endDate,
                 isActive,
                 page,
                 ApiConstants.PAGINATION_PER_PAGE_SIZE

@@ -85,8 +85,10 @@ class HomeFragment : BaseFragment() {
 
     private fun subscribeResponse() {
         viewModel.dailySalesStatsActionLiveData.observe(this) {
-            home_total_sales_tv.text = String.format("TSH %s", getFormattedAmount(it.first().totalSales))
-            home_total_customers_tv.text = getFormattedAmount(it.first().totalNumberOfCustomers)
+            if (it.isNotEmpty()) {
+                home_total_sales_tv.text = String.format("TSH %s", getFormattedAmount(it.first().totalSales))
+                home_total_customers_tv.text = getFormattedAmount(it.first().totalNumberOfCustomers)
+            }
         }
 
         viewModel.onDataSyncCompletedLiveData.observe(this) {
