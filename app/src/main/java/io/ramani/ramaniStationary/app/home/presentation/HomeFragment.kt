@@ -190,7 +190,7 @@ class HomeFragment : BaseFragment() {
         }
 
     private fun getDailySalesStats() {
-        val dateString = dateFormatter.getCalendarTimeWithDashes(Date())
+        val dateString = dateFormatter.getCalendarTimeWithDashes(date)
         viewModel.getDailySalesStats(
             dateString + "T00:00:00",
             dateString + "T23:59:59"
