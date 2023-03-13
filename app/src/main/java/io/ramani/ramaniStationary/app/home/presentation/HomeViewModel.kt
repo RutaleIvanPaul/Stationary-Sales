@@ -16,6 +16,7 @@ import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
@@ -23,6 +24,10 @@ import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domain.home.model.TaxModel
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.synthetic.main.fragment_home.*
+import org.kodein.di.generic.instance
+import java.text.NumberFormat
+import java.util.*
 
 class HomeViewModel(
     application: Application,
@@ -32,14 +37,16 @@ class HomeViewModel(
     private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
-    private val prefs: PrefsManager
+    private val prefs: PrefsManager,
+    private val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userId = ""
     var companyId = ""
 
     val dailySalesStatsActionLiveData = MutableLiveData<List<DailySalesStatsModel>>()
-    val onDataSyncCompletedLiveData = SingleLiveEvent<Boolean>()
+    val onDateChangedLiveData = SingleLiveEvent<String>()
+    val onDataSyncCompletedLiveData = SingleLiveEvent<String>()
     var isInSync = false
 
     val merchantList = mutableListOf<MerchantModel>()
@@ -55,16 +62,22 @@ class HomeViewModel(
     var onTaxesLoaded = false
 
     private lateinit var flow: HomeFlow
+
+    var calendar: Calendar = Calendar.getInstance()
+    private var date = Date()
+
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
-        isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
+
+            updateDate(null, null, null)
+            syncData()
         }
     }
 
-    fun getDailySalesStats(startDate: String, endDate: String) {
+    private fun getDailySalesStats(startDate: String, endDate: String) {
         isLoadingVisible = true
 
         val single = dailySalesStatsUseCase.getSingle(DailySalesStatsRequestModel(companyId, 1, startDate, endDate))
@@ -83,7 +96,9 @@ class HomeViewModel(
         })
     }
 
-    fun syncData(datetime: String) {
+    fun syncData() {
+        val now = dateFormatter.getCalendarTimeWithDashesFull(Date())
+
         // Get last sync data
         val lastSyncTime = prefs.lastSyncTime
 
@@ -99,9 +114,9 @@ class HomeViewModel(
         onProductsLoaded = false
         onTaxesLoaded = false
 
-        getMerchants(lastSyncTime, datetime)
-        getProducts(lastSyncTime, datetime)
-        getTaxes(datetime)
+        getMerchants(lastSyncTime, now)
+        getProducts(lastSyncTime, now)
+        getTaxes(now)
     }
 
     @SuppressLint("CheckResult")
@@ -193,8 +208,30 @@ class HomeViewModel(
 
         isLoadingVisible = false
         isInSync = false
-        onDataSyncCompletedLiveData.postValue(allCompleted)
+        onDataSyncCompletedLiveData.postValue(datetime)
     }
+
+    fun updateDate(year: Int?, monthOfYear: Int?, dayOfMonth: Int?) {
+        year?.let {calendar.set(Calendar.YEAR, year) }
+        monthOfYear?.let {calendar.set(Calendar.MONTH, monthOfYear) }
+        dayOfMonth?.let {calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth) }
+
+        date = calendar.time
+
+        onDateChangedLiveData.postValue(dateFormatter.getCalendarTimeString(date))
+
+        getDailySalesStats()
+    }
+
+    private fun getDailySalesStats() {
+        val dateString = dateFormatter.getCalendarTimeWithDashes(date)
+        getDailySalesStats(
+            dateString + "T00:00:00",
+            dateString + "T23:59:59"
+        )
+    }
+
+    fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
         private val application: Application,
@@ -204,7 +241,8 @@ class HomeViewModel(
         private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
-        private val prefs: PrefsManager
+        private val prefs: PrefsManager,
+        private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -214,7 +252,8 @@ class HomeViewModel(
                     stringProvider,
                     sessionManager,
                     dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
-                    prefs
+                    prefs,
+                    dateFormatter
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

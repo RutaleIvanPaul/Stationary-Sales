@@ -16,12 +16,9 @@ import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
-import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_bottom_nav.*
 import org.kodein.di.generic.factory
-import org.kodein.di.generic.instance
-import java.text.NumberFormat
 import java.util.*
 
 class HomeFragment : BaseFragment() {
@@ -37,17 +34,12 @@ class HomeFragment : BaseFragment() {
     private lateinit var flow: HomeFlow
     private lateinit var authFlow: AuthFlow
 
-    private val dateFormatter: DateFormatter by instance()
-    private var calendar = Calendar.getInstance()
-    private var date = Date()
-
     override fun getLayoutResId(): Int = R.layout.fragment_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
         setToolbarTitle("")
-        initSubscribers()
     }
 
     override fun initView(view: View?) {
@@ -65,14 +57,13 @@ class HomeFragment : BaseFragment() {
                 requireActivity(),
                 startDateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                viewModel.calendar.get(Calendar.YEAR),
+                viewModel.calendar.get(Calendar.MONTH),
+                viewModel.calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
 
-        updateDate()
-        doSyncData()
+        initSubscribers()
     }
 
     private fun initSubscribers() {
@@ -85,15 +76,19 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun subscribeResponse() {
+        viewModel.onDateChangedLiveData.observe(this) {
+            home_select_date.text = it
+        }
+
         viewModel.dailySalesStatsActionLiveData.observe(this) {
             if (it.isNotEmpty()) {
-                home_total_sales_tv.text = String.format("TSH %s", getFormattedAmount(it.first().totalSales))
-                home_total_customers_tv.text = getFormattedAmount(it.first().totalNumberOfCustomers)
+                home_total_sales_tv.text = String.format("TSH %s", viewModel.getFormattedAmount(it.first().totalSales))
+                home_total_customers_tv.text = viewModel.getFormattedAmount(it.first().totalNumberOfCustomers)
             }
         }
 
         viewModel.onDataSyncCompletedLiveData.observe(this) {
-
+            home_last_updated_at.text = String.format("%s %s", getString(R.string.last_updated_at), it)
         }
 
     }
@@ -152,7 +147,7 @@ class HomeFragment : BaseFragment() {
     private fun setupBottomTab() {
         home_tab_refresh.setOnSingleClickListener {
             if (canNavigate())
-                doSyncData()
+                viewModel.syncData()
         }
 
         home_nav_stock.setOnSingleClickListener {
@@ -171,17 +166,6 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun updateDate() {
-        date = calendar.time
-
-        home_select_date.text = dateFormatter.getCalendarTimeString(date)
-        getDailySalesStats()
-    }
-
-    private fun doSyncData() {
-        viewModel.syncData(dateFormatter.getCalendarTimeWithDashesFull(Date()))
-    }
-
     private fun canNavigate() =
         if (viewModel.isInSync) {
             errorDialog("Data sync is being done. Please wait until it's finished.")
@@ -190,21 +174,8 @@ class HomeFragment : BaseFragment() {
             true
         }
 
-    private fun getDailySalesStats() {
-        val dateString = dateFormatter.getCalendarTimeWithDashes(date)
-        viewModel.getDailySalesStats(
-            dateString + "T00:00:00",
-            dateString + "T23:59:59"
-        )
-    }
-
     private val startDateSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, monthOfYear)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDate()
+            viewModel.updateDate(year, monthOfYear, dayOfMonth)
         }
-
-    private fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 }
