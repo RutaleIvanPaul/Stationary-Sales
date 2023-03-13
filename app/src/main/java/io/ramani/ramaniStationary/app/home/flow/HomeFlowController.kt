@@ -17,35 +17,35 @@ class HomeFlowController(
     }
 
     override fun openAllTodaySales() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openAllCustomers() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openCreateNewOrder() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openSalesReports() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openCreateMerchant() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openStock() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openHistory() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun openCredit() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
 }

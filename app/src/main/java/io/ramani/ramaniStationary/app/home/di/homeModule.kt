@@ -18,6 +18,7 @@ val homeModule = Module("homeModule") {
             fragment, HomeViewModel.Factory(
                 instance(), instance(), instance(),
                 instance("DailySalesStatsUseCase"), instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"),
+                instance(),
                 instance()
             )
         ).get(HomeViewModel::class.java)
