@@ -24,4 +24,22 @@
     <string name="user_name">Username</string>
     <string name="password">Password</string>
 
+    <!-- Home -->
+    <string name="today_sales">Today Sales</string>
+    <string name="total_customers">Total Customers</string>
+    <string name="tap_to_view">Tap to View</string>
+    <string name="quick_actions">Quick actions</string>
+    <string name="create_new_order">Create new order</string>
+    <string name="create_new_order_tr">(Weka oda)</string>
+    <string name="sales_report">Sales Report</string>
+    <string name="sales_report_tr">(Mauzo)</string>
+    <string name="customers">Customers</string>
+    <string name="customers_tr">(Wateja)</string>
+    <string name="last_updated">Last updated %s</string>
+
+    <string name="home">Home</string>
+    <string name="stock">Stock</string>
+    <string name="history">History</string>
+    <string name="credit">Credit</string>
+
 </resources>

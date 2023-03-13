@@ -21,10 +21,12 @@ class AuthRepository(
         localAuthDataSource.setCurrentUser(user)
 
     override fun logout(): Single<Any> =
-
+        localAuthDataSource.logout()
+        /*
         remoteAuthDataSource.logout().flatMap {
             localAuthDataSource.logout()
         }
+        */
 
     override fun refreshAccessToken(token: String): Completable =
         localAuthDataSource.refreshAccessToken(token)

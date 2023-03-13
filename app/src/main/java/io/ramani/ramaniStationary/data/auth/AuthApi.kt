@@ -13,7 +13,7 @@ interface AuthApi {
         @Body loginRequest: LoginRequestModel
     ): Single<BaseResponse<UserRemoteModel>>
 
-    @POST("auth/10-11-2022/logout")
+    @POST("/auth/logout/single-session/03-11-2022")
     fun logout(): Single<BaseResponse<Any>>
 
 }

@@ -56,33 +56,12 @@ open class PrefsManager(context: Context) : Prefs {
             sharedPrefs.edit().putString(PrefsConstants.PREF_TIMEZONE, value).apply()
         }
 
-    override var invalidate_cache_company_products: Boolean
-        get() = sharedPrefs.getBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS, false)
+    override var lastSyncTime: String
+        get() = sharedPrefs.getString(PrefsConstants.PREF_LAST_SYNC_TIME, null) ?: "1970-01-01T00:00:00"
         set(value) {
             sharedPrefs.edit()
-                .putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS, value).apply()
+                .putString(PrefsConstants.PREF_LAST_SYNC_TIME, value).apply()
         }
-
-    override var invalidate_cache_available_products: Boolean
-        get() = sharedPrefs.getBoolean(
-            PrefsConstants.PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS,
-            false
-        )
-        set(value) {
-            sharedPrefs.edit()
-                .putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS, value).apply()
-        }
-
-    override var invalidate_cache_assignments_reports: Boolean
-        get() = sharedPrefs.getBoolean(
-            PrefsConstants.PREF_INVALIDATE_CACHE_ASSIGNMENTS_REPORTS,
-            false
-        )
-        set(value) {
-            sharedPrefs.edit()
-                .putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_ASSIGNMENTS_REPORTS, value).apply()
-        }
-
 
     private fun contains(key: String) = sharedPrefs.contains(key)
 

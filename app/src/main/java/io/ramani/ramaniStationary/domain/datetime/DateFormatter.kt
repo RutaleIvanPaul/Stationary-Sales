@@ -42,6 +42,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         const val ACTIVITY_DEADLINE_FORMAT = "EEE, dd MMM yy"
         const val DATE_WITH_DASHES = "dd-MM-yyyy"
         const val DATE_WITH_DASHES_1 = "yyyy-MM-dd"
+        const val DATE_WITH_DASHES_FULL = "yyyy-MM-dd'T'HH:mm:ss"
     }
 
 
@@ -138,6 +139,16 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
     fun getServerTimeFromServerDate(createdAt: String?): String =
         //2021-12-22T16:31:03.823Z
         createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""
+
+    fun getCalendarTimeWithDashes(date: Date): String {
+        val simpleDateFormat = SimpleDateFormat(DATE_WITH_DASHES_1)
+        return simpleDateFormat.format(date)
+    }
+
+    fun getCalendarTimeWithDashesFull(date: Date): String {
+        val simpleDateFormat = SimpleDateFormat(DATE_WITH_DASHES_FULL)
+        return simpleDateFormat.format(date)
+    }
 
 }
 

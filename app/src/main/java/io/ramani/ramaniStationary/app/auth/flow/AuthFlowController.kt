@@ -3,6 +3,7 @@ package io.ramani.ramaniStationary.app.auth.flow
 import io.ramani.ramaniStationary.app.auth.presentation.LoginFragment
 import io.ramani.ramaniStationary.app.auth.presentation.SigninBottomSheetFragment
 import io.ramani.ramaniStationary.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
 
 class AuthFlowController(
     private val activity: BaseActivity,
@@ -23,12 +24,10 @@ class AuthFlowController(
 
     override fun openMainNav() {
         // Go to home screen
-        /*
-        val fragment = MainNavFragment.newInstance()
+        val fragment = HomeFragment.newInstance()
         activity.navigationManager?.openAsRoot(
             fragment
         )
-        */
     }
 
 }

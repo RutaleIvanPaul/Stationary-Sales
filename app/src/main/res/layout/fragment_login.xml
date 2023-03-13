@@ -27,6 +27,7 @@
         android:textColor="@color/matte_black"
         android:textSize="30sp"
         app:fontFamily="sans-serif" />
+
     <!--ViewPager-->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/instructions_view_pager"
@@ -60,7 +61,6 @@
         android:textColor="@color/white"
         android:textSize="17sp"
         app:fontFamily="sans-serif" />
-
 
     <TextView
         android:id="@+id/privacy_policy_option"
