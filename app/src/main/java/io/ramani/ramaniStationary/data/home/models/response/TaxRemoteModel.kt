@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class TaxRemoteModel(
     @SerializedName("id")
-    val id: String = "",
+    val id: String?,
     @SerializedName("NAME")
-    val name: String = "",
+    val name: String?,
     @SerializedName("TIN")
-    val tin: String = "",
+    val tin: String?,
     @SerializedName("UIN")
-    val uin: String = "",
+    val uin: String?,
     @SerializedName("VRN")
-    val vrn: String = "",
+    val vrn: String?,
     @SerializedName("updated_at")
-    val updatedAt: String = ""
+    val updatedAt: String?
 )

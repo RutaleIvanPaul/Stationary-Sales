@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class DailySalesStatsRemoteModel(
     @SerializedName("companyName")
-    val companyName: String = "",
+    val companyName: String?,
     @SerializedName("date")
-    val date: String = "",
+    val date: String?,
     @SerializedName("totalSales")
-    val totalSales: Int = 0,
+    val totalSales: Int?,
     @SerializedName("totalOrders")
-    val totalOrders: Int = 0,
+    val totalOrders: Int?,
     @SerializedName("totalCanceledOrders")
-    val totalCanceledOrders: Int = 0,
+    val totalCanceledOrders: Int?,
     @SerializedName("totalNumberOfCustomers")
-    val totalNumberOfCustomers: Int = 0
+    val totalNumberOfCustomers: Int?
 )

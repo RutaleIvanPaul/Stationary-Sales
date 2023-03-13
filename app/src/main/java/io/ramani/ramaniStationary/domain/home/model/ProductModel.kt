@@ -11,7 +11,7 @@ data class ProductModel(
     val imagePath: String = "",
     val currency: String = "",
     val hasSecondaryUnitConversion: Boolean = false,
-    val secondaryUnitConversion: Boolean = false,
+    val secondaryUnitConversion: Int = 0,
     val secondaryUnitName: String = "",
     val productCategories: List<ProductCategoryModel> = listOf(),
     val vatCategory: String = "",
@@ -27,7 +27,7 @@ data class ProductModel(
         private var imagePath: String = ""
         private var currency: String = ""
         private var hasSecondaryUnitConversion: Boolean = false
-        private var secondaryUnitConversion: Boolean = false
+        private var secondaryUnitConversion: Int = 0
         private var secondaryUnitName: String = ""
         private var productCategories: List<ProductCategoryModel> = listOf()
         private var vatCategory: String = ""
@@ -65,7 +65,7 @@ data class ProductModel(
             return this
         }
 
-        fun secondaryUnitConversion(secondaryUnitConversion: Boolean): Builder {
+        fun secondaryUnitConversion(secondaryUnitConversion: Int): Builder {
             this.secondaryUnitConversion = secondaryUnitConversion
             return this
         }
@@ -125,7 +125,7 @@ data class ProductModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte(),
+        parcel.readInt(),
         parcel.readString() ?: "",
         parcel.createTypedArrayList(ProductCategoryModel) ?: listOf(),
         parcel.readString() ?: "",
@@ -142,7 +142,7 @@ data class ProductModel(
         parcel.writeString(imagePath)
         parcel.writeString(currency)
         parcel.writeByte(if (hasSecondaryUnitConversion) 1 else 0)
-        parcel.writeByte(if (secondaryUnitConversion) 1 else 0)
+        parcel.writeInt(secondaryUnitConversion)
         parcel.writeString(secondaryUnitName)
         parcel.writeTypedList(productCategories)
         parcel.writeString(vatCategory)

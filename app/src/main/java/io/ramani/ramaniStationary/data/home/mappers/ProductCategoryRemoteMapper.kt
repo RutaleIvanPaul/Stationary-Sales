@@ -7,10 +7,10 @@ import io.ramani.ramaniStationary.domain.home.model.ProductCategoryModel
 class ProductCategoryRemoteMapper : ModelMapper<ProductCategoryRemoteModel, ProductCategoryModel> {
     override fun mapFrom(from: ProductCategoryRemoteModel): ProductCategoryModel =
         ProductCategoryModel.Builder()
-            .id(from.id)
-            .name(from.name)
-            .categoryId(from.categoryId)
-            .unitPrice(from.unitPrice)
+            .id(from.id ?: "")
+            .name(from.name ?: "")
+            .categoryId(from.categoryId ?: "")
+            .unitPrice(from.unitPrice ?: 0.0)
             .build()
 
     override fun mapTo(to: ProductCategoryModel): ProductCategoryRemoteModel =

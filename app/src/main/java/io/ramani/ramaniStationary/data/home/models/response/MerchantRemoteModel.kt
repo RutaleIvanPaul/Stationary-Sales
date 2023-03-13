@@ -5,25 +5,25 @@ import io.ramani.ramaniStationary.domain.home.model.MerchantMemberModel
 
 data class MerchantRemoteModel(
     @SerializedName("id")
-    val id: String = "",
+    val id: String?,
     @SerializedName("name")
-    val name: String = "",
+    val name: String?,
     @SerializedName("isActive")
-    val isActive: Boolean = false,
+    val isActive: Boolean?,
     @SerializedName("gps")
-    val gps: String = "",
+    val gps: String?,
     @SerializedName("salesPersonUID")
-    val salesPersonUID: String = "",
+    val salesPersonUID: String?,
     @SerializedName("salesPersonName")
-    val salesPersonName: String = "",
+    val salesPersonName: String?,
     @SerializedName("members")
-    val members: List<MerchantMemberRemoteModel> = listOf(),
+    val members: List<MerchantMemberRemoteModel>?,
     @SerializedName("merchantTIN")
-    val merchantTIN: String = "",
+    val merchantTIN: String?,
     @SerializedName("city")
-    val city: String = "",
+    val city: String?,
     @SerializedName("creditLimit")
-    val creditLimit: Int = 0,
+    val creditLimit: Int?,
     @SerializedName("merchantType")
-    val merchantType: String = ""
+    val merchantType: String?
 )

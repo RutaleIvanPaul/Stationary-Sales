@@ -12,22 +12,22 @@ class MerchantRemoteMapper(
 
     override fun mapFrom(from: MerchantRemoteModel): MerchantModel {
         val members: ArrayList<MerchantMemberModel> = ArrayList()
-        for (member in from.members) {
+        for (member in from.members ?: listOf()) {
             members.add(merchantMemberRemoteMapper.mapFrom(member))
         }
 
         return MerchantModel.Builder()
-                .id(from.id)
-                .name(from.name)
-                .isActive(from.isActive)
-                .gps(from.gps)
-                .salesPersonUID(from.salesPersonUID)
-                .salesPersonName(from.salesPersonName)
+                .id(from.id ?: "")
+                .name(from.name ?: "")
+                .isActive(from.isActive ?: true)
+                .gps(from.gps ?: "")
+                .salesPersonUID(from.salesPersonUID ?: "")
+                .salesPersonName(from.salesPersonName ?: "")
                 .members(members)
-                .merchantTIN(from.merchantTIN)
-                .city(from.city)
-                .creditLimit(from.creditLimit)
-                .merchantType(from.merchantType)
+                .merchantTIN(from.merchantTIN ?: "")
+                .city(from.city ?: "")
+                .creditLimit(from.creditLimit ?: 0)
+                .merchantType(from.merchantType ?: "")
                 .build()
     }
 

@@ -5,7 +5,7 @@ import io.ramani.ramaniStationary.domain.home.model.MerchantMemberModel
 
 data class MerchantMemberRemoteModel(
     @SerializedName("name")
-    val name: String = "",
+    val name: String?,
     @SerializedName("phoneNumber")
-    val phoneNumber: String = "",
+    val phoneNumber: String?,
 )

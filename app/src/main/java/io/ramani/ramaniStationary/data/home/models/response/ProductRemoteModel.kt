@@ -4,29 +4,29 @@ import com.google.gson.annotations.SerializedName
 
 data class ProductRemoteModel(
     @SerializedName("id")
-    val id: String = "",
+    val id: String?,
     @SerializedName("name")
-    val name: String = "",
+    val name: String?,
     @SerializedName("archived")
-    val archived: Boolean = false,
+    val archived: Boolean?,
     @SerializedName("imagePath")
-    val imagePath: String = "",
+    val imagePath: String?,
     @SerializedName("currency")
-    val currency: String = "",
+    val currency: String?,
     @SerializedName("hasSecondaryUnitConversion")
-    val hasSecondaryUnitConversion: Boolean = false,
+    val hasSecondaryUnitConversion: Boolean?,
     @SerializedName("secondaryUnitConversion")
-    val secondaryUnitConversion: Boolean = false,
+    val secondaryUnitConversion: Int?,
     @SerializedName("secondaryUnitName")
-    val secondaryUnitName: String = "",
+    val secondaryUnitName: String?,
     @SerializedName("vatCategory")
-    val vatCategory: String = "",
+    val vatCategory: String?,
     @SerializedName("supplierId")
-    val supplierId: String = "",
+    val supplierId: String?,
     @SerializedName("supplierProductId")
-    val supplierProductId: String = "",
+    val supplierProductId: String?,
     @SerializedName("externalId")
-    val externalId: String = "",
+    val externalId: String?,
     @SerializedName("productCategories")
-    val productCategories: List<ProductCategoryRemoteModel> = listOf(),
+    val productCategories: List<ProductCategoryRemoteModel>?,
 )

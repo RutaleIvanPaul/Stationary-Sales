@@ -72,6 +72,7 @@ class HomeFragment : BaseFragment() {
         }
 
         updateDate()
+        doSyncData()
     }
 
     private fun initSubscribers() {

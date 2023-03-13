@@ -44,15 +44,15 @@ class HomeViewModel(
 
     val merchantList = mutableListOf<MerchantModel>()
     private var merchantPage = 1
-    val onMerchantsLoadedLiveData = SingleLiveEvent<Boolean>()
+    var onMerchantsLoaded = false
 
     val productList = mutableListOf<ProductModel>()
     private var productPage = 1
-    val onProdutsLoadedLiveData = SingleLiveEvent<Boolean>()
+    var onProductsLoaded = false
 
     val taxesList = mutableListOf<TaxModel>()
     private var taxPage = 1
-    val onTaxesLoadedLiveData = SingleLiveEvent<Boolean>()
+    var onTaxesLoaded = false
 
     private lateinit var flow: HomeFlow
     @SuppressLint("CheckResult")
@@ -93,14 +93,21 @@ class HomeViewModel(
 
         isInSync = true
 
-        getMerchants(lastSyncTime, lastSyncTime)
-        getProducts(lastSyncTime, lastSyncTime)
-        getTaxes(lastSyncTime)
+        isLoadingVisible = true
+
+        onMerchantsLoaded = false
+        onProductsLoaded = false
+        onTaxesLoaded = false
+
+        getMerchants(lastSyncTime, datetime)
+        getProducts(lastSyncTime, datetime)
+        getTaxes(datetime)
     }
 
     @SuppressLint("CheckResult")
     fun getMerchants(startDate: String, endDate: String) {
         isLoadingVisible = true
+
         if (merchantPage == 1) {
             merchantList.clear()
         }
@@ -114,12 +121,11 @@ class HomeViewModel(
                     merchantPage++
                     getMerchants(startDate, endDate)
                 } else {
-                    onMerchantsLoadedLiveData.postValue(true)
+                    onMerchantsLoaded = true
                     checkSyncStatus(endDate)
                 }
             }, onError = {
-                isLoadingVisible = false
-                onMerchantsLoadedLiveData.postValue(false)
+                onMerchantsLoaded = false
                 checkSyncStatus(endDate)
             })
         }
@@ -128,6 +134,7 @@ class HomeViewModel(
     @SuppressLint("CheckResult")
     fun getProducts(startDate: String, endDate: String) {
         isLoadingVisible = true
+
         if (productPage == 1) {
             productList.clear()
         }
@@ -135,20 +142,17 @@ class HomeViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getProductsUseCase.getSingle(GetProductRequestModel(companyId, startDate, endDate,false, productPage))
             subscribeSingle(single, onSuccess = {
-                isLoadingVisible = false
-
                 productList.addAll(it.data)
                 if (it.paginationMeta.hasNext) {
                     productPage++
                     getProducts(startDate, endDate)
                 } else {
-                    onProdutsLoadedLiveData.postValue(true)
+                    onProductsLoaded = true
                     checkSyncStatus(endDate)
                 }
 
             }, onError = {
-                isLoadingVisible = false
-                onProdutsLoadedLiveData.postValue(false)
+                onProductsLoaded = false
                 checkSyncStatus(endDate)
             })
         }
@@ -157,6 +161,7 @@ class HomeViewModel(
     @SuppressLint("CheckResult")
     fun getTaxes(date: String) {
         isLoadingVisible = true
+
         if (taxPage == 1) {
             taxesList.clear()
         }
@@ -164,29 +169,24 @@ class HomeViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getTaxesUseCase.getSingle(GetTaxRequestModel(companyId, userId, date, taxPage))
             subscribeSingle(single, onSuccess = {
-                isLoadingVisible = false
-
                 taxesList.addAll(it.data)
 
                 if (it.paginationMeta.hasNext) {
                     taxPage++
                     getTaxes(date)
                 } else {
-                    onTaxesLoadedLiveData.postValue(true)
+                    onTaxesLoaded = true
                     checkSyncStatus(date)
                 }
             }, onError = {
-                isLoadingVisible = false
-                onTaxesLoadedLiveData.postValue(false)
+                onTaxesLoaded = false
                 checkSyncStatus(date)
             })
         }
     }
 
     private fun checkSyncStatus(datetime: String) {
-        val allCompleted = (onMerchantsLoadedLiveData.value == true) &&
-                (onProdutsLoadedLiveData.value == true) &&
-                (onTaxesLoadedLiveData.value == true)
+        val allCompleted = onMerchantsLoaded && onTaxesLoaded && onProductsLoaded
 
         if (allCompleted)
             prefs.lastSyncTime = datetime

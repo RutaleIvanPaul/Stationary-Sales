@@ -12,24 +12,24 @@ class ProductRemoteMapper(
 
     override fun mapFrom(from: ProductRemoteModel): ProductModel {
         val productsCategories: ArrayList<ProductCategoryModel> = ArrayList()
-        for (eachProduct in from.productCategories) {
+        for (eachProduct in from.productCategories ?: listOf()) {
             productsCategories.add(productCategoryMapper.mapFrom(eachProduct))
         }
 
         return ProductModel.Builder()
-                .id(from.id)
-                .name(from.name)
-                .archived(from.archived)
-                .imagePath(from.imagePath)
-                .currency(from.currency)
-                .hasSecondaryUnitConversion(from.hasSecondaryUnitConversion)
-                .secondaryUnitConversion(from.secondaryUnitConversion)
-                .secondaryUnitName(from.secondaryUnitName)
+                .id(from.id ?: "")
+                .name(from.name ?: "")
+                .archived(from.archived ?: false)
+                .imagePath(from.imagePath ?: "")
+                .currency(from.currency ?: "")
+                .hasSecondaryUnitConversion(from.hasSecondaryUnitConversion ?: false)
+                .secondaryUnitConversion(from.secondaryUnitConversion ?: 0)
+                .secondaryUnitName(from.secondaryUnitName ?: "")
                 .productCategories(productsCategories)
-                .vatCategory(from.vatCategory)
-                .supplierId(from.supplierId)
-                .supplierProductId(from.supplierProductId)
-                .externalId(from.externalId)
+                .vatCategory(from.vatCategory ?: "")
+                .supplierId(from.supplierId ?: "")
+                .supplierProductId(from.supplierProductId ?: "")
+                .externalId(from.externalId ?: "")
                 .build()
     }
 
