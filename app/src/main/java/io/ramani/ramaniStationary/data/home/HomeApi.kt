@@ -39,6 +39,7 @@ interface HomeApi {
 
     @GET("/merchants/16-02-2023")
     fun getMerchants(
+        @Query("companyId") companyId: String,
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String,
         @Query("isActive") isActive: Boolean,

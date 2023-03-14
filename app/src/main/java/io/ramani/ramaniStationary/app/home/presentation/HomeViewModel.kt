@@ -128,7 +128,7 @@ class HomeViewModel(
         }
 
         sessionManager.getLoggedInUser().subscribeBy {
-            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(startDate, endDate, true, merchantPage))
+            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(companyId, startDate, endDate, true, merchantPage))
             subscribeSingle(single, onSuccess = {
                 merchantList.addAll(it.data)
 
