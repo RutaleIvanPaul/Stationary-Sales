@@ -100,9 +100,10 @@ class HomeRemoteDataSource(
             }
         )
 
-    override fun getMerchants(startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
+    override fun getMerchants(companyId: String, startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
         callSingle(
             homeApi.getMerchants(
+                companyId,
                 startDate,
                 endDate,
                 isActive,

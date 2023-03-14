@@ -22,7 +22,7 @@ class HomeRepository(
     override fun getProducts(companyId: String, startDate: String, endDate: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>>  =
         remoteAuthDataSource.getProducts(companyId, startDate, endDate, archived, page)
 
-    override fun getMerchants(startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>>  =
-        remoteAuthDataSource.getMerchants(startDate, endDate, isActive, page)
+    override fun getMerchants(companyId: String, startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>>  =
+        remoteAuthDataSource.getMerchants(companyId, startDate, endDate, isActive, page)
 
 }
