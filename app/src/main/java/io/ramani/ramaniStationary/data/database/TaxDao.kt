@@ -13,10 +13,10 @@ interface TaxDao {
     @Query("SELECT * FROM Tax")
     fun getTaxes(): List<TaxModel>
 
-    @Insert //(onConflict = OnConflictStrategy.REPLACE)
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insert(tax: TaxModel):Maybe<Long>
 
-    @Insert //(onConflict = OnConflictStrategy.REPLACE)
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(taxes: List<TaxModel>): List<Long>
 
     @Query("DELETE FROM Tax")

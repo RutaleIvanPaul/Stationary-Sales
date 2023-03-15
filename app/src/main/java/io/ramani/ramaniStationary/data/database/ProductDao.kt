@@ -14,10 +14,10 @@ interface ProductDao {
     @Query("SELECT * FROM Product")
     fun getProducts(): List<ProductModel>
 
-    @Insert //(onConflict = OnConflictStrategy.REPLACE)
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insert(product: ProductModel):Maybe<Long>
 
-    @Insert //(onConflict = OnConflictStrategy.REPLACE)
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(products: List<ProductModel>): List<Long>
 
     @Query("DELETE FROM Product")
