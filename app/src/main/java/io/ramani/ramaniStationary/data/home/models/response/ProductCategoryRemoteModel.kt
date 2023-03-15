@@ -3,7 +3,7 @@ package io.ramani.ramaniStationary.data.home.models.response
 import com.google.gson.annotations.SerializedName
 
 data class ProductCategoryRemoteModel(
-    @SerializedName("id")
+    @SerializedName("_id")
     val id: String?,
     @SerializedName("name")
     val name: String?,

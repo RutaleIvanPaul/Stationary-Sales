@@ -42,6 +42,7 @@ val homeDataModule = Kodein.Module("homeDataModule") {
 
     bind<HomeDataSource>("localHomeDataSource") with singleton {
         HomeLocalDataSource(
+            instance(),
             instance()
         )
     }

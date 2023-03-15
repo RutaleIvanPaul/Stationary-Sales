@@ -20,6 +20,6 @@ class GetMerchantsUseCase(
 ) {
 
     override fun buildUseCaseSingle(params: GetMerchantRequestModel?) =
-        homeDataSource.getMerchants(params!!.companyId, params.startDate, params.endDate, params.isActive, params.page)
+        homeDataSource.getMerchants(params!!.fromRemote, params.companyId, params.startDate, params.endDate, params.isActive, params.page)
 
 }

@@ -19,6 +19,7 @@ val appModule = Kodein.Module("appModule") {
     import(fileHelperModule)
     import(dateTimeModule)
     import(stringProviderModule)
+    import(databaseModule)
     import(mainModule)
     import(authModule)
     import(homeModule)

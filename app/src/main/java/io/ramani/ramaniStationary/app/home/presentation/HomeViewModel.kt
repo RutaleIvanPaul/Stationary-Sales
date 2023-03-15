@@ -128,7 +128,7 @@ class HomeViewModel(
         }
 
         sessionManager.getLoggedInUser().subscribeBy {
-            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(companyId, startDate, endDate, true, merchantPage))
+            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(true, companyId, startDate, endDate, true, merchantPage))
             subscribeSingle(single, onSuccess = {
                 merchantList.addAll(it.data)
 
@@ -155,7 +155,7 @@ class HomeViewModel(
         }
 
         sessionManager.getLoggedInUser().subscribeBy {
-            val single = getProductsUseCase.getSingle(GetProductRequestModel(companyId, startDate, endDate,false, productPage))
+            val single = getProductsUseCase.getSingle(GetProductRequestModel(true, companyId, startDate, endDate,false, productPage))
             subscribeSingle(single, onSuccess = {
                 productList.addAll(it.data)
                 if (it.paginationMeta.hasNext) {
@@ -182,7 +182,7 @@ class HomeViewModel(
         }
 
         sessionManager.getLoggedInUser().subscribeBy {
-            val single = getTaxesUseCase.getSingle(GetTaxRequestModel(companyId, userId, date, taxPage))
+            val single = getTaxesUseCase.getSingle(GetTaxRequestModel(true, companyId, userId, date, taxPage))
             subscribeSingle(single, onSuccess = {
                 taxesList.addAll(it.data)
 

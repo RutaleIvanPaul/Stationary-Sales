@@ -2,22 +2,28 @@ package io.ramani.ramaniStationary.domain.home.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import io.ramani.ramaniStationary.domainCore.entities.IBuilder
 
+@Entity(tableName = "Product")
 data class ProductModel(
-    val id: String = "",
-    val name: String = "",
-    val archived: Boolean = false,
-    val imagePath: String = "",
-    val currency: String = "",
-    val hasSecondaryUnitConversion: Boolean = false,
-    val secondaryUnitConversion: Int = 0,
-    val secondaryUnitName: String = "",
-    val productCategories: List<ProductCategoryModel> = listOf(),
-    val vatCategory: String = "",
-    val supplierId: String = "",
-    val supplierProductId: String = "",
-    val externalId: String = ""
+    @PrimaryKey
+    var id: String = "",
+    var name: String = "",
+    var archived: Boolean = false,
+    var imagePath: String = "",
+    var currency: String = "",
+    var hasSecondaryUnitConversion: Boolean = false,
+    var secondaryUnitConversion: Int = 0,
+    var secondaryUnitName: String = "",
+    @Ignore
+    var productCategories: List<ProductCategoryModel> = listOf(),
+    var vatCategory: String = "",
+    var supplierId: String = "",
+    var supplierProductId: String = "",
+    var externalId: String = ""
 ) : Parcelable {
 
     class Builder : IBuilder<ProductModel> {

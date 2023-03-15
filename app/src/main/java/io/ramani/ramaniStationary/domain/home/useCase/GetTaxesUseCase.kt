@@ -18,6 +18,6 @@ class GetTaxesUseCase(
 ) {
 
     override fun buildUseCaseSingle(params: GetTaxRequestModel?) =
-        homeDataSource.getTaxes(params!!.companyId, params.userId, params.date, params.page)
+        homeDataSource.getTaxes(params!!.fromRemote, params.companyId, params.userId, params.date, params.page)
 
 }

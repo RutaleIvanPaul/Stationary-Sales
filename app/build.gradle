@@ -56,8 +56,8 @@ android {
         applicationId "io.ramani.ramaniStationary"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0.0.0"
+        versionCode versionCodeNum
+        versionName versionNameStr
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -163,6 +163,10 @@ android {
     }
 }
 
+ext {
+    room_version = '2.3.0'
+}
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -211,7 +215,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:${google_play_services_version}"
     implementation "com.google.android.gms:play-services-maps:${google_play_services_version}"
 
-// Spinner
+    // Spinner
     implementation "com.github.skydoves:powerspinner:1.1.9"
     // Date time picker
     implementation "com.wdullaer:materialdatetimepicker:3.4.0"
@@ -242,6 +246,11 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
 
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Country selection
     implementation 'com.hbb20:ccp:2.5.0'
