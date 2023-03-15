@@ -2,6 +2,9 @@ package io.ramani.ramaniStationary.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import io.ramani.ramaniStationary.data.home.database.MerchantDao
+import io.ramani.ramaniStationary.data.home.database.ProductDao
+import io.ramani.ramaniStationary.data.home.database.TaxDao
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domain.home.model.TaxModel

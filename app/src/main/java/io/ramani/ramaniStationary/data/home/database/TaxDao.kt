@@ -1,4 +1,4 @@
-package io.ramani.ramaniStationary.data.database
+package io.ramani.ramaniStationary.data.home.database
 
 import androidx.room.Dao
 import androidx.room.Insert
