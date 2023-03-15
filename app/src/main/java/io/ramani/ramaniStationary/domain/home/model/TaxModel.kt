@@ -2,15 +2,19 @@ package io.ramani.ramaniStationary.domain.home.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import io.ramani.ramaniStationary.domainCore.entities.IBuilder
 
+@Entity(tableName = "Tax")
 data class TaxModel(
-    val id: String = "",
-    val name: String = "",
-    val tin: String = "",
-    val uin: String = "",
-    val vrn: String = "",
-    val updatedAt: String = "",
+    @PrimaryKey
+    var id: String = "",
+    var name: String = "",
+    var tin: String = "",
+    var uin: String = "",
+    var vrn: String = "",
+    var updatedAt: String = "",
 ) : Parcelable {
 
     class Builder : IBuilder<TaxModel> {

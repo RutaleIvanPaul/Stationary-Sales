@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import io.ramani.ramaniStationary.domain.home.model.MerchantMemberModel
 
 data class MerchantRemoteModel(
-    @SerializedName("id")
+    @SerializedName("_id")
     val id: String?,
     @SerializedName("name")
     val name: String?,

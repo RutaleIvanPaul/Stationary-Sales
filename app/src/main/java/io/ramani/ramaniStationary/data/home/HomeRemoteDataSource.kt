@@ -16,6 +16,7 @@ import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domain.home.model.TaxModel
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 class HomeRemoteDataSource(
@@ -51,7 +52,7 @@ class HomeRemoteDataSource(
             }
         )
 
-    override fun getTaxes(companyId: String, userId: String, date: String, page: Int): Single<PagedList<TaxModel>> =
+    override fun getTaxes(fromRemote: Boolean, companyId: String, userId: String, date: String, page: Int): Single<PagedList<TaxModel>> =
         callSingle(
             homeApi.getTaxes(
                 date,
@@ -75,7 +76,7 @@ class HomeRemoteDataSource(
             }
         )
 
-    override fun getProducts(companyId: String, startDate: String, endDate: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> =
+    override fun getProducts(fromRemote: Boolean, companyId: String, startDate: String, endDate: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> =
         callSingle(
             homeApi.getProducts(
                 companyId,
@@ -100,7 +101,7 @@ class HomeRemoteDataSource(
             }
         )
 
-    override fun getMerchants(companyId: String, startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
+    override fun getMerchants(fromRemote: Boolean, companyId: String, startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
         callSingle(
             homeApi.getMerchants(
                 companyId,
@@ -112,6 +113,7 @@ class HomeRemoteDataSource(
             ).flatMap {
                 val data = it.data
                 val meta = it.meta
+
                 Single.just(
                     PagedList.Builder<MerchantModel>()
                         .data(data?.mapFromWith(merchantRemoteMapper) ?: listOf())
@@ -124,4 +126,9 @@ class HomeRemoteDataSource(
                 )
             }
         )
+
+    override fun saveMerchants(merchants: PagedList<MerchantModel>): List<Long> = listOf()
+    override fun saveProducts(products: PagedList<ProductModel>): List<Long> = listOf()
+    override fun saveTaxes(taxes: PagedList<TaxModel>): List<Long> = listOf()
+    override fun deleteAll() {}
 }

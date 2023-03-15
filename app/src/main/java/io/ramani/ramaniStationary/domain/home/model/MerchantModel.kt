@@ -2,20 +2,28 @@ package io.ramani.ramaniStationary.domain.home.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import io.ramani.ramaniStationary.domainCore.entities.IBuilder
+import kotlinx.android.parcel.Parcelize
 
+@Entity(tableName = "Merchant")
 data class MerchantModel(
-    val id: String = "",
-    val name: String = "",
-    val isActive: Boolean = false,
-    val gps: String = "",
-    val salesPersonUID: String = "",
-    val salesPersonName: String = "",
-    val members: List<MerchantMemberModel> = listOf(),
-    val merchantTIN: String = "",
-    val city: String = "",
-    val creditLimit: Int = 0,
-    val merchantType: String = "Default"
+    @PrimaryKey
+    var id: String = "",
+    var name: String = "",
+    var isActive: Boolean = false,
+    var gps: String = "",
+    var salesPersonUID: String = "",
+    var salesPersonName: String = "",
+    @Ignore
+    var members: List<MerchantMemberModel> = listOf(),
+    var merchantTIN: String = "",
+    var city: String = "",
+    var creditLimit: Int = 0,
+    var merchantType: String = "Default"
 ) : Parcelable {
 
     class Builder : IBuilder<MerchantModel> {
