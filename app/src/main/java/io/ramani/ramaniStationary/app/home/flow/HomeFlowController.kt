@@ -2,7 +2,10 @@ package io.ramani.ramaniStationary.app.home.flow
 
 import io.ramani.ramaniStationary.app.auth.presentation.LoginFragment
 import io.ramani.ramaniStationary.app.auth.presentation.SigninBottomSheetFragment
+import io.ramani.ramaniStationary.app.common.navgiation.NavigationManager
 import io.ramani.ramaniStationary.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
+import io.ramani.ramaniStationary.app.home.presentation.StockFragment
 
 class HomeFlowController(
     private val activity: BaseActivity,
@@ -14,6 +17,28 @@ class HomeFlowController(
         activity.navigationManager?.openAsRoot(
             fragment
         )
+    }
+
+    override fun openHome() {
+        val fragment = HomeFragment.newInstance()
+        val transaction = activity.supportFragmentManager.beginTransaction()
+        transaction.replace(mainFragmentContainer, fragment)
+        transaction.commit()
+    }
+
+    override fun openStock() {
+        val fragment = StockFragment.newInstance()
+        val transaction = activity.supportFragmentManager.beginTransaction()
+        transaction.replace(mainFragmentContainer, fragment)
+        transaction.commit()
+    }
+
+    override fun openHistory() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun openCredit() {
+        // TODO("Not yet implemented")
     }
 
     override fun openAllTodaySales() {
@@ -35,17 +60,4 @@ class HomeFlowController(
     override fun openCreateMerchant() {
         // TODO("Not yet implemented")
     }
-
-    override fun openStock() {
-        // TODO("Not yet implemented")
-    }
-
-    override fun openHistory() {
-        // TODO("Not yet implemented")
-    }
-
-    override fun openCredit() {
-        // TODO("Not yet implemented")
-    }
-
 }
