@@ -2,7 +2,6 @@ package io.ramani.ramaniStationary.app.home.flow
 
 interface HomeFlow {
     fun openLogin()
-
     fun openHome()
     fun openStock()
     fun openHistory()
@@ -14,4 +13,6 @@ interface HomeFlow {
     fun openCreateNewOrder()
     fun openSalesReports()
     fun openCreateMerchant()
+
+    fun onBackPressed()
 }

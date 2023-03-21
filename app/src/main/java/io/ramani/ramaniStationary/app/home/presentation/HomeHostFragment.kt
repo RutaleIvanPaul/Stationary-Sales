@@ -166,6 +166,11 @@ class HomeHostFragment : BaseFragment() {
         rootPage = page
     }
 
+    override fun onBackButtonPressed(): Boolean {
+        flow.onBackPressed()
+        return true
+    }
+
     private fun canNavigate() =
         if (viewModel.isInSync) {
             errorDialog("Data sync is being done. Please wait until it's finished.")
