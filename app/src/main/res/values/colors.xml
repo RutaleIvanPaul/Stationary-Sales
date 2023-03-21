@@ -23,7 +23,9 @@
     <color name="ramani_green">#04C401</color>
     <color name="ramani_blue">#1D8CF8</color>
     <color name="ramani_light_blue">#F0F8FF</color>
-    <color name="dark_green">#5DB075</color>
+    <color name="ramani_grey">#E5E8F0</color>
+    <color name="text_grey">#8799B0</color>
+    <color name="dark_green">#03A701</color>
     <color name="light_green">#87be61</color>
     <color name="text_green">#04C401</color>
     <color name="grey_separator">#969696</color>
@@ -32,4 +34,6 @@
 
     <color name="black">#000</color>
     <color name="white">#ffffff</color>
+    <color name="white_30">#1effffff</color>
+    <color name="white_50">#32ffffff</color>
 </resources>
