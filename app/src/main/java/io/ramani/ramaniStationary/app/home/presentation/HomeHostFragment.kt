@@ -7,6 +7,7 @@ import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniStationary.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
@@ -167,7 +168,13 @@ class HomeHostFragment : BaseFragment() {
     }
 
     override fun onBackButtonPressed(): Boolean {
-        flow.onBackPressed()
+        // When press back button on home page, the login alert will be shown and no need to back from stack
+        //flow.onBackPressed()
+        showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
+            viewModel.logout {
+                authFlow.openLogin()
+            }
+        })
         return true
     }
 
