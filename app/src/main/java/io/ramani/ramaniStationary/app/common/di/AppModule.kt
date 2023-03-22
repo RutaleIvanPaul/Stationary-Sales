@@ -6,6 +6,7 @@ import io.ramani.ramaniStationary.app.common.di.datetime.dateTimeModule
 import io.ramani.ramaniStationary.app.common.di.pagination.paginationModule
 import io.ramani.ramaniStationary.app.home.di.homeModule
 import io.ramani.ramaniStationary.app.main.di.mainModule
+import io.ramani.ramaniStationary.app.stock.di.stockModule
 
 import org.kodein.di.Kodein
 
@@ -23,5 +24,6 @@ val appModule = Kodein.Module("appModule") {
     import(mainModule)
     import(authModule)
     import(homeModule)
+    import(stockModule)
 
 }

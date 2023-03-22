@@ -43,4 +43,6 @@
     <string name="credit">Credit</string>
 
     <string name="last_updated_at">Last updated</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

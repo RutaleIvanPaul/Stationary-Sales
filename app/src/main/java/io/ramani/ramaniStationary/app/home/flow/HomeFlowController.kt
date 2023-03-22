@@ -2,7 +2,9 @@ package io.ramani.ramaniStationary.app.home.flow
 
 import io.ramani.ramaniStationary.app.auth.presentation.LoginFragment
 import io.ramani.ramaniStationary.app.auth.presentation.SigninBottomSheetFragment
+import io.ramani.ramaniStationary.app.common.navgiation.NavigationManager
 import io.ramani.ramaniStationary.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniStationary.app.stock.presentation.StockFragment
 
 class HomeFlowController(
     private val activity: BaseActivity,
@@ -37,7 +39,8 @@ class HomeFlowController(
     }
 
     override fun openStock() {
-        // TODO("Not yet implemented")
+        val fragment = StockFragment.newInstance()
+        activity.navigationManager?.open(fragment,openMethod = NavigationManager.OpenMethod.REPLACE)
     }
 
     override fun openHistory() {
