@@ -170,11 +170,13 @@ class HomeHostFragment : BaseFragment() {
     override fun onBackButtonPressed(): Boolean {
         // When press back button on home page, the logout alert will be shown and no need to back from stack
         //flow.onBackPressed()
-        showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
-            viewModel.logout {
-                authFlow.openLogin()
-            }
-        })
+
+        if (rootPage != Page.HOME) {
+            gotoPage(Page.HOME)
+        } else {
+            requireActivity().finish()
+        }
+
         return true
     }
 
