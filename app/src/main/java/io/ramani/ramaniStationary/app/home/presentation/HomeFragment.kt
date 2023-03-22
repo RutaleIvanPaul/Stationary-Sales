@@ -17,7 +17,6 @@ import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewMod
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.layout_bottom_nav.*
 import org.kodein.di.generic.factory
 import java.util.*
 
@@ -50,7 +49,6 @@ class HomeFragment : BaseFragment() {
 
         setupMenu()
         setupNav()
-        setupBottomTab()
 
         home_select_date.setOnSingleClickListener {
             DatePickerDialog(
@@ -72,7 +70,9 @@ class HomeFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         subscribeResponse()
+
         viewModel.start()
+        viewModel.updateDate(null, null, null)
     }
 
     private fun subscribeResponse() {
@@ -141,28 +141,6 @@ class HomeFragment : BaseFragment() {
         home_create_merchant.setOnSingleClickListener {
             if (canNavigate())
                 flow.openCreateMerchant()   // Create merchant
-        }
-    }
-
-    private fun setupBottomTab() {
-        home_tab_refresh.setOnSingleClickListener {
-            if (canNavigate())
-                viewModel.syncData()
-        }
-
-        home_nav_stock.setOnSingleClickListener {
-            if (canNavigate())
-                flow.openStock()
-        }
-
-        home_nav_history.setOnSingleClickListener {
-            if (canNavigate())
-                flow.openHistory()
-        }
-
-        home_nav_credit.setOnSingleClickListener {
-            if (canNavigate())
-                flow.openCredit()
         }
     }
 

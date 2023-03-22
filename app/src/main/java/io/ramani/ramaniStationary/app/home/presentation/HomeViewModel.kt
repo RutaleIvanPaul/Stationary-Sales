@@ -71,9 +71,6 @@ class HomeViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
-
-            updateDate(null, null, null)
-            syncData()
         }
     }
 
@@ -97,6 +94,9 @@ class HomeViewModel(
     }
 
     fun syncData() {
+        if (isInSync)
+            return
+
         val now = dateFormatter.getCalendarTimeWithDashesFull(Date())
 
         // Get last sync data

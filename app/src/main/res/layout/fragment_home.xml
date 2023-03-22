@@ -273,10 +273,6 @@
         </ScrollView>
     </LinearLayout>
 
-    <!-- Bottom Nav Bar -->
-
-    <include layout="@layout/layout_bottom_nav" />
-
     <ImageView
         android:id="@+id/home_menu"
         android:layout_width="@dimen/_20sdp"
