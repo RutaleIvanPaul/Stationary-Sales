@@ -77,12 +77,14 @@ class NavigationManager {
         @AnimRes enterAnim: Int = R.anim.nav_enter_anim,
         @AnimRes exitAnim: Int = R.anim.nav_exit_anim,
         @AnimRes popEnterAnim: Int = R.anim.nav_pop_enter_anim,
-        @AnimRes popExitAnim: Int = R.anim.nav_pop_exit_anim
+        @AnimRes popExitAnim: Int = R.anim.nav_pop_exit_anim,
+        needAnimation: Boolean = true
     ) {
         fragmentManager?.let {
             val transaction = it.beginTransaction()
 
-            transaction.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
+            if (needAnimation)
+                transaction.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
 
             when (openMethod) {
                 OpenMethod.REPLACE -> transaction.replace(containerId, fragment)
