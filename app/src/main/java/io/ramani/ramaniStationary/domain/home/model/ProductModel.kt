@@ -19,7 +19,6 @@ data class ProductModel(
     var hasSecondaryUnitConversion: Boolean = false,
     var secondaryUnitConversion: Int = 0,
     var secondaryUnitName: String = "",
-    @Ignore
     var productCategories: List<ProductCategoryModel> = listOf(),
     var vatCategory: String = "",
     var supplierId: String = "",
