@@ -2,30 +2,26 @@ package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
-import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
-import io.ramani.ramaniStationary.data.home.models.request.DailySalesStatsRequestModel
+import io.ramani.ramaniStationary.data.createorder.models.request.GetAvailableStockRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniStationary.domain.createorder.model.AvailableStockModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
-import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domain.home.model.TaxModel
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.kodein.di.generic.instance
 import java.text.NumberFormat
 import java.util.*
 
@@ -36,6 +32,7 @@ class CreateOrderViewModel(
     private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
+    private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
     private val prefs: PrefsManager,
     private val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -52,7 +49,8 @@ class CreateOrderViewModel(
     val taxesList = mutableListOf<TaxModel>()
     val onTaxesLoadedLiveData = SingleLiveEvent<List<TaxModel>>()
 
-    private lateinit var flow: HomeFlow
+    val availableStockList = mutableListOf<AvailableStockModel>()
+    val onAvailableStocksLoadedLiveData = SingleLiveEvent<List<AvailableStockModel>>()
 
     var calendar: Calendar = Calendar.getInstance()
     private var date = Date()
@@ -63,8 +61,8 @@ class CreateOrderViewModel(
             userId = it.uuid
             companyId = it.companyId
 
-            getProducts()
-            getMerchants()
+            //getProducts()
+            getAvailableStockList()
         }
     }
 
@@ -121,6 +119,25 @@ class CreateOrderViewModel(
         }
     }
 
+    @SuppressLint("CheckResult")
+    fun getAvailableStockList() {
+        isLoadingVisible = true
+        availableStockList.clear()
+
+        sessionManager.getLoggedInUser().subscribeBy {
+            val single = getAvailableStockUseCase.getSingle(GetAvailableStockRequestModel(userId))
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+
+                availableStockList.addAll(it)
+                onAvailableStocksLoadedLiveData.postValue(availableStockList)
+
+            }, onError = {
+
+            })
+        }
+    }
+
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
@@ -130,6 +147,7 @@ class CreateOrderViewModel(
         private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
+        private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
@@ -141,6 +159,7 @@ class CreateOrderViewModel(
                     stringProvider,
                     sessionManager,
                     getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
+                    getAvailableStockUseCase,
                     prefs,
                     dateFormatter
                 ) as T

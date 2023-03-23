@@ -18,6 +18,7 @@ val createOrderModule = Module("createOrderModule") {
             fragment, CreateOrderViewModel.Factory(
                 instance(), instance(), instance(),
                 instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"),
+                instance("GetAvailableStockUseCase"),
                 instance(),
                 instance()
             )
