@@ -13,6 +13,7 @@ import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableStockModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
@@ -49,8 +50,8 @@ class CreateOrderViewModel(
     val taxesList = mutableListOf<TaxModel>()
     val onTaxesLoadedLiveData = SingleLiveEvent<List<TaxModel>>()
 
-    val availableStockList = mutableListOf<AvailableStockModel>()
-    val onAvailableStocksLoadedLiveData = SingleLiveEvent<List<AvailableStockModel>>()
+    val availableStockProductList = mutableListOf<AvailableProductModel>()
+    val onAvailableStockProductsLoadedLiveData = SingleLiveEvent<List<AvailableProductModel>>()
 
     var calendar: Calendar = Calendar.getInstance()
     private var date = Date()
@@ -61,7 +62,7 @@ class CreateOrderViewModel(
             userId = it.uuid
             companyId = it.companyId
 
-            //getProducts()
+            getProducts()
             getAvailableStockList()
         }
     }
@@ -86,14 +87,11 @@ class CreateOrderViewModel(
 
     @SuppressLint("CheckResult")
     fun getProducts() {
-        isLoadingVisible = true
         productList.clear()
 
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getProductsUseCase.getSingle(GetProductRequestModel(false, companyId, "", "",false, 1))
             subscribeSingle(single, onSuccess = {
-                isLoadingVisible = false
-
                 productList.addAll(it.data)
                 onProductsLoadedLiveData.postValue(productList)
 
@@ -122,15 +120,18 @@ class CreateOrderViewModel(
     @SuppressLint("CheckResult")
     fun getAvailableStockList() {
         isLoadingVisible = true
-        availableStockList.clear()
+        availableStockProductList.clear()
 
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getAvailableStockUseCase.getSingle(GetAvailableStockRequestModel(userId))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
 
-                availableStockList.addAll(it)
-                onAvailableStocksLoadedLiveData.postValue(availableStockList)
+                it.forEach {
+                    availableStockProductList.addAll(it.products)
+                }
+
+                onAvailableStockProductsLoadedLiveData.postValue(availableStockProductList)
 
             }, onError = {
 

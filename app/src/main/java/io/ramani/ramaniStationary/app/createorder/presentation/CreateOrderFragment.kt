@@ -1,7 +1,10 @@
 package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,12 +12,14 @@ import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProdutsRVAdapter
+import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
+import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_create_order.*
 import org.kodein.di.generic.factory
 
@@ -33,7 +38,7 @@ class CreateOrderFragment : BaseFragment() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_create_order
 
-    private lateinit var productsAdapter: CreateOrderProdutsRVAdapter
+    private lateinit var productsAdapter: CreateOrderProductsRVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +52,19 @@ class CreateOrderFragment : BaseFragment() {
         flow = HomeFlowController(baseActivity!!, R.id.main_fragment_container)
         authFlow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
 
-        setupNav()
-        setupRV()
+        create_order_search_textfield.addTextChangedListener(searchTextWatcher)
+        create_order_search_textfield.setOnEditorActionListener { v, actionId, event ->
+            when(actionId){
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    hideKeyboard()
+                    true
+                }
+                else -> false
+            }
+        }
+
         initSubscribers()
+        updateCheckOutStatus()
     }
 
     private fun initSubscribers() {
@@ -63,7 +78,11 @@ class CreateOrderFragment : BaseFragment() {
 
     private fun subscribeResponse() {
         viewModel.onProductsLoadedLiveData.observe(this) {
-            productsAdapter.setList(it)
+
+        }
+
+        viewModel.onAvailableStockProductsLoadedLiveData.observe(this) {
+            updateRV()
         }
 
     }
@@ -78,12 +97,11 @@ class CreateOrderFragment : BaseFragment() {
         errorDialog(error)
     }
 
-    private fun setupNav() {
+    private fun updateRV() {
+        val keyword = create_order_search_textfield.text.trim().toString()
+        val products = if (keyword.isNotEmpty()) viewModel.productList.filter { product -> product.name.contains(keyword, true) } else viewModel.productList
 
-    }
-
-    private fun setupRV() {
-        productsAdapter = CreateOrderProdutsRVAdapter(mutableListOf()) { item, isAdded, unitChanged ->
+        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.availableStockProductList) { item, isAdded, unitChanged ->
             isAdded?.let {
                 item.quantity = if (it) ++item.quantity else --item.quantity
                 if (item.quantity < 0)
@@ -94,7 +112,11 @@ class CreateOrderFragment : BaseFragment() {
                 item.selectedUnit = it
             }
 
+            // Add or remove product from orders
+            CREATE_ORDER_MODEL.addOrRemoveProduct(item)
+
             productsAdapter.notifyDataSetChanged()
+            updateCheckOutStatus()
         }
 
         create_order_product_list.apply {
@@ -106,6 +128,22 @@ class CreateOrderFragment : BaseFragment() {
                     DividerItemDecoration.VERTICAL
                 )
             )
+        }
+    }
+
+    private fun updateCheckOutStatus() {
+        create_order_checkout.isEnabled = CREATE_ORDER_MODEL.productsToBeOrdered.isNotEmpty()
+        create_order_total_price.text = String.format("TSH %s", viewModel.getFormattedAmount(CREATE_ORDER_MODEL.getTotalOrderedPrice()))
+    }
+
+    private val searchTextWatcher = object : TextWatcher {
+
+        override fun afterTextChanged(s: Editable) {}
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            updateRV()
         }
     }
 

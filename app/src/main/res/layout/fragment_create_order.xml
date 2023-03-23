@@ -36,6 +36,7 @@
             <EditText
                 android:id="@+id/create_order_search_textfield"
                 style="@style/RightSearchTextField"
+                android:imeOptions="actionSearch"
                 android:hint="@string/hint_search_products" />
 
         </LinearLayout>
