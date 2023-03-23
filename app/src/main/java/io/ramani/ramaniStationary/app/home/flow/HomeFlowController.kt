@@ -8,7 +8,7 @@ import io.ramani.ramaniStationary.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.BaseNavigationViewInterface
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
-import io.ramani.ramaniStationary.app.home.presentation.StockFragment
+import io.ramani.ramaniStationary.app.stock.presentation.StockFragment
 
 class HomeFlowController(
     private val activity: BaseActivity,

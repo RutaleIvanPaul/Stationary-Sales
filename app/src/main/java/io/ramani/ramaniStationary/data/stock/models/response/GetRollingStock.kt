@@ -17,7 +17,7 @@ data class GetRollingStock(
 	val id: String? = null,
 
 	@SerializedName("products")
-	val products: List<ProductsItem?>? = null
+	val products: List<ProductsItem>? = null
 )
 
 data class ProductsItem(
@@ -41,5 +41,5 @@ data class ProductsItem(
 	val units: String? = null,
 
 	@SerializedName("productName")
-	val productName: String? = null
+	val productName: String
 )

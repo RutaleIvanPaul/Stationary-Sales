@@ -2,11 +2,13 @@ package io.ramani.ramaniStationary.app.stock.presentation
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.stock.models.request.AvailableStockRequestModel
 import io.ramani.ramaniStationary.data.stock.models.response.GetRollingStock
+import io.ramani.ramaniStationary.data.stock.models.response.ProductsItem
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
@@ -19,19 +21,24 @@ class StockViewModel(
     private val availableStockUseCase: BaseSingleUseCase<GetRollingStock?, AvailableStockRequestModel>
 ) : BaseViewModel(application, stringProvider, sessionManager){
 
+    val availableStockProductsLiveData = MutableLiveData<List<ProductsItem>>()
+    val avaialableProductsListOriginal = mutableListOf<ProductsItem>()
+
 
     override fun start(args: Map<String, Any?>) {
         getAvailableStock()
     }
 
-    private fun getAvailableStock(){
+    fun getAvailableStock(){
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             val single = availableStockUseCase.getSingle(AvailableStockRequestModel(it.uuid))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
-                if (!it?.products?.isEmpty()!!)
-                    Log.d("Success",it?.products?.toString()!!)
+                if (!it?.products?.isEmpty()!!) {
+                    avaialableProductsListOriginal.addAll(it.products)
+                    availableStockProductsLiveData.postValue(it.products)
+                }
             }, onError = {
                 isLoadingVisible = false
             })
