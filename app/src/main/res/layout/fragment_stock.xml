@@ -5,50 +5,42 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-
-    <!--    <EditText-->
-<!--        android:drawableStart="@mipmap/ic_search_foreground"-->
-<!--        android:background="@drawable/rounded_nonsolid_button"-->
-<!--        android:hint="Search All Products"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"/>-->
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_stock"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/rounded_nonsolid_button"
-        app:queryBackground="@android:color/transparent"
-        android:theme="@style/SearchView"
-        app:iconifiedByDefault="false"
-        app:queryHint="Search All Products" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <TextView
-        android:text="@string/outstanding"
-        style="@style/LargeTextLabel"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/search_stock"
+            style="@style/SearchTextField"
+            android:imeOptions="actionSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/rounded_nonsolid_button"
+            android:hint="Search All Products" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/available_stock_rv"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        <TextView
+            style="@style/LargeTextLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/outstanding" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/available_stock_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/stock_loader"

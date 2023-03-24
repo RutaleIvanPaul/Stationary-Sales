@@ -127,6 +127,7 @@
         <item name="android:icon">@color/gloss_red</item>
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">0.02</item>
+    </style>
     <style name="CalendarButton" parent="@style/LargeTextLabel">
         <item name="android:drawableStart">@drawable/ic_calendar</item>
         <item name="android:text">30 Jan 2022</item>

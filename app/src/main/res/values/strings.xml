@@ -49,8 +49,8 @@
     <string name="quantity">Quantity</string>
     <string name="outstanding">Outstanding</string>
     <string name="refresh">Refresh</string>
+    <string name="spaced_refresh">  Refresh</string>
 
-    <string name="refresh">Refresh</string>
 
     <!-- Create Order -->
     <string name="add_items">Add Items</string>

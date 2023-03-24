@@ -1,17 +1,22 @@
 package io.ramani.ramaniStationary.app.stock.presentation
 
-import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextWatcher
+import android.text.style.ImageSpan
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
-import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniStationary.app.home.presentation.HomeViewModel
 import io.ramani.ramaniStationary.data.stock.models.response.ProductsItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stock.*
@@ -56,7 +61,7 @@ class StockFragment : BaseFragment() {
         available_stock_rv.layoutManager = LinearLayoutManager(requireContext())
         available_stock_rv.adapter = availableStockRVAdapter
         initSubscribers()
-        initClickListeners()
+        initListeners()
 
 
     }
@@ -81,27 +86,43 @@ class StockFragment : BaseFragment() {
         }
     }
 
-    private fun initClickListeners() {
-        search_stock.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
+    private fun initListeners() {
+        search_stock.addTextChangedListener(searchTextWatcher)
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()){
-                    viewModel.availableStockProductsLiveData.postValue(viewModel.avaialableProductsListOriginal.distinct())
-                }else {
-                    viewModel.availableStockProductsLiveData.postValue(viewModel.avaialableProductsListOriginal.filter {
-                        it.productName.contains(
-                            newText,
-                            ignoreCase = true
-                        )
-                    }.distinct())
+        search_stock.setOnEditorActionListener { v, actionId, event ->
+                when(actionId){
+                    EditorInfo.IME_ACTION_SEARCH -> {
+                        hideKeyboard()
+                        true
+                    }
+                    else -> false
                 }
-
-                return true
             }
+    }
 
-        })
+    private val searchTextWatcher = object : TextWatcher {
+
+        override fun afterTextChanged(s: Editable) {}
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if (s.toString().isNullOrEmpty()){
+                viewModel.availableStockProductsLiveData.postValue(viewModel.avaialableProductsListOriginal.distinct())
+            }else {
+                viewModel.availableStockProductsLiveData.postValue(viewModel.avaialableProductsListOriginal.filter {
+                    it.productName.contains(
+                        s.toString(),
+                        ignoreCase = true
+                    )
+                }.distinct())
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        search_stock.removeTextChangedListener(searchTextWatcher)
     }
 
     private fun initSubscribers() {
