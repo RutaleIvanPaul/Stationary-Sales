@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.createorder.models.request.GetAvailableStockRequestModel
@@ -69,8 +70,6 @@ class CreateOrderViewModel(
 
     @SuppressLint("CheckResult")
     fun getMerchants() {
-        isLoadingVisible = true
-
         merchantList.clear()
 
         sessionManager.getLoggedInUser().subscribeBy {
@@ -80,7 +79,7 @@ class CreateOrderViewModel(
                 onMerchantsLoadedLiveData.postValue(merchantList)
 
             }, onError = {
-
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
@@ -96,14 +95,13 @@ class CreateOrderViewModel(
                 onProductsLoadedLiveData.postValue(productList)
 
             }, onError = {
-
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
 
     @SuppressLint("CheckResult")
     fun getTaxes() {
-        isLoadingVisible = true
         taxesList.clear()
 
         sessionManager.getLoggedInUser().subscribeBy {
@@ -112,7 +110,7 @@ class CreateOrderViewModel(
                 taxesList.addAll(it.data)
                 onTaxesLoadedLiveData.postValue(taxesList)
             }, onError = {
-
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
@@ -134,7 +132,8 @@ class CreateOrderViewModel(
                 onAvailableStockProductsLoadedLiveData.postValue(availableStockProductList)
 
             }, onError = {
-
+                isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }

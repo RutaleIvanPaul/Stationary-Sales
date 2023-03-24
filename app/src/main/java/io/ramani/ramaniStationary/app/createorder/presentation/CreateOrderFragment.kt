@@ -13,9 +13,12 @@ import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
+import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
+import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
@@ -33,7 +36,7 @@ class CreateOrderFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow: HomeFlow
+    private lateinit var flow: CreateOrderFlow
     private lateinit var authFlow: AuthFlow
 
     override fun getLayoutResId(): Int = R.layout.fragment_create_order
@@ -49,7 +52,7 @@ class CreateOrderFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
 
-        flow = HomeFlowController(baseActivity!!, R.id.main_fragment_container)
+        flow = CreateOrderFlowController(baseActivity!!, R.id.main_fragment_container)
         authFlow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
 
         create_order_search_textfield.addTextChangedListener(searchTextWatcher)
