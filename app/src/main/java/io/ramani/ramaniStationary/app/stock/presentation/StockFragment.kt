@@ -9,11 +9,14 @@ import android.text.TextWatcher
 import android.text.style.ImageSpan
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
+import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
@@ -52,6 +55,7 @@ class StockFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        requireActivity().findViewById<TextView>(R.id.stock_textview).visible(visible = true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_stock, container, false)
     }
@@ -71,21 +75,6 @@ class StockFragment : BaseFragment() {
         stock_loader.visible(visible)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.refresh_stock_menu,menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_refresh_stock_button -> {
-                viewModel.getAvailableStock()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun initListeners() {
         search_stock.addTextChangedListener(searchTextWatcher)
 
@@ -98,6 +87,12 @@ class StockFragment : BaseFragment() {
                     else -> false
                 }
             }
+
+        val appbar_refresh_tv = requireActivity().findViewById<Toolbar>(R.id.toolbar).findViewById<TextView>(R.id.appbar_refresh_textview)
+        appbar_refresh_tv.visible(visible = true)
+        appbar_refresh_tv.setOnSingleClickListener {
+            viewModel.getAvailableStock()
+        }
     }
 
     private val searchTextWatcher = object : TextWatcher {
