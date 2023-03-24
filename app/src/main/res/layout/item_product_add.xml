@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/item_product_add_imageview"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/rounded_rectangle_grey"
+        android:src="@android:drawable/ic_menu_report_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/item_product_add_commands"
+        android:layout_toEndOf="@+id/item_product_add_imageview"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_product_add_name"
+            style="@style/BoldTextLabel"
+            android:maxLines="2"
+            android:text="Long grain basmati rice 5kgs" />
+
+        <TextView
+            android:id="@+id/item_product_add_price"
+            style="@style/BoldLargeTextLabel"
+            android:layout_marginTop="4dp"
+            android:text="Tsh 3,500" />
+
+        <TextView
+            android:id="@+id/item_product_add_available_quantity"
+            style="@style/SmallTextLabel"
+            android:layout_marginTop="4dp"
+            android:text="20 Cartons Available"
+            android:textColor="@color/ramani_green" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_product_add_commands"
+        android:layout_width="114dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <com.skydoves.powerspinner.PowerSpinnerView
+            android:id="@+id/item_product_add_select_unit"
+            style="@style/CustomSpinner"
+            android:layout_marginTop="10dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/item_product_add_minus_button"
+                style="@style/MinusActionButton" />
+
+            <EditText
+                android:id="@+id/item_product_quantity"
+                style="@style/NormalTextField"
+                android:layout_alignTop="@+id/item_product_add_plus_button"
+                android:layout_alignBottom="@+id/item_product_add_plus_button"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_toStartOf="@+id/item_product_add_plus_button"
+                android:layout_toEndOf="@+id/item_product_add_minus_button"
+                android:gravity="center"
+                android:inputType="numberSigned"
+                android:imeOptions="actionDone"
+                android:text="0" />
+
+            <ImageView
+                android:id="@+id/item_product_add_plus_button"
+                style="@style/PlusActionButton"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

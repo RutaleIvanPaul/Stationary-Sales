@@ -255,6 +255,8 @@ dependencies {
     // Country selection
     implementation 'com.hbb20:ccp:2.5.0'
 
+    // Spinner
+    implementation "com.github.skydoves:powerspinner:1.1.9"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

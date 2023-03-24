@@ -15,15 +15,20 @@ data class ProductModel(
     var archived: Boolean = false,
     var imagePath: String = "",
     var currency: String = "",
+    var units: String = "",
     var hasSecondaryUnitConversion: Boolean = false,
     var secondaryUnitConversion: Int = 0,
     var secondaryUnitName: String = "",
-    @Ignore
     var productCategories: List<ProductCategoryModel> = listOf(),
     var vatCategory: String = "",
     var supplierId: String = "",
     var supplierProductId: String = "",
-    var externalId: String = ""
+    var externalId: String = "",
+
+    @Ignore
+    var selectedUnit: String = units,
+    @Ignore
+    var quantity: Int = 0
 ) : Parcelable {
 
     class Builder : IBuilder<ProductModel> {
@@ -32,6 +37,7 @@ data class ProductModel(
         private var archived: Boolean = false
         private var imagePath: String = ""
         private var currency: String = ""
+        private var units: String = ""
         private var hasSecondaryUnitConversion: Boolean = false
         private var secondaryUnitConversion: Int = 0
         private var secondaryUnitName: String = ""
@@ -63,6 +69,11 @@ data class ProductModel(
 
         fun currency(currency: String): Builder {
             this.currency = currency
+            return this
+        }
+
+        fun units(units: String): Builder {
+            this.units = units
             return this
         }
 
@@ -113,6 +124,7 @@ data class ProductModel(
                 archived,
                 imagePath,
                 currency,
+                units,
                 hasSecondaryUnitConversion,
                 secondaryUnitConversion,
                 secondaryUnitName,
@@ -128,6 +140,7 @@ data class ProductModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readByte() != 0.toByte(),
@@ -147,6 +160,7 @@ data class ProductModel(
         parcel.writeByte(if (archived) 1 else 0)
         parcel.writeString(imagePath)
         parcel.writeString(currency)
+        parcel.writeString(units)
         parcel.writeByte(if (hasSecondaryUnitConversion) 1 else 0)
         parcel.writeInt(secondaryUnitConversion)
         parcel.writeString(secondaryUnitName)

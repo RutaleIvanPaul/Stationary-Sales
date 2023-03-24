@@ -2,6 +2,7 @@ package io.ramani.ramaniStationary.app.home.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
@@ -125,8 +126,8 @@ class HomeHostFragment : BaseFragment() {
         bottom_nav_history_icon.setImageResource(R.mipmap.ic_home_history)
         bottom_nav_credit_icon.setImageResource(R.mipmap.ic_home_credit)
 
-        val colorRamaniGreen = requireActivity().resources.getColor(R.color.ramani_green)
-        val colorNavTextGrey = requireActivity().resources.getColor(R.color.colorNavTextGrey)
+        val colorRamaniGreen = ContextCompat.getColor(requireContext(), R.color.ramani_green)
+        val colorNavTextGrey = ContextCompat.getColor(requireContext(), R.color.colorNavTextGrey)
 
         bottom_nav_home_text.setTextColor(colorNavTextGrey)
         bottom_nav_stock_text.setTextColor(colorNavTextGrey)

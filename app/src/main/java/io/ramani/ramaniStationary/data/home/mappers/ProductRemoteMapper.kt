@@ -22,6 +22,7 @@ class ProductRemoteMapper(
                 .archived(from.archived ?: false)
                 .imagePath(from.imagePath ?: "")
                 .currency(from.currency ?: "")
+                .units(from.units ?: "")
                 .hasSecondaryUnitConversion(from.hasSecondaryUnitConversion ?: false)
                 .secondaryUnitConversion(from.secondaryUnitConversion ?: 0)
                 .secondaryUnitName(from.secondaryUnitName ?: "")
@@ -45,6 +46,7 @@ class ProductRemoteMapper(
                 to.archived,
                 to.imagePath,
                 to.currency,
+                to.units,
                 to.hasSecondaryUnitConversion,
                 to.secondaryUnitConversion,
                 to.secondaryUnitName,
