@@ -11,7 +11,7 @@ import java.util.*
 class CheckoutProductsRVAdapter(
     data: MutableList<ProductModel>,
     private val availableStockProducts: MutableList<AvailableProductModel>,
-    val onItemChanged: (ProductModel, Boolean?, String?) -> Unit
+    val onItemSelected: (ProductModel, ItemSelectionType?) -> Unit
 ) :
     BaseQuickAdapter<ProductModel, BaseViewHolder>(R.layout.item_checkout_product, data) {
     override fun convert(holder: BaseViewHolder, item: ProductModel) {
@@ -70,4 +70,8 @@ class CheckoutProductsRVAdapter(
             */
         }
     }
+}
+
+enum class ItemSelectionType {
+    QTY, PRICE_CATEGORY, DISCOUNT, REWARDS, DELETE
 }

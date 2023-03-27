@@ -1,29 +1,19 @@
 package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
-import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
-import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
-import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
-import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CheckoutProductsRVAdapter
-import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
+import io.ramani.ramaniStationary.app.createorder.presentation.adapter.ItemSelectionType
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
-import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_checkout.*
-import kotlinx.android.synthetic.main.fragment_create_order.*
 import org.kodein.di.generic.factory
 import java.util.*
 
@@ -70,7 +60,6 @@ class CheckoutFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         subscribeResponse()
-        //viewModel.start()
         viewModel.getMerchants()
     }
 
@@ -98,8 +87,11 @@ class CheckoutFragment : BaseFragment() {
     private fun updateRV() {
         val products = CREATE_ORDER_MODEL.productsToBeOrdered
 
-        productsAdapter = CheckoutProductsRVAdapter(products , viewModel.availableStockProductList) { item, isAdded, unitChanged ->
-            productsAdapter.notifyDataSetChanged()
+        productsAdapter = CheckoutProductsRVAdapter(products , viewModel.availableStockProductList) { item, type ->
+            when (type) {
+                ItemSelectionType.QTY -> {}
+                else -> {}
+            }
         }
 
         checkout_product_list.apply {
