@@ -18,7 +18,6 @@ data class MerchantModel(
     var gps: String = "",
     var salesPersonUID: String = "",
     var salesPersonName: String = "",
-    @Ignore
     var members: List<MerchantMemberModel> = listOf(),
     var merchantTIN: String = "",
     var city: String = "",

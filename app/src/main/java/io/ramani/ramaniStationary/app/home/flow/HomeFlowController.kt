@@ -7,6 +7,7 @@ import io.ramani.ramaniStationary.app.common.navgiation.NavigationTags
 import io.ramani.ramaniStationary.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.BaseNavigationViewInterface
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
+import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
 import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
 import io.ramani.ramaniStationary.app.home.presentation.StockFragment
 
@@ -77,7 +78,11 @@ class HomeFlowController(
     }
 
     override fun openCreateNewOrder() {
-        // TODO("Not yet implemented")
+        val fragment = CreateOrderFragment.newInstance()
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
     }
 
     override fun openSalesReports() {

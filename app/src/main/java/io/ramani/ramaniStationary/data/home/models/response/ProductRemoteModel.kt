@@ -13,6 +13,8 @@ data class ProductRemoteModel(
     val imagePath: String?,
     @SerializedName("currency")
     val currency: String?,
+    @SerializedName("units")
+    val units: String?,
     @SerializedName("hasSecondaryUnitConversion")
     val hasSecondaryUnitConversion: Boolean?,
     @SerializedName("secondaryUnitConversion")

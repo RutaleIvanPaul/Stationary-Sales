@@ -43,4 +43,41 @@
     <string name="credit">Credit</string>
 
     <string name="last_updated_at">Last updated</string>
+
+    <string name="refresh">Refresh</string>
+
+    <!-- Create Order -->
+    <string name="add_items">Add Items</string>
+    <string name="hint_search_products">Search products</string>
+    <string name="checkout">Checkout</string>
+    <string name="order_date">Order date:</string>
+    <string name="subtotal">Subtotal:</string>
+    <string name="discount">Discount:</string>
+    <string name="total_vat">Total VAT:</string>
+    <string name="items">Items</string>
+    <string name="add_product">+ Add product</string>
+
+    <string name="out_of_stock">Out of Stock</string>
+
+    <string name="qty">QTY</string>
+    <string name="price_category">Price Category</string>
+    <string name="standard_price">Standard Price</string>
+    <string name="no_discount">No Discount</string>
+    <string name="rewards">Rewards</string>
+    <string name="no_reward">No Reward</string>
+
+    <string name="select_customer">Select Customer (optional)</string>
+    <string name="customer_tin_number">Customer TIN number(optional)</string>
+    <string name="hint_customer_tin_number">Enter TIN number</string>
+    <string name="customer_vrn_number">Customer VRN number(optional)</string>
+    <string name="hint_customer_vrn_number">Enter VRN number</string>
+    <string name="add_new">New +</string>
+
+    <string name="payment_method">Payment Method</string>
+    <string name="paid">Paid</string>
+    <string name="comment">Comment</string>
+    <string name="hint_enter_comment">Enter Comments</string>
+    <string name="total">Total:</string>
+    <string name="finish_order">Finish Order</string>
+
 </resources>
