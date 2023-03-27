@@ -1,36 +1,28 @@
 package io.ramani.ramaniStationary.app.createorder.presentation.adapter
 
-import android.graphics.Color
-import android.text.TextUtils
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.skydoves.powerspinner.PowerSpinnerView
 import io.ramani.ramaniStationary.R
-import io.ramani.ramaniStationary.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import java.text.NumberFormat
 import java.util.*
 
-class CreateOrderProductsRVAdapter(
+class CheckoutProductsRVAdapter(
     data: MutableList<ProductModel>,
     private val availableStockProducts: MutableList<AvailableProductModel>,
     val onItemChanged: (ProductModel, Boolean?, String?) -> Unit
 ) :
-    BaseQuickAdapter<ProductModel, BaseViewHolder>(R.layout.item_product_add, data) {
+    BaseQuickAdapter<ProductModel, BaseViewHolder>(R.layout.item_checkout_product, data) {
     override fun convert(holder: BaseViewHolder, item: ProductModel) {
         with(holder) {
             val price = if (item.productCategories.isNotEmpty()) item.productCategories[0].unitPrice.toInt() else 0
 
-            setText(R.id.item_product_add_name, item.name)
-            setText(R.id.item_product_add_price, String.format("Tsh %s", NumberFormat.getNumberInstance(Locale.US).format(price)))
-            setText(R.id.item_product_quantity, item.selectedQuantity.toString())
+            setText(R.id.item_checkout_product_name, item.name)
+            setText(R.id.item_checkout_product_price, String.format("%s Tsh", NumberFormat.getNumberInstance(Locale.US).format(price)))
+            setText(R.id.item_checkout_product_quantity, String.format("%d %s", item.selectedQuantity, item.selectedUnit))
 
-            getView<ImageView>(R.id.item_product_add_imageview).loadImage(item.imagePath, R.mipmap.ic_holder, R.mipmap.ic_holder)
-
+                /*
             val availableStockProducts = availableStockProducts.filter { product -> product.productId == item.id }
             val availableStockAmount = if (availableStockProducts.isNotEmpty()) availableStockProducts.first().quantity else 0
             getView<ImageView>(R.id.item_product_add_plus_button).apply {
@@ -75,6 +67,7 @@ class CreateOrderProductsRVAdapter(
             }
 
             unitSpinner.dismiss()
+            */
         }
     }
 }

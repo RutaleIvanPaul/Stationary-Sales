@@ -20,8 +20,6 @@ import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewMod
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
-import io.ramani.ramaniStationary.app.home.flow.HomeFlow
-import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_create_order.*
 import org.kodein.di.generic.factory
@@ -66,6 +64,10 @@ class CreateOrderFragment : BaseFragment() {
             }
         }
 
+        create_order_checkout.setOnSingleClickListener {
+            flow.openCheckout()
+        }
+
         initSubscribers()
         updateCheckOutStatus()
     }
@@ -106,9 +108,9 @@ class CreateOrderFragment : BaseFragment() {
 
         productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.availableStockProductList) { item, isAdded, unitChanged ->
             isAdded?.let {
-                item.quantity = if (it) ++item.quantity else --item.quantity
-                if (item.quantity < 0)
-                    item.quantity = 0
+                item.selectedQuantity = if (it) ++item.selectedQuantity else --item.selectedQuantity
+                if (item.selectedQuantity < 0)
+                    item.selectedQuantity = 0
             }
 
             unitChanged?.let {

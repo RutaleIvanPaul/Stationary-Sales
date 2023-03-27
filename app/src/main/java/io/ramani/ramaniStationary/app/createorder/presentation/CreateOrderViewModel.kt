@@ -36,13 +36,14 @@ class CreateOrderViewModel(
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
     private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
     private val prefs: PrefsManager,
-    private val dateFormatter: DateFormatter
+    val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userId = ""
     var companyId = ""
 
     val merchantList = mutableListOf<MerchantModel>()
+    val merchantNameList = mutableListOf<String>()
     val onMerchantsLoadedLiveData = SingleLiveEvent<List<MerchantModel>>()
 
     val productList = mutableListOf<ProductModel>()
@@ -71,11 +72,17 @@ class CreateOrderViewModel(
     @SuppressLint("CheckResult")
     fun getMerchants() {
         merchantList.clear()
+        merchantNameList.clear()
 
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(false, companyId, "", "", true, 1))
             subscribeSingle(single, onSuccess = {
                 merchantList.addAll(it.data)
+
+                merchantList.forEach {
+                    merchantNameList.add(it.name)
+                }
+
                 onMerchantsLoadedLiveData.postValue(merchantList)
 
             }, onError = {

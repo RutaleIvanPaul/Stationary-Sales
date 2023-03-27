@@ -12,7 +12,7 @@ class CREATE_ORDER_MODEL {
         var productsToBeOrdered = mutableListOf<ProductModel>()     // Ordered requested product
 
         fun addOrRemoveProduct(product: ProductModel) {
-            if (product.quantity == 0) {
+            if (product.selectedQuantity == 0) {
                 productsToBeOrdered.remove(product)
             } else {
                 if (!productsToBeOrdered.contains(product))
@@ -25,7 +25,7 @@ class CREATE_ORDER_MODEL {
 
             productsToBeOrdered.forEach {
                 if (it.productCategories.isNotNull() && it.productCategories.isNotEmpty())
-                    totalPrice += it.productCategories[0].unitPrice * it.quantity
+                    totalPrice += it.productCategories[0].unitPrice * it.selectedQuantity
             }
 
             return totalPrice.toInt()

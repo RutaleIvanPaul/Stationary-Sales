@@ -3,7 +3,6 @@ package io.ramani.ramaniStationary.domain.home.model
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import io.ramani.ramaniStationary.domainCore.entities.IBuilder
 
@@ -24,12 +23,12 @@ data class ProductModel(
     var supplierId: String = "",
     var supplierProductId: String = "",
     var externalId: String = "",
-
-    @Ignore
-    var selectedUnit: String = units,
-    @Ignore
-    var quantity: Int = 0
 ) : Parcelable {
+
+    var selectedUnit: String = units
+        get() = field.ifEmpty { units }
+
+    var selectedQuantity: Int = 0
 
     class Builder : IBuilder<ProductModel> {
         private var id: String = ""
