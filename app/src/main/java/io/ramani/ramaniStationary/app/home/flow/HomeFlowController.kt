@@ -9,7 +9,7 @@ import io.ramani.ramaniStationary.app.common.presentation.dialogs.BaseNavigation
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
 import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
-import io.ramani.ramaniStationary.app.home.presentation.StockFragment
+import io.ramani.ramaniStationary.app.stock.presentation.StockFragment
 
 class HomeFlowController(
     private val activity: BaseActivity,

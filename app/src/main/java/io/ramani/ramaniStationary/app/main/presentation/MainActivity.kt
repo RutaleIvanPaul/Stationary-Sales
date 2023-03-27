@@ -2,6 +2,7 @@ package io.ramani.ramaniStationary.app.main.presentation
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -59,4 +60,5 @@ class MainActivity : BaseActivity() {
             flow.openLogin()
         }
     }
+
 }
