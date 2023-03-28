@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.domain.auth.manager
 
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.domain.auth.AuthDataSource
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.reactivex.Completable
@@ -26,5 +27,8 @@ class SessionManager(
 
     override fun logout(): Single<Any> =
         authDataSource.logout()
+
+    override fun getTaxObject(userId: String): Single<TaxInformationResponse> =
+        authDataSource.getTaxObject(userId)
 
 }

@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.data.auth
 
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.domain.auth.AuthDataSource
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.reactivex.Completable
@@ -30,6 +31,10 @@ class AuthRepository(
 
     override fun refreshAccessToken(token: String): Completable =
         localAuthDataSource.refreshAccessToken(token)
+
+    override fun getTaxObject(userId : String): Single<TaxInformationResponse> {
+        return localAuthDataSource.getTaxObject(userId)
+    }
 
 
 }

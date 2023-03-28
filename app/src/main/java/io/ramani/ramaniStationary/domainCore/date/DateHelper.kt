@@ -136,6 +136,8 @@ fun DateTime.getDateInPast(monthDifference: Int) =
 
 fun today(): String = LocalDate().toString("dd/MM/YYYY")
 
+fun todayHyphenated(): String = LocalDate().toString("YYYY-MM-dd")
+
 data class PeriodDisplay(val period: Int, val type: Int) {
     companion object {
         const val YEARS = 0

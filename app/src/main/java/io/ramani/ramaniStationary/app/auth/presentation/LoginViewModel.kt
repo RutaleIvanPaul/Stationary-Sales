@@ -9,6 +9,8 @@ import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
+import io.ramani.ramaniStationary.data.auth.models.request.TaxInformationRequest
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
@@ -20,6 +22,7 @@ class LoginViewModel(
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
+    private val taxObjectUseCase: BaseSingleUseCase<TaxInformationResponse, TaxInformationRequest>,
     private val prefs: PrefsManager
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -52,6 +55,8 @@ class LoginViewModel(
                 prefs.accessToken = it.token
                 prefs.timeZone = it.timeZone
                 loginActionLiveData.postValue(it)
+
+                getTaxObject(it.uuid)
             }, onError = {
                 isLoadingVisible = false
 //                notifyError(
@@ -65,11 +70,21 @@ class LoginViewModel(
         }
     }
 
+    fun getTaxObject(uuid: String) {
+        val single = taxObjectUseCase.getSingle(TaxInformationRequest(userId = uuid))
+        subscribeSingle(single, onSuccess = {
+            prefs.taxObject = it.toString()
+        },onError = {
+            notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+        })
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
+        private val taxObjectUseCase: BaseSingleUseCase<TaxInformationResponse, TaxInformationRequest>,
         private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
@@ -80,6 +95,7 @@ class LoginViewModel(
                     stringProvider,
                     sessionManager,
                     loginUseCase,
+                    taxObjectUseCase,
                     prefs
                 ) as T
             }

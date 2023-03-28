@@ -1,8 +1,11 @@
 package io.ramani.ramaniStationary.app.auth.di
 
 import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
+import io.ramani.ramaniStationary.data.auth.models.request.TaxInformationRequest
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.auth.useCase.LoginUseCase
+import io.ramani.ramaniStationary.domain.auth.useCase.TaxObjectUseCase
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -12,5 +15,8 @@ import org.kodein.di.generic.provider
 val authDomainModule = Kodein.Module("authDomainModule") {
     bind<BaseSingleUseCase<UserModel, LoginRequestModel>>("loginUseCase") with provider {
         LoginUseCase(instance(), instance(), instance("authDataSource"))
+    }
+    bind<BaseSingleUseCase<TaxInformationResponse, TaxInformationRequest>>("getTaxObjectUseCase") with provider {
+        TaxObjectUseCase(instance(), instance(), instance("authDataSource"))
     }
 }

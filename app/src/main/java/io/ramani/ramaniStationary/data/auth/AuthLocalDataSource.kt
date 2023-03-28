@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.data.auth
 
 import com.google.gson.Gson
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniStationary.domain.auth.AuthDataSource
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
@@ -39,6 +40,13 @@ class AuthLocalDataSource(
     override fun refreshAccessToken(token: String): Completable =
         Completable.fromAction {
             prefsManager.accessToken = token
+        }
+
+    override fun getTaxObject(userId : String): Single<TaxInformationResponse> =
+        if (prefsManager.taxObject.isNullOrBlank()) {
+            Single.just(TaxInformationResponse("","","",0,"","",""))
+        } else {
+            Single.just(Gson().fromJson(prefsManager.taxObject, TaxInformationResponse::class.java))
         }
 
 

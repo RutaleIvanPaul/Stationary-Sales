@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.data.auth
 
 import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.data.auth.models.UserRemoteModel
 import io.ramani.ramaniStationary.data.common.network.ErrorConstants
 import io.ramani.ramaniStationary.data.common.network.toErrorResponseModel
@@ -127,6 +128,52 @@ class AuthRemoteDataSource(
     override fun refreshAccessToken(token: String): Completable {
         TODO("Not yet implemented")
     }
+
+    override fun getTaxObject(userId : String): Single<TaxInformationResponse> =
+        callSingle(authApi.getTaxObject(userId).flatMap {
+           if(it.data != null) {
+               Single.just(it.data!!)
+           }else {
+               val message = "No active user with those tax credentials"
+               Single.error(
+                   NotAuthorizedException(
+                       message
+                   )
+               )
+           }
+
+        }.onErrorResumeNext {
+            when (it) {
+                is HttpException -> {
+                    val code = it.code()
+                    val errorResponse = it.toErrorResponseModel<BaseErrorResponse<Any>>()
+                    when (code) {
+                        ErrorConstants.INPUT_VALIDATION_400,
+                        ErrorConstants.NOT_FOUND_404 ->
+                            Single.error(InvalidLoginException(errorResponse?.message))
+                        ErrorConstants.NOT_AUTHORIZED_403 ->
+                            Single.error(AccountNotActiveException(errorResponse?.message))
+                        else -> Single.error(it)
+                    }
+                }
+                is NotAuthenticatedException -> {
+                    val message =
+                        if (!it.message.isNullOrBlank()) it.message
+                        else if (it.cause.isNotNull() && !it.cause?.message.isNullOrBlank()) it.cause?.message
+                        else "No active user with those credentials"
+                    Single.error(
+                        NotAuthorizedException(
+                            message ?: ""
+                        )
+                    )
+
+                }
+                else -> {
+                    Single.error(it)
+                }
+            }
+        }
+        )
 
 
 }
