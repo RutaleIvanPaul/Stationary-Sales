@@ -2,6 +2,7 @@ package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
@@ -11,10 +12,15 @@ import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CheckoutProductsRVAdapter
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.ItemSelectionType
+import io.ramani.ramaniStationary.app.createorder.presentation.dialog.ProductDiscountDialog
+import io.ramani.ramaniStationary.app.createorder.presentation.dialog.ProductPriceCategoryDialog
+import io.ramani.ramaniStationary.app.createorder.presentation.dialog.ProductQuantityDialog
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
+import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import org.kodein.di.generic.factory
+import java.text.NumberFormat
 import java.util.*
 
 class CheckoutFragment : BaseFragment() {
@@ -50,8 +56,19 @@ class CheckoutFragment : BaseFragment() {
             requireActivity().onBackPressed()
         }
 
+        checkout_payment_method_paid.setOnCheckedChangeListener { button, checked ->
+            if (checked)
+                CREATE_ORDER_MODEL.paymentMethod = button.text.toString()
+        }
+
+        checkout_payment_method_credit.setOnCheckedChangeListener { button, checked ->
+            if (checked)
+                CREATE_ORDER_MODEL.paymentMethod = button.text.toString()
+        }
+
         initSubscribers()
         updateRV()
+        updateUI()
     }
 
     private fun initSubscribers() {
@@ -60,7 +77,7 @@ class CheckoutFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         subscribeResponse()
-        viewModel.getMerchants()
+        viewModel.start()
     }
 
     private fun subscribeResponse() {
@@ -68,10 +85,26 @@ class CheckoutFragment : BaseFragment() {
             checkout_select_customer_spinner.apply {
                 setItems(viewModel.merchantNameList)
                 setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+                    viewModel.merchantList[newIndex].apply {
+                        CREATE_ORDER_MODEL.customer = this
+                        CREATE_ORDER_MODEL.customerTinNumber = this.merchantTIN
+                        checkout_tin_number.setText(this.merchantTIN)
 
+                        updateUI()
+                    }
+                }
+
+                CREATE_ORDER_MODEL.customer?.let {
+                    text = it.name
                 }
             }
         }
+    }
+
+    override fun onBackButtonPressed(): Boolean {
+        CREATE_ORDER_MODEL.onOrderedProductsUpdatedLiveData.postValue(true)
+
+        return super.onBackButtonPressed()
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -87,9 +120,12 @@ class CheckoutFragment : BaseFragment() {
     private fun updateRV() {
         val products = CREATE_ORDER_MODEL.productsToBeOrdered
 
-        productsAdapter = CheckoutProductsRVAdapter(products , viewModel.availableStockProductList) { item, type ->
+        productsAdapter = CheckoutProductsRVAdapter(products) { position, item, type ->
             when (type) {
-                ItemSelectionType.QTY -> {}
+                ItemSelectionType.QTY -> updateQuantity(position, item)
+                ItemSelectionType.PRICE_CATEGORY -> updatePriceCategory(position, item)
+                ItemSelectionType.DISCOUNT -> updateDiscount(position, item)
+                ItemSelectionType.DELETE -> deleteItem(position, item)
                 else -> {}
             }
         }
@@ -100,4 +136,63 @@ class CheckoutFragment : BaseFragment() {
         }
     }
 
+    private fun updateQuantity(position: Int, product: ProductModel) {
+        val availableStockAmount = viewModel.getAvailableStockAmount(product)
+
+        val dialog = ProductQuantityDialog(requireActivity(), product, availableStockAmount, position) { position, product ->
+            productsAdapter.notifyItemChanged(position)
+            updateUI()
+        }
+
+        dialog.show()
+    }
+
+    private fun updatePriceCategory(position: Int, product: ProductModel) {
+        val dialog = ProductPriceCategoryDialog(requireActivity(), product, position) { position, product ->
+            productsAdapter.notifyItemChanged(position)
+            updateUI()
+        }
+
+        dialog.show()
+    }
+
+    private fun updateDiscount(position: Int, product: ProductModel) {
+        val dialog = ProductDiscountDialog(requireActivity(), product, position) { position, product ->
+            productsAdapter.notifyItemChanged(position)
+            updateUI()
+        }
+
+        dialog.show()
+    }
+
+    private fun deleteItem(position: Int, product: ProductModel) {
+        val confirmDialog = AlertDialog.Builder(requireActivity())
+        confirmDialog.apply {
+            setTitle(R.string.warning_delete_product_item)
+
+            setPositiveButton(R.string.delete) { dialog, which ->
+                CREATE_ORDER_MODEL.remove(product);
+                productsAdapter.notifyItemRemoved(position);
+                updateUI()
+            }
+
+            setNegativeButton(android.R.string.cancel, null)
+
+            show()
+        }
+    }
+
+    private fun updateUI() {
+        val totalPrice = CREATE_ORDER_MODEL.getTotalOrderedPrice()
+        val totalDiscount = 0.0
+        val totalVat = CREATE_ORDER_MODEL.getTotalVat()
+        val total = totalPrice - totalDiscount + totalVat
+
+        checkout_subtotal.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalPrice))
+        checkout_discount.text = String.format("-TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalDiscount))
+        checkout_total_vat.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalVat))
+        checkout_total.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(total))
+
+        checkout_finish_order.isEnabled = CREATE_ORDER_MODEL.canFinishOrder()
+    }
 }

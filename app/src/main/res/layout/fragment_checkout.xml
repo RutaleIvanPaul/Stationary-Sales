@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -231,7 +231,7 @@
 
                     <TextView
                         style="@style/BoldLargeTextLabel"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         android:text="@string/customer_tin_number" />
 
                     <EditText
@@ -239,13 +239,14 @@
                         style="@style/NormalTextField"
                         android:layout_height="44dp"
                         android:layout_marginTop="5dp"
-                        android:hint="@string/hint_customer_tin_number" />
+                        android:hint="@string/hint_customer_tin_number"
+                        android:inputType="numberSigned" />
 
                     <!-- Customer VRN Number -->
 
                     <TextView
                         style="@style/BoldLargeTextLabel"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         android:text="@string/customer_vrn_number" />
 
                     <EditText
@@ -253,13 +254,14 @@
                         style="@style/NormalTextField"
                         android:layout_height="44dp"
                         android:layout_marginTop="5dp"
-                        android:hint="@string/hint_customer_vrn_number" />
+                        android:hint="@string/hint_customer_vrn_number"
+                        android:inputType="numberSigned" />
 
                     <!-- Payment method -->
 
                     <TextView
                         style="@style/BoldLargeTextLabel"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         android:text="@string/payment_method" />
 
                     <View
@@ -274,9 +276,7 @@
 
                         <RadioButton
                             android:id="@+id/checkout_payment_method_paid"
-                            style="@style/NormalTextLabel"
-                            android:layout_height="30dp"
-                            android:buttonTint="@color/ramani_green"
+                            style="@style/NormalRadioButton"
                             android:checked="true"
                             android:text="@string/paid" />
 
@@ -288,9 +288,7 @@
 
                         <RadioButton
                             android:id="@+id/checkout_payment_method_credit"
-                            style="@style/NormalTextLabel"
-                            android:layout_height="30dp"
-                            android:buttonTint="@color/ramani_green"
+                            style="@style/NormalRadioButton"
                             android:text="@string/credit" />
 
                         <View
@@ -304,7 +302,7 @@
 
                     <TextView
                         style="@style/BoldLargeTextLabel"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         android:text="@string/comment" />
 
                     <EditText
@@ -331,12 +329,12 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/action_button_normal_dark"
-            android:paddingStart="13dp"
-            android:paddingTop="8dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/action_button_normal_dark"
+            android:paddingStart="13dp"
+            android:paddingTop="8dp"
             android:paddingEnd="13dp"
             android:paddingBottom="8dp">
 

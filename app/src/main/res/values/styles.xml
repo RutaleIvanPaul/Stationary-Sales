@@ -64,7 +64,7 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="NormalActionButton" parent="LargeTextLabel">
+    <style name="NormalActionButton" parent="BoldLargeTextLabel">
         <item name="android:layout_width">106dp</item>
         <item name="android:height">38dp</item>
         <item name="android:textColor">@color/white</item>
@@ -174,6 +174,11 @@
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textColorHint">@color/colorNavTextGrey</item>
+    </style>
+
+    <style name="NormalRadioButton" parent="NormalTextLabel">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:buttonTint">@color/ramani_green</item>
     </style>
 
     <!-- Home -->

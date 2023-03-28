@@ -90,6 +90,10 @@ class CreateOrderFragment : BaseFragment() {
             updateRV()
         }
 
+        CREATE_ORDER_MODEL.onOrderedProductsUpdatedLiveData.observe(this) {
+            updateRV()
+            updateCheckOutStatus()
+        }
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {

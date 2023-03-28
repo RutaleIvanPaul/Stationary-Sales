@@ -65,6 +65,7 @@ class CreateOrderViewModel(
             companyId = it.companyId
 
             getProducts()
+            getMerchants()
             getAvailableStockList()
         }
     }
@@ -143,6 +144,11 @@ class CreateOrderViewModel(
                 notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
+    }
+
+    fun getAvailableStockAmount(product: ProductModel): Int {
+        val availableStockProducts = availableStockProductList.filter { pp -> pp.productId == product.id }
+        return if (availableStockProducts.isNotEmpty()) availableStockProducts.first().quantity else 0
     }
 
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)

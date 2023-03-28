@@ -66,6 +66,9 @@
     <string name="rewards">Rewards</string>
     <string name="no_reward">No Reward</string>
 
+    <string name="delete">Delete</string>
+    <string name="warning_delete_product_item">Are you sure you want to delete this item from the list?</string>
+
     <string name="select_customer">Select Customer (optional)</string>
     <string name="customer_tin_number">Customer TIN number(optional)</string>
     <string name="hint_customer_tin_number">Enter TIN number</string>
@@ -79,5 +82,36 @@
     <string name="hint_enter_comment">Enter Comments</string>
     <string name="total">Total:</string>
     <string name="finish_order">Finish Order</string>
+
+    <string name="quantity">Quantity</string>
+    <string name="warning_out_of_stock">The quantity entered is greater than\nwhat you have in stock</string>
+    <string name="okay">Okay</string>
+
+    <string name="price_discount">Price Discount</string>
+    <string name="custom">Custom</string>
+    <string name="predefined">Predefined</string>
+    <string name="original_price">Original Price</string>
+    <string name="new_price">New Price</string>
+    <string name="half_price">Half price</string>
+    <string name="back_to_school_discount">Back to school discount</string>
+    <string name="black_friday">Black Friday</string>
+    
+    <!-- Merchant -->
+    <string name="customer_name">Customer Name</string>
+    <string name="hint_customer_name">Enter Customer Name</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="hint_mobile_number">767123456</string>
+    <string name="customer_type">Customer type</string>
+    <string name="hint_customer_type">Select Customer type</string>
+    <string name="shop_name">Shop name</string>
+    <string name="hint_shop_name">Enter shop name</string>
+    <string name="location">Location</string>
+    <string name="hint_location">Enter street name</string>
+
+    <string-array name="merchant_types">
+        <item>Retail Shop</item>
+        <item>Wholesale</item>
+        <item>Consumer</item>
+    </string-array>
 
 </resources>
