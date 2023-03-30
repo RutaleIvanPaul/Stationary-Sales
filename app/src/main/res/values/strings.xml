@@ -114,4 +114,12 @@
         <item>Consumer</item>
     </string-array>
 
+    <string name="order_complete">Order Complete</string>
+    <string name="order_complete_message">Your order has been placed successfully. Click\nbelow to start a new order or finish and return home.</string>
+    <string name="new_sale">New sale</string>
+    <string name="print_receipt">Print Receipt</string>
+
+    <string name="printing_successful">Printing Successful</string>
+    <string name="printing_successful_message">Your receipt is printed\nsuccessfully.</string>
+
 </resources>

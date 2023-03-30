@@ -6,17 +6,20 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
+import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
+import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
+import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CheckoutProductsRVAdapter
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.ItemSelectionType
 import io.ramani.ramaniStationary.app.createorder.presentation.dialog.ProductDiscountDialog
 import io.ramani.ramaniStationary.app.createorder.presentation.dialog.ProductPriceCategoryDialog
 import io.ramani.ramaniStationary.app.createorder.presentation.dialog.ProductQuantityDialog
-import io.ramani.ramaniStationary.app.home.flow.HomeFlow
-import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import org.kodein.di.generic.factory
@@ -33,7 +36,8 @@ class CheckoutFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow: HomeFlow
+    private lateinit var flow: CreateOrderFlow
+    private lateinit var authFlow: AuthFlow
 
     override fun getLayoutResId(): Int = R.layout.fragment_checkout
 
@@ -48,7 +52,8 @@ class CheckoutFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
 
-        flow = HomeFlowController(baseActivity!!, R.id.main_fragment_container)
+        flow = CreateOrderFlowController(baseActivity!!, R.id.main_fragment_container)
+        authFlow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
 
         checkout_order_date.text = viewModel.dateFormatter.getCalendarFullTime(Date())
 
@@ -64,6 +69,11 @@ class CheckoutFragment : BaseFragment() {
         checkout_payment_method_credit.setOnCheckedChangeListener { button, checked ->
             if (checked)
                 CREATE_ORDER_MODEL.paymentMethod = button.text.toString()
+        }
+
+        checkout_finish_order.setOnSingleClickListener {
+            // Finish order operation
+            viewModel.postSales()
         }
 
         initSubscribers()
@@ -99,6 +109,13 @@ class CheckoutFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.onSaleSubmittedLiveData.observe(this) {
+            if (it) {
+                CREATE_ORDER_MODEL.clearAll()
+                flow.openOrderCompleted()
+            }
+        }
     }
 
     override fun onBackButtonPressed(): Boolean {
@@ -109,7 +126,7 @@ class CheckoutFragment : BaseFragment() {
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
-        //loader.visible(visible)
+        checkout_loader.visible(visible)
     }
 
     override fun showError(error: String) {
@@ -192,6 +209,7 @@ class CheckoutFragment : BaseFragment() {
         checkout_discount.text = String.format("-TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalDiscount))
         checkout_total_vat.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalVat))
         checkout_total.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(total))
+        checkout_total_price_label.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(total))
 
         checkout_finish_order.isEnabled = CREATE_ORDER_MODEL.canFinishOrder()
     }

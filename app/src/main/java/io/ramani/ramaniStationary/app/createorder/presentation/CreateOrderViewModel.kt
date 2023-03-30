@@ -8,6 +8,7 @@ import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationErr
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.createorder.models.request.GetAvailableStockRequestModel
+import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
@@ -16,6 +17,7 @@ import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableStockModel
+import io.ramani.ramaniStationary.domain.createorder.model.SaleModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
@@ -35,6 +37,7 @@ class CreateOrderViewModel(
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
     private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
+    private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
     private val prefs: PrefsManager,
     val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -55,8 +58,7 @@ class CreateOrderViewModel(
     val availableStockProductList = mutableListOf<AvailableProductModel>()
     val onAvailableStockProductsLoadedLiveData = SingleLiveEvent<List<AvailableProductModel>>()
 
-    var calendar: Calendar = Calendar.getInstance()
-    private var date = Date()
+    val onSaleSubmittedLiveData = SingleLiveEvent<Boolean>()
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -151,6 +153,34 @@ class CreateOrderViewModel(
         return if (availableStockProducts.isNotEmpty()) availableStockProducts.first().quantity else 0
     }
 
+    @SuppressLint("CheckResult")
+    fun postSales() {
+        isLoadingVisible = true
+
+        sessionManager.getLoggedInUser().subscribeBy {
+            userId = it.uuid
+            companyId = it.companyId
+            val userName = it.name
+            val companyName = ""
+            val date = Date()
+            val fullTimeStamp = dateFormatter.getTimeWithFormmatter(date, "dd MMM, yyyy HH:mm")
+            val checkTime = dateFormatter.getTimeWithFormmatter(date, "HH:mm:ss")
+            val deliveryDate = dateFormatter.getCalendarTimeWithDashes(date)
+
+            val request = CREATE_ORDER_MODEL.createSaleRequestModel(companyId, companyName, userId, userName, fullTimeStamp, checkTime, deliveryDate)
+            val single = postNewSaleStockUseCase.getSingle(request)
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+
+                onSaleSubmittedLiveData.postValue(true)
+
+            }, onError = {
+                isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            })
+        }
+    }
+
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
@@ -161,6 +191,7 @@ class CreateOrderViewModel(
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
         private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
+        private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
@@ -173,6 +204,7 @@ class CreateOrderViewModel(
                     sessionManager,
                     getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
                     getAvailableStockUseCase,
+                    postNewSaleStockUseCase,
                     prefs,
                     dateFormatter
                 ) as T

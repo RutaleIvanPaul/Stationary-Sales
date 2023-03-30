@@ -113,7 +113,10 @@ android {
             def (firstPart, secondPart, thirdPart,fourthPart) = versionNameStr.tokenize('.')
 
             if (getCurrentVariant() == 'Debug') {
-                fourthPart++
+                if (++fourthPart >= 9) {
+                    thirdPart++
+                    fourthPart = 0
+                }
             } else if (getCurrentVariant() == 'Staging') {
                 thirdPart++
                 fourthPart = 0

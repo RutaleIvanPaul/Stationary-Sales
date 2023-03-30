@@ -76,6 +76,11 @@
         <item name="android:background">@drawable/action_button_grey</item>
     </style>
 
+    <style name="NormalStrokeActionButton" parent="NormalActionButton">
+        <item name="android:textColor">@color/ramani_green</item>
+        <item name="android:background">@drawable/action_button_normal_stroke</item>
+    </style>
+
     <style name="CircleActionButton">
         <item name="android:layout_width">27dp</item>
         <item name="android:layout_height">27dp</item>
@@ -243,5 +248,12 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_weight">4</item>
+    </style>
+
+    <style name="CircleCheck">
+        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:src">@drawable/ic_circle_check</item>
+        <item name="android:layout_centerInParent">true</item>
     </style>
 </resources>

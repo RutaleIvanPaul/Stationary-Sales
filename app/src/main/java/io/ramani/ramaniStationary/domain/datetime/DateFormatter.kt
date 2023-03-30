@@ -156,6 +156,10 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         return simpleDateFormat.format(date)
     }
 
+    fun getTimeWithFormmatter(date: Date, formatter: String): String {
+        val simpleDateFormat = SimpleDateFormat(formatter)
+        return simpleDateFormat.format(date)
+    }
 }
 
 
