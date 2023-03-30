@@ -86,4 +86,55 @@
     <string name="total">Total:</string>
     <string name="finish_order">Finish Order</string>
 
+
+    <!-- History -->
+    <string name="print_z_report">Print Z Report</string>
+    <string name="all_orders">All Orders</string>
+    <string name="ready_to_print">Ready to print</string>
+    <string name="print_status">Print Status</string>
+    <string name="not_printed">Not Printed</string>
+    <string name="printed">Printed</string>
+    <string name="view_order">View order</string>
+
+    <string name="check_in">Check-in</string>
+    <string name="check_out">Check-out</string>
+    <string name="order_id">Order ID</string>
+    <string name="order_status">Order Status</string>
+    <string name="saving">Saving...</string>
+
+    <string name="receipt_printed">Receipt\nPrinted</string>
+    <string name="receipt_no_printed">Receipt Not\nPrinted</string>
+
+    <string name="title_total_sales">Total Sales:</string>
+    <string name="title_total_discount">Total Discount:</string>
+    <string name="title_total_orders">Total Orders:</string>
+    <string name="title_total_number_orders">Total Number Of Orders:</string>
+    <string name="title_total_walkin_customers">Total Walkin Customers:</string>
+    <string name="no_activities">No Activities</string>
+
+
+
+    <!-- Order Details -->
+    <string name="more">More</string>
+    <string name="order_delivery">Delivery</string>
+    <string name="order_delivery_status">Status</string>
+    <string name="order_delivery_branch">Branch</string>
+    <string name="order_delivery_eta">ETA</string>
+    <string name="order_detail_items">Items</string>
+    <string name="delivery_status">Delivery Status</string>
+    <string name="delivery_status_delivered">Delivered</string>
+
+    <string name="order_detail_item_quantity">QTY</string>
+    <string name="order_detail_item_total_exclusive_vat">Total Exclusive of VAT</string>
+    <string name="order_detail_item_total_inclusive_vat">Total Cost</string>
+    <string name="order_detail_item_price_category">Price Category</string>
+
+    <string name="dialog_send_receipt_title">Enter receipient phone number</string>
+    <string name="fully_paid">No outstanding payments</string>
+
+    <string name="error_no_tax_info">You do not have Tax Information and cannot print Receipts!</string>
+    <string name="processing_receipt">Processing Receipt please wait...</string>
+    <string name="payment_already_paid">Payment status is already paid</string>
+    <string name="order_already_cancelled">Order already canceled</string>
+
 </resources>

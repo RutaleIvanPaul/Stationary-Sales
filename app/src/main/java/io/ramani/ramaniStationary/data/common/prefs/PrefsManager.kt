@@ -63,7 +63,8 @@ open class PrefsManager(context: Context) : Prefs {
                 .putString(PrefsConstants.PREF_LAST_SYNC_TIME, value).apply()
         }
     override var taxObject: String
-        get() = sharedPrefs.getString(PrefsConstants.PREF_TAX_OBJECT,null)?:""
+        get() =
+            sharedPrefs.getString(PrefsConstants.PREF_TAX_OBJECT,null)?:""
         set(value) {
             sharedPrefs.edit().putString(PrefsConstants.PREF_TAX_OBJECT, value).apply()
         }

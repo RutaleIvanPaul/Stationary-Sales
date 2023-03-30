@@ -8,4 +8,8 @@ data class TaxInformationResponse(
    val TIN: String,
    val VRN: String,
    val NAME: String
-)
+){
+   override fun toString(): String {
+      return super.toString()
+   }
+}

@@ -2,6 +2,7 @@ package io.ramani.ramaniStationary.app.history.presentation
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
@@ -9,13 +10,15 @@ import io.ramani.ramaniStationary.data.history.models.request.GetHistoryRequestM
 import io.ramani.ramaniStationary.data.history.models.request.GetOrderDetailsRequestModel
 import io.ramani.ramaniStationary.data.history.models.request.GetXReportRequestModel
 import io.ramani.ramaniStationary.data.history.models.request.GetZReportRequestModel
+import io.ramani.ramaniStationary.data.history.models.response.Activity
 import io.ramani.ramaniStationary.data.history.models.response.HistoryResponse
 import io.ramani.ramaniStationary.data.history.models.response.OrderDetailsResponse
+import io.ramani.ramaniStationary.data.history.models.response.Summary
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniStationary.domain.history.useCase.GetZreportByRangeUseCase
 import io.ramani.ramaniStationary.domainCore.date.today
 import io.ramani.ramaniStationary.domainCore.date.todayHyphenated
+import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -44,12 +47,32 @@ class HistoryViewModel(
         "December"
     )
 
+    val historyActivityLiveData = MutableLiveData<List<Activity>>()
+    val historySummaryLiveData = MutableLiveData<Summary>()
+    val isThereTaxObject = MutableLiveData<Boolean>()
+    val historyActivityListOriginal = mutableListOf<Activity>()
+
     override fun start(args: Map<String, Any?>) {
+        isThereTaxObject()
         val split = today().split("/")
-        getHistory(split.get(0).toInt(),monthsArray.get(split.get(1).toInt() - 1),split.get(2).toInt())
+        getHistory(
+            split.get(0).toInt(),
+            monthsArray.get(split.get(1).toInt() - 1),
+            split.get(2).toInt()
+        )
         getOrderDetails("lfjcmnm6")
         getZreportByRange(todayHyphenated(), todayHyphenated())
         getXReport(todayHyphenated())
+    }
+
+    fun isThereTaxObject(){
+        sessionManager.getTaxObject().subscribeBy {
+            if (it.isNotNull()){
+                isThereTaxObject.postValue(true)
+            }else{
+                isThereTaxObject.postValue(false)
+            }
+        }
     }
 
     fun getHistory(day: Int, month: String, year: Int) {
@@ -59,6 +82,9 @@ class HistoryViewModel(
                 getHistoryUseCase.getSingle(GetHistoryRequestModel(it.uuid, day, month, year))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
+                historyActivityListOriginal.addAll(it?.activities!!)
+                historyActivityLiveData.postValue(it?.activities!!)
+                historySummaryLiveData.postValue(it?.summary!!)
                 Log.d("History Response", it?.activities.toString())
             }, onError = {
                 isLoadingVisible = false
@@ -66,24 +92,31 @@ class HistoryViewModel(
         }
     }
 
-    fun getOrderDetails(orderId: String){
+    fun getOrderDetails(orderId: String) {
         isLoadingVisible = true
-            val single =
-                getOrderDetailsUseCase.getSingle(GetOrderDetailsRequestModel(orderId))
-            subscribeSingle(single, onSuccess = {
-                isLoadingVisible = false
-                Log.d("History Response", it?.get(0).toString())
-            }, onError = {
-                isLoadingVisible = false
-            })
+        val single =
+            getOrderDetailsUseCase.getSingle(GetOrderDetailsRequestModel(orderId))
+        subscribeSingle(single, onSuccess = {
+            isLoadingVisible = false
+            Log.d("History Response", it?.get(0).toString())
+        }, onError = {
+            isLoadingVisible = false
+        })
     }
 
-    fun getXReport(date: String){
+    fun getXReport(date: String) {
         isLoadingVisible = true
-        sessionManager.getLoggedInUser().subscribeBy {userModel ->
-            sessionManager.getTaxObject(userModel.uuid).subscribeBy {taxInformation ->
+        sessionManager.getLoggedInUser().subscribeBy { userModel ->
+            sessionManager.getTaxObject().subscribeBy { taxInformation ->
                 val single =
-                    getXReportUseCase.getSingle(GetXReportRequestModel(taxInformation.UIN,date ,userModel.name,userModel.companyId))
+                    getXReportUseCase.getSingle(
+                        GetXReportRequestModel(
+                            taxInformation.UIN,
+                            date,
+                            userModel.name,
+                            userModel.companyId
+                        )
+                    )
                 subscribeSingle(single, onSuccess = {
                     isLoadingVisible = false
                     Log.d("History Response", it.toString())
@@ -97,19 +130,19 @@ class HistoryViewModel(
     fun getZreportByRange(
         startDate: String,
         endDate: String
-    ){
+    ) {
         isLoadingVisible = true
-        sessionManager.getLoggedInUser().subscribeBy {userModel ->
-            sessionManager.getTaxObject(userModel.uuid).subscribeBy {taxInformation ->
+        sessionManager.getLoggedInUser().subscribeBy { userModel ->
+            sessionManager.getTaxObject().subscribeBy { taxInformation ->
                 val single =
                     getZreportByRangeUseCase.getSingle(
                         GetZReportRequestModel(
-                        taxInformation.UIN,
-                        userModel.companyId,
-                        startDate,
-                        endDate,
-                        userModel.name
-                    )
+                            taxInformation.UIN,
+                            userModel.companyId,
+                            startDate,
+                            endDate,
+                            userModel.name
+                        )
                     )
                 subscribeSingle(single, onSuccess = {
                     isLoadingVisible = false

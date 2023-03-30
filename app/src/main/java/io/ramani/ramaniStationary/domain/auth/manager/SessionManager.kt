@@ -28,7 +28,7 @@ class SessionManager(
     override fun logout(): Single<Any> =
         authDataSource.logout()
 
-    override fun getTaxObject(userId: String): Single<TaxInformationResponse> =
-        authDataSource.getTaxObject(userId)
+    override fun getTaxObject(): Single<TaxInformationResponse> =
+        authDataSource.getTaxObject()
 
 }

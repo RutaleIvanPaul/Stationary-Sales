@@ -36,4 +36,6 @@
     <color name="white">#ffffff</color>
     <color name="white_30">#1effffff</color>
     <color name="white_50">#32ffffff</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

@@ -9,7 +9,7 @@ class DailySalesStatsRemoteMapper : ModelMapper<DailySalesStatsRemoteModel, Dail
         DailySalesStatsModel.Builder()
             .companyName(from.companyName ?: "")
             .date(from.date ?: "")
-            .totalSales(from.totalSales ?: 0)
+            .totalSales(from.totalSales ?: 0.0)
             .totalOrders(from.totalOrders ?: 0)
             .totalCanceledOrders(from.totalCanceledOrders ?: 0)
             .totalNumberOfCustomers(from.totalNumberOfCustomers ?: 0)

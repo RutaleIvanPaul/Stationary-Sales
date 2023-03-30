@@ -16,6 +16,6 @@ class TaxObjectUseCase(threadExecutor: ThreadExecutor,
     postThreadExecutor
 ) {
     override fun buildUseCaseSingle(params: TaxInformationRequest?): Single<TaxInformationResponse> =
-        authDataSource.getTaxObject(params!!.userId)
+        authDataSource.getTaxObjectOnline(params!!.userId)
 
 }

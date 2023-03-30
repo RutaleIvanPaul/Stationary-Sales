@@ -32,8 +32,12 @@ class AuthRepository(
     override fun refreshAccessToken(token: String): Completable =
         localAuthDataSource.refreshAccessToken(token)
 
-    override fun getTaxObject(userId : String): Single<TaxInformationResponse> {
-        return localAuthDataSource.getTaxObject(userId)
+    override fun getTaxObject(): Single<TaxInformationResponse> {
+        return localAuthDataSource.getTaxObject()
+    }
+
+    override fun getTaxObjectOnline(userId: String): Single<TaxInformationResponse> {
+        return remoteAuthDataSource.getTaxObjectOnline(userId)
     }
 
 

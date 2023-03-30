@@ -33,6 +33,7 @@ class AuthLocalDataSource(
         prefsManager.currentUser = ""
         prefsManager.accessToken = ""
         prefsManager.currentWarehouse = ""
+        prefsManager.taxObject = ""
 
         return Single.just(true)
     }
@@ -42,12 +43,16 @@ class AuthLocalDataSource(
             prefsManager.accessToken = token
         }
 
-    override fun getTaxObject(userId : String): Single<TaxInformationResponse> =
+    override fun getTaxObject(): Single<TaxInformationResponse> =
         if (prefsManager.taxObject.isNullOrBlank()) {
-            Single.just(TaxInformationResponse("","","",0,"","",""))
+            Single.just(null)
         } else {
             Single.just(Gson().fromJson(prefsManager.taxObject, TaxInformationResponse::class.java))
         }
+
+    override fun getTaxObjectOnline(userId: String): Single<TaxInformationResponse> {
+        TODO("Not yet implemented")
+    }
 
 
 }

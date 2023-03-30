@@ -129,7 +129,11 @@ class AuthRemoteDataSource(
         TODO("Not yet implemented")
     }
 
-    override fun getTaxObject(userId : String): Single<TaxInformationResponse> =
+    override fun getTaxObject(): Single<TaxInformationResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTaxObjectOnline(userId : String): Single<TaxInformationResponse> =
         callSingle(authApi.getTaxObject(userId).flatMap {
            if(it.data != null) {
                Single.just(it.data!!)
@@ -174,6 +178,8 @@ class AuthRemoteDataSource(
             }
         }
         )
+
+
 
 
 }

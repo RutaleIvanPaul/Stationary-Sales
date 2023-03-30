@@ -21,6 +21,7 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.stock.models.response.ProductsItem
+import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stock.*
 import org.kodein.di.generic.factory
@@ -117,7 +118,9 @@ class StockFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        search_stock.removeTextChangedListener(searchTextWatcher)
+        if(search_stock.isNotNull()) {
+            search_stock.removeTextChangedListener(searchTextWatcher)
+        }
     }
 
     private fun initSubscribers() {

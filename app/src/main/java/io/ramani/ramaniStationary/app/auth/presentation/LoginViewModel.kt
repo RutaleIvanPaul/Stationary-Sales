@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
@@ -73,7 +74,7 @@ class LoginViewModel(
     fun getTaxObject(uuid: String) {
         val single = taxObjectUseCase.getSingle(TaxInformationRequest(userId = uuid))
         subscribeSingle(single, onSuccess = {
-            prefs.taxObject = it.toString()
+            prefs.taxObject = Gson().toJson(it)
         },onError = {
             notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
         })

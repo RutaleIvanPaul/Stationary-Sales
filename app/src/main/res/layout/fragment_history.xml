@@ -1,15 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/history_main_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.history.presentation.HistoryFragment">
+    android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/history_loader"
+
+    <TextView
+        android:id="@+id/sales_history_date_picker"
+        style="@style/CommonRailwayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_black_outline_white_solid_middle"
+        android:drawableStart="@drawable/ic_calendar"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="20 October 2020"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/sales_history_date_picker_zreport"
+        style="@style/CommonRailwayView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20sp"
+        android:background="@drawable/round_green_action_button"
+        android:gravity="center"
+        android:padding="6dp"
+        android:text="@string/print_z_report"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/sales_history_date_picker_xreport"
+        style="@style/CommonRailwayView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sales_history_date_picker_zreport"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/layout_black_outline_white_solid_middle"
+        android:gravity="center"
+        android:padding="6dp"
+        android:text="Print X Report"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/sales_history_numbers_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sales_history_date_picker"
+        android:layout_marginTop="49dp"
+        android:orientation="vertical">
+
+        <!--Total Sales-->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/total_sales_label"
+                style="@style/ListItemTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_total_sales"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_sales_history_value"
+                style="@style/CommonRailwayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/total_sales_label"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <!--Total discounts-->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/total_discount_label"
+                style="@style/ListItemTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_total_discount"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_discount_value"
+                style="@style/CommonRailwayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="0"
+                android:layout_toEndOf="@+id/total_discount_label"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <!--Total Walkin Customers-->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:id="@+id/total_walkin_label"
+                style="@style/ListItemTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_total_walkin_customers"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_order_value"
+                style="@style/CommonRailwayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/total_walkin_label"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <!-- Filter Buttons -->
+
+    <RelativeLayout
+        android:id="@+id/layout_filter_actions"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/sales_history_numbers_container"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/mid_dark_grey" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/history_filter_all_order_button"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/filter_button_indicator"
+                android:stateListAnimator="@null"
+                android:text="@string/all_orders"
+                android:textAllCaps="false"
+                android:textColor="@color/dark_green" />
+
+            <Button
+                android:id="@+id/history_filter_ready_to_print_button"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:stateListAnimator="@null"
+                android:text="@string/ready_to_print"
+                android:textAllCaps="false"
+                android:textColor="@color/mid_dark_grey" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_filter_actions"
+        android:padding="20dp">
+
+        <!-- Search Bar -->
+
+        <!-- List -->
+
+        <EditText
+            android:id="@+id/search_history"
+            style="@style/SearchTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/rounded_nonsolid_button"
+            android:hint="Search All Orders"
+            android:imeOptions="actionSearch" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sales_history_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/search_history"
+            android:layout_marginTop="10dp" />
+
+
+        <ProgressBar
+            android:id="@+id/sales_history_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/sales_history_no_activities"
+            style="@style/CommonRailwayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_activities"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+</RelativeLayout>
