@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.stock.models.request.AvailableStockRequestModel
 import io.ramani.ramaniStationary.data.stock.models.response.GetRollingStock
@@ -41,6 +42,7 @@ class StockViewModel(
                 }
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }

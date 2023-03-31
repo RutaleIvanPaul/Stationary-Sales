@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.history.models.request.GetHistoryRequestModel
 import io.ramani.ramaniStationary.data.history.models.request.GetOrderDetailsRequestModel
@@ -32,7 +33,7 @@ class HistoryViewModel(
     private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
-    private val monthsArray = arrayOf(
+    val monthsArray = arrayOf(
         "January",
         "February",
         "March",
@@ -88,6 +89,7 @@ class HistoryViewModel(
                 Log.d("History Response", it?.activities.toString())
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
