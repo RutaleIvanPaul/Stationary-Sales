@@ -43,8 +43,14 @@
     <string name="credit">Credit</string>
 
     <string name="last_updated_at">Last updated</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="outstanding">Outstanding</string>
     <string name="refresh">Refresh</string>
+    <string name="spaced_refresh">  Refresh</string>
+
 
     <!-- Create Order -->
     <string name="add_items">Add Items</string>

@@ -57,6 +57,7 @@
 
     <style name="LargeTextLabel" parent="NormalTextLabel">
         <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/raleway_bold</item>
     </style>
 
     <style name="NormalButton" parent="NormalTextLabel">
@@ -122,6 +123,22 @@
         <item name="android:layout_height">28dp</item>
         <item name="android:src">@drawable/ic_delete</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="ListItemTextLabel" parent="NormalTextLabel">
+        <item name="android:textColor">@color/colorNavTextGrey</item>
+    </style>
+
+    <style name="ListItemTextValue" parent="NormalTextLabel">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SearchView">
+        <item name="font">@font/raleway_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:icon">@color/gloss_red</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CalendarButton" parent="@style/LargeTextLabel">
