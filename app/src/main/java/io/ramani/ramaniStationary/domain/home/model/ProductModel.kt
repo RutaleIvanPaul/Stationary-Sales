@@ -24,12 +24,24 @@ data class ProductModel(
     var supplierId: String = "",
     var supplierProductId: String = "",
     var externalId: String = "",
+) : Parcelable {
 
     @Ignore
-    var selectedUnit: String = units,
+    var selectedUnit: String = units
+        get() = field.ifEmpty { units }
+
     @Ignore
-    var quantity: Int = 0
-) : Parcelable {
+    var selectedQuantity: Int = 0
+
+    @Ignore
+    var selectedPriceCategory: ProductCategoryModel? = ProductCategoryModel()
+        get() = if (field?.name.isNullOrEmpty()) productCategories.first() else field
+
+    fun clearParams() {
+        selectedQuantity = 0
+        selectedUnit = units
+        selectedPriceCategory = null
+    }
 
     class Builder : IBuilder<ProductModel> {
         private var id: String = ""

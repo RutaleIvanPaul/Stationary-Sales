@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_rectangle"
+        android:orientation="vertical"
+        android:padding="@dimen/_12sdp">
+
+        <TextView
+            style="@style/BoldLargeTextLabel"
+            android:text="@string/price_discount" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_rectangle_grey_fill"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/dialog_discount_custom_button"
+                style="@style/BoldTextLabel"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_rectangle_small_radius"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/custom" />
+
+            <TextView
+                android:id="@+id/dialog_discount_predefined_button"
+                style="@style/BoldTextLabel"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/predefined" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <!-- Custom -->
+
+            <LinearLayout
+                android:id="@+id/dialog_discount_custom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <com.skydoves.powerspinner.PowerSpinnerView
+                        android:id="@+id/dialog_discount_spinner"
+                        style="@style/CustomSpinner"
+                        android:textSize="16sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5" />
+
+                    <EditText
+                        android:id="@+id/dialog_discount_amount_field"
+                        style="@style/NormalTextField"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberSigned"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:text="0"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        style="@style/NormalTextLabel"
+                        android:layout_centerVertical="true"
+                        android:text="@string/original_price" />
+
+                    <TextView
+                        android:id="@+id/dialog_discount_original_price"
+                        style="@style/NormalTextLabel"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="TSH 5,000.00" />
+                </RelativeLayout>
+
+                <View
+                    style="@style/Separator"
+                    android:layout_height="0.7dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        style="@style/NormalTextLabel"
+                        android:layout_centerVertical="true"
+                        android:text="@string/new_price" />
+
+                    <TextView
+                        android:id="@+id/dialog_discount_new_price"
+                        style="@style/NormalTextLabel"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="TSH 5,000.00" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- Predefined -->
+
+            <RadioGroup
+                android:id="@+id/dialog_discount_predefined_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <RadioButton
+                    android:id="@+id/dialog_discount_predefined_half_price"
+                    style="@style/NormalRadioButton"
+                    android:checked="true"
+                    android:text="@string/half_price" />
+
+                <View
+                    style="@style/Separator"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp" />
+
+                <RadioButton
+                    android:id="@+id/dialog_discount_predefined_back_to_school_discount"
+                    style="@style/NormalRadioButton"
+                    android:checked="true"
+                    android:text="@string/back_to_school_discount" />
+
+                <View
+                    style="@style/Separator"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp" />
+
+                <RadioButton
+                    android:id="@+id/dialog_discount_predefined_black_friday"
+                    style="@style/NormalRadioButton"
+                    android:checked="true"
+                    android:text="@string/black_friday" />
+
+            </RadioGroup>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dialog_discount_okay"
+            style="@style/NormalActionButton"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/okay" />
+    </LinearLayout>
+</LinearLayout>

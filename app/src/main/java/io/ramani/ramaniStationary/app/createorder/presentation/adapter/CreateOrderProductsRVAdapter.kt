@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.skydoves.powerspinner.PowerSpinnerView
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.loadImage
+import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODEL
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import java.text.NumberFormat
@@ -27,7 +28,7 @@ class CreateOrderProductsRVAdapter(
 
             setText(R.id.item_product_add_name, item.name)
             setText(R.id.item_product_add_price, String.format("Tsh %s", NumberFormat.getNumberInstance(Locale.US).format(price)))
-            setText(R.id.item_product_quantity, item.quantity.toString())
+            setText(R.id.item_product_quantity, item.selectedQuantity.toString())
 
             getView<ImageView>(R.id.item_product_add_imageview).loadImage(item.imagePath, R.mipmap.ic_holder, R.mipmap.ic_holder)
 

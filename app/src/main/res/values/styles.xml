@@ -65,7 +65,7 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="NormalActionButton" parent="LargeTextLabel">
+    <style name="NormalActionButton" parent="BoldLargeTextLabel">
         <item name="android:layout_width">106dp</item>
         <item name="android:height">38dp</item>
         <item name="android:textColor">@color/white</item>
@@ -75,6 +75,11 @@
 
     <style name="GreyActionButton" parent="NormalActionButton">
         <item name="android:background">@drawable/action_button_grey</item>
+    </style>
+
+    <style name="NormalStrokeActionButton" parent="NormalActionButton">
+        <item name="android:textColor">@color/ramani_green</item>
+        <item name="android:background">@drawable/action_button_normal_stroke</item>
     </style>
 
     <style name="CircleActionButton">
@@ -113,6 +118,13 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="DeleteButton">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:src">@drawable/ic_delete</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
     <style name="ListItemTextLabel" parent="NormalTextLabel">
         <item name="android:textColor">@color/colorNavTextGrey</item>
     </style>
@@ -128,6 +140,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">0.02</item>
     </style>
+
     <style name="CalendarButton" parent="@style/LargeTextLabel">
         <item name="android:drawableStart">@drawable/ic_calendar</item>
         <item name="android:text">30 Jan 2022</item>
@@ -183,6 +196,11 @@
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textColorHint">@color/colorNavTextGrey</item>
+    </style>
+
+    <style name="NormalRadioButton" parent="NormalTextLabel">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:buttonTint">@color/ramani_green</item>
     </style>
 
     <!-- Home -->
@@ -242,4 +260,17 @@
         <item name="spinner_popup_elevation">14dp</item>
     </style>
 
+    <!-- Checkout -->
+    <style name="CheckoutPropertyItem" parent="BoldTextLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_weight">4</item>
+    </style>
+
+    <style name="CircleCheck">
+        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:src">@drawable/ic_circle_check</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
 </resources>

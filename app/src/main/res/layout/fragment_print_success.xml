@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingTop="20dp">
+
+    <ImageView
+        android:id="@+id/fragment_order_complete_checkmark"
+        style="@style/CircleCheck" />
+
+    <TextView
+        style="@style/BoldHugeTextLabel"
+        android:layout_marginTop="20dp"
+        android:text="@string/printing_successful" />
+
+    <TextView
+        style="@style/NormalTextLabel"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:text="@string/printing_successful_message" />
+
+    <TextView
+        android:id="@+id/fragment_print_successful_okay"
+        style="@style/NormalActionButton"
+        android:layout_width="260dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/okay" />
+
+</LinearLayout>
