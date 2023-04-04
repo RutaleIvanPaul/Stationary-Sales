@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".app.orderdetails.presentation.OrderDetailsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/sales_history_numbers_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="49dp"
+            android:orientation="vertical">
+
+            <View style="@style/Separator" />
+
+            <!--Summary-->
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/order_id_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_id"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/order_id_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/order_id_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/order_date_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_date"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/order_date_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/order_date_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/order_status_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_status"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/order_status_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/order_status_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/print_status_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/print_status"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/print_status_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/print_status_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <View style="@style/Separator" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_details_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <View style="@style/Separator" />
+
+        <LinearLayout
+            android:id="@+id/sales_history_totals_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View style="@style/Separator" />
+
+            <!--Summary-->
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/subtotal_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/subtotal"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/subtotal_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/subtotal_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/discount_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/discount"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/discount_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/discount_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/totalvat_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_vat"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/totalvat_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/totalvat_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <View style="@style/Separator" />
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/total_label"
+                    style="@style/ListItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/total_value"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/total_label"
+                    android:text="9"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+
+            <View style="@style/Separator" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/print_receipt_orderdetails"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/action_button_normal_dark"
+            android:paddingStart="13dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="13dp"
+            android:paddingBottom="8dp"
+            android:text="@string/print_receipt"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,13 +1,9 @@
 package io.ramani.ramaniStationary.app.history.presentation
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +17,8 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingle
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.app.home.flow.HomeFlow
+import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
 import io.ramani.ramaniStationary.data.history.models.response.Activity
 import io.ramani.ramaniStationary.domainCore.date.today
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
@@ -42,9 +40,11 @@ class HistoryFragment() : BaseFragment() {
 
     private var zReportPopupMenuWindow: PopupWindow? = null
 
-    private val zReportSelectDateDialog: Dialog = Dialog(requireContext())
-    private var zReportCustomStartDate: Date? = null
-    private  var zReportCustomEndDate:Date? = null
+//    private val zReportSelectDateDialog: Dialog = Dialog(requireContext())
+//    private var zReportCustomStartDate: Date? = null
+//    private  var zReportCustomEndDate:Date? = null
+
+    private lateinit var flow: HomeFlow
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +52,6 @@ class HistoryFragment() : BaseFragment() {
         viewModel = viewModelProvider(this)
         viewModel.start()
         setToolbarTitle("Sales History")
-        historyRVAdapter = HistoryRVAdapter(activityHistoryList, onItemClick = {})
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -95,7 +94,14 @@ class HistoryFragment() : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         sales_history_rv.layoutManager = LinearLayoutManager(requireContext())
+
+        historyRVAdapter = HistoryRVAdapter(activityHistoryList, onItemClick = {
+            flow.openOrderDetails(it)
+        })
+
         sales_history_rv.adapter = historyRVAdapter
+
+        flow = HomeFlowController(baseActivity!!, R.id.main_fragment_container)
         val customView = layoutInflater.inflate(R.layout.layout_menu_zreport, null)
         zReportPopupMenuWindow =
             PopupWindow(customView, 630, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
@@ -391,8 +397,9 @@ class HistoryFragment() : BaseFragment() {
 
         viewModel.isThereTaxObject.observe(this) {
             if (it) {
-                sales_history_date_picker_zreport.setOnSingleClickListener {
+                sales_history_print_zreport.setOnSingleClickListener {
                     //print Z report
+                    zReportPopupMenuWindow?.showAsDropDown(it,0,5)
 
                 }
                 sales_history_date_picker_xreport.setOnSingleClickListener {
@@ -400,7 +407,7 @@ class HistoryFragment() : BaseFragment() {
                     viewModel.printXreport()
                 }
             } else {
-                sales_history_date_picker_zreport.setOnSingleClickListener {
+                sales_history_print_zreport.setOnSingleClickListener {
                     //cannot print Z report
                     showError("Cannot Print Z Report. No Tax Information")
                 }

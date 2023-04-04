@@ -135,7 +135,6 @@
     <string name="printer_opened">Printer Opened</string>
 
 
-
     <!-- Order Details -->
     <string name="more">More</string>
     <string name="order_delivery">Delivery</string>
@@ -158,5 +157,6 @@
     <string name="processing_receipt">Processing Receipt please wait...</string>
     <string name="payment_already_paid">Payment status is already paid</string>
     <string name="order_already_cancelled">Order already canceled</string>
+    <string name="print_receipt">Print Receipt</string>
 
 </resources>

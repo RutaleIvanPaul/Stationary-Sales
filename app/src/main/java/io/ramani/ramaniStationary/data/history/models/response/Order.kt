@@ -15,5 +15,5 @@ data class Order(
     val paymentStatus: String = "",
     val payments: List<Any> = listOf(),
     val qtyRewardItems: List<Any> = listOf(),
-    val totalCost: Int = 0
+    val totalCost: Double = 0.0
 )

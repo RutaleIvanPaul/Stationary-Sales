@@ -15,4 +15,6 @@ interface HomeFlow {
     fun openCreateMerchant()
 
     fun onBackPressed()
+
+    fun openOrderDetails(orderID: String)
 }

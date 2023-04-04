@@ -6,6 +6,7 @@ import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniStationary.data.entities.BaseResponse
 import io.ramani.ramaniStationary.data.history.models.response.HistoryResponse
 import io.ramani.ramaniStationary.data.history.models.response.OrderDetailsResponse
+import io.ramani.ramaniStationary.data.history.models.response.TRAReceipt
 import io.ramani.ramaniStationary.domain.base.exceptions.ItemNotFoundException
 import io.ramani.ramaniStationary.domain.entities.BaseErrorResponse
 import io.ramani.ramaniStationary.domain.entities.exceptions.AccountNotActiveException
@@ -162,6 +163,12 @@ class HistoryRemoteDataSource(
         year: Int
     ): Single<HistoryResponse?> = callSingle(
         historyApi.getHistory(userId,day,month,year).flatMap {
+            Single.just(it.data)
+        }
+    )
+
+    override fun getReceipt(id: String, uin: String, sellerName: String): Single<TRAReceipt>  = callSingle(
+        historyApi.getPrintableReceipt(id, uin, sellerName).flatMap {
             Single.just(it.data)
         }
     )

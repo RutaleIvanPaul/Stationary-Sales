@@ -21,6 +21,7 @@ val historyModule = Kodein.Module("historyModule"){
                 instance("GetZreportByRangeUseCase"),
                 instance("GetXReportUseCase"),
                 instance("GetOrderDetailsUseCase"),
+                instance("GetReceiptUseCase"),
                 instance(),
                 instance()
             )

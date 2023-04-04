@@ -24,7 +24,7 @@
         android:textSize="15sp" />
 
     <TextView
-        android:id="@+id/sales_history_date_picker_zreport"
+        android:id="@+id/sales_history_print_zreport"
         style="@style/CommonRailwayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         style="@style/CommonRailwayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sales_history_date_picker_zreport"
+        android:layout_below="@+id/sales_history_print_zreport"
         android:layout_alignParentRight="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
