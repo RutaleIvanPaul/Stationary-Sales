@@ -202,7 +202,7 @@ class CheckoutFragment : BaseFragment() {
     private fun updateUI() {
         val totalPrice = CREATE_ORDER_MODEL.getTotalOrderedPrice()
         val totalDiscount = 0.0
-        val totalVat = CREATE_ORDER_MODEL.getTotalVat()
+        val totalVat = CREATE_ORDER_MODEL.getTotalVat(viewModel.taxInformation)
         val total = totalPrice - totalDiscount + totalVat
 
         checkout_subtotal.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalPrice))

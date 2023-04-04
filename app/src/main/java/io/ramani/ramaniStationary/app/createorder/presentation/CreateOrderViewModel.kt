@@ -65,6 +65,9 @@ class CreateOrderViewModel(
 
     val onSaleSubmittedLiveData = SingleLiveEvent<Boolean>()
 
+    val taxInformation: TaxInformationModel
+        get() = prefs.taxInformation
+
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
         sessionManager.getLoggedInUser().subscribeBy {

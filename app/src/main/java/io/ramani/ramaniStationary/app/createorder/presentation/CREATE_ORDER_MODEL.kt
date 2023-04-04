@@ -7,6 +7,7 @@ import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestMod
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
+import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import java.util.*
 
@@ -58,7 +59,7 @@ class CREATE_ORDER_MODEL {
             onOrderedProductsUpdatedLiveData.postValue(true)
         }
 
-        fun canFinishOrder(): Boolean = productsToBeOrdered.isNotEmpty() && (customer != null)
+        fun canFinishOrder(): Boolean = productsToBeOrdered.isNotEmpty() // && (customer != null)
         fun findProduct(product: ProductModel): ProductModel? {
             val plist = productsToBeOrdered.filter { _p -> _p.id == product.id }
             return if (plist.isNotEmpty()) plist.first() else null
@@ -75,8 +76,20 @@ class CREATE_ORDER_MODEL {
             return totalPrice.toInt()
         }
 
-        fun getTotalVat(): Double {
+        fun getTotalVat(taxInformation: TaxInformationModel): Double {
             var vat = 0.0
+
+            productsToBeOrdered.forEach {
+                val price = it.selectedPriceCategory?.unitPrice ?: 0.0
+                val item_cost = it.selectedQuantity * price
+
+                if (it.vatCategory != "E") {
+                    if (!taxInformation.isVRNNotRegistered()) {
+                        //User's VRN is registered
+                        vat += 0.18 * item_cost / 1.18
+                    }
+                }
+            }
 
             return vat
         }
