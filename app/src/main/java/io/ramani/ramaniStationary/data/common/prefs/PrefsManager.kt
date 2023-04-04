@@ -2,6 +2,10 @@ package io.ramani.ramaniStationary.data.common.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODEL
+import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
+import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
 import io.ramani.ramaniStationary.domainCore.prefs.Prefs
 
 /**
@@ -61,6 +65,16 @@ open class PrefsManager(context: Context) : Prefs {
         set(value) {
             sharedPrefs.edit()
                 .putString(PrefsConstants.PREF_LAST_SYNC_TIME, value).apply()
+        }
+
+    override var taxInformation: TaxInformationModel
+        get() {
+            val taxInformationString = sharedPrefs.getString(PrefsConstants.PREF_TAX_INFORMATION, null) ?: ""
+            return if (taxInformationString.isNotEmpty()) Gson().fromJson(taxInformationString, TaxInformationModel::class.java) else TaxInformationModel()
+        }
+        set(value) {
+            val taxInformationString = value.toJson()
+            sharedPrefs.edit().putString(PrefsConstants.PREF_TAX_INFORMATION, taxInformationString).apply()
         }
 
     private fun contains(key: String) = sharedPrefs.contains(key)

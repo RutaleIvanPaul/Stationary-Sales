@@ -1,5 +1,7 @@
 package io.ramani.ramaniStationary.domainCore.prefs
 
+import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
+
 
 /**
  * Created by Amr on 10/5/17.
@@ -13,4 +15,5 @@ interface Prefs {
     var accountType: String
     var timeZone: String
     var lastSyncTime: String
+    var taxInformation: TaxInformationModel
 }

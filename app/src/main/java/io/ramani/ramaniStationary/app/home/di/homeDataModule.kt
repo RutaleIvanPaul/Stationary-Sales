@@ -36,6 +36,7 @@ val homeDataModule = Kodein.Module("homeDataModule") {
             instance(),
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }
@@ -77,5 +78,10 @@ val homeDataModule = Kodein.Module("homeDataModule") {
 
     bind<ModelMapper<MerchantMemberRemoteModel, MerchantMemberModel>>() with provider {
         MerchantMemberRemoteMapper()
+    }
+
+    // Get tax information per user id
+    bind<ModelMapper<TaxInformationRemoteModel, TaxInformationModel>>() with provider {
+        TaxInformationRemoteMapper()
     }
 }

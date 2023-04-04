@@ -6,7 +6,6 @@ import io.ramani.ramaniStationary.data.createorder.models.request.SaleOrderModel
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
-import io.ramani.ramaniStationary.domain.home.model.ProductCategoryModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import java.util.*
@@ -124,7 +123,8 @@ class CREATE_ORDER_MODEL {
                 customerTinNumber,
                 customerVrnNumber,
                 listOf(order),
-                ""
+                "",
+                totalCost = getTotalOrderedPrice()
             )
 
             // Save as json

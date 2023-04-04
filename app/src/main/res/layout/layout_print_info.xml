@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/print_scrollview"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/order_complete_printing_contents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/NormalTextLabel"
+            android:text="**** Start of legal receipt ****" />
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="15dp"
+            android:text="MKWAWA SUPPLIERS LTD" />
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="5dp"
+            android:text="P O BOX 16860" />
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="5dp"
+            android:text="DAR ES SALAAM" />
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="5dp"
+            android:text="TANZANIA" />
+
+        <!-- TIN -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="TIN" />
+
+            <TextView
+                android:id="@+id/print_info_tin_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="130786693" />
+
+        </RelativeLayout>
+
+        <!-- VRN -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="VRN" />
+
+            <TextView
+                android:id="@+id/print_info_vrn_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="*NOTREGISTERED*" />
+
+        </RelativeLayout>
+
+        <!-- UNI -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="UNI:" />
+
+            <TextView
+                android:id="@+id/print_info_uni_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="01133F\nILALA" />
+
+        </RelativeLayout>
+
+        <!-- Receipt Number -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="RECEIPT\nNUMBER :" />
+
+            <TextView
+                android:id="@+id/print_info_receipt_number_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="0022/  001583" />
+
+        </RelativeLayout>
+
+        <!-- Product List -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/print_info_items_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:nestedScrollingEnabled="false"
+            android:scrollbars="none" />
+
+        <!-- Sub total -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="SUB\nTOTAL" />
+
+            <TextView
+                android:id="@+id/print_info_sub_total_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="61,000.00 A" />
+
+        </RelativeLayout>
+
+        <!-- Total -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:text="TOTAL" />
+
+            <TextView
+                android:id="@+id/print_info_total_tv"
+                style="@style/BoldTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="TSH 61,000.00" />
+
+        </RelativeLayout>
+
+        <!-- Cash -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="CASH:" />
+
+            <TextView
+                android:id="@+id/print_info_cash_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="61,000" />
+
+        </RelativeLayout>
+
+        <!-- Items Number -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="ITEMS NUMBER :" />
+
+            <TextView
+                android:id="@+id/print_info_items_number_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="1" />
+
+        </RelativeLayout>
+
+        <!-- Date -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="DATE :" />
+
+            <TextView
+                android:id="@+id/print_info_date_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="29-07-2017" />
+
+        </RelativeLayout>
+
+        <!-- Time -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:text="TIME :" />
+
+            <TextView
+                android:id="@+id/print_info_time_tv"
+                style="@style/NormalTextLabel"
+                android:layout_alignParentEnd="true"
+                android:text="13:24:45" />
+
+        </RelativeLayout>
+
+        <TextView
+            style="@style/NormalTextLabel"
+            android:layout_marginTop="25dp"
+            android:text="**** END OF LEGAL RECEIPT ****" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

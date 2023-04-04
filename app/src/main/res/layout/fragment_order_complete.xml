@@ -49,4 +49,9 @@
         android:layout_marginBottom="20dp"
         android:text="@string/print_receipt" />
 
+    <!-- Printing Contents -->
+
+    <include
+        layout="@layout/layout_print_info"
+        android:visibility="gone" />
 </RelativeLayout>

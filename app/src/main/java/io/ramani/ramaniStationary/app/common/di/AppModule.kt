@@ -28,4 +28,6 @@ val appModule = Kodein.Module("appModule") {
     import(stockModule)
 
     import(createOrderModule)
+
+    import(printerHelperModule)
 }

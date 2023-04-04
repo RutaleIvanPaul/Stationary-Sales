@@ -13,4 +13,6 @@ object PrefsConstants {
     const val PREF_ACCOUNT_TYPE = "account_type"
     const val PREF_TIMEZONE = "timezone"
     const val PREF_LAST_SYNC_TIME = "last_sync_time"
+
+    const val PREF_TAX_INFORMATION = "tax_information"
 }
