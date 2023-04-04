@@ -1,12 +1,14 @@
 package io.ramani.ramaniStationary.app.history.presentation
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.history.models.request.GetHistoryRequestModel
 import io.ramani.ramaniStationary.data.history.models.request.GetOrderDetailsRequestModel
 import io.ramani.ramaniStationary.data.history.models.request.GetXReportRequestModel
@@ -17,10 +19,10 @@ import io.ramani.ramaniStationary.data.history.models.response.OrderDetailsRespo
 import io.ramani.ramaniStationary.data.history.models.response.Summary
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniStationary.domainCore.date.today
-import io.ramani.ramaniStationary.domainCore.date.todayHyphenated
+import io.ramani.ramaniStationary.domainCore.date.*
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniStationary.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
 class HistoryViewModel(
@@ -30,7 +32,9 @@ class HistoryViewModel(
     private val getHistoryUseCase: BaseSingleUseCase<HistoryResponse?, GetHistoryRequestModel>,
     private val getZreportByRangeUseCase: BaseSingleUseCase<String?, GetZReportRequestModel>,
     private val getXReportUseCase: BaseSingleUseCase<String?, GetXReportRequestModel>,
-    private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>
+    private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>,
+    private val prefs: PrefsManager,
+    private val printerHelper: PrinterHelper
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     val monthsArray = arrayOf(
@@ -48,6 +52,8 @@ class HistoryViewModel(
         "December"
     )
 
+    var currency = prefs.currency
+
     val historyActivityLiveData = MutableLiveData<List<Activity>>()
     val historySummaryLiveData = MutableLiveData<Summary>()
     val isThereTaxObject = MutableLiveData<Boolean>()
@@ -62,8 +68,30 @@ class HistoryViewModel(
             split.get(2).toInt()
         )
         getOrderDetails("lfjcmnm6")
-        getZreportByRange(todayHyphenated(), todayHyphenated())
+    }
+
+
+    fun printText(receiptText:String){
+        val printText = printerHelper.printText(receiptText)
+        if(!printText.status){
+            notifyErrorObserver(printText.error, PresentationError.ERROR_TEXT)
+        }
+    }
+
+    fun printXreport(){
         getXReport(todayHyphenated())
+    }
+
+    fun printZreportToday(){
+        getZreportByRange(todayHyphenated(), todayHyphenated())
+    }
+
+    fun printZreportYesterday() {
+        getZreportByRange(getDateYesterDay(), getDateYesterDay())
+    }
+
+    fun printZreportLastMonth(){
+        getZreportByRange(getDateLastMonthStart(), getDateLastMonthEnd())
     }
 
     fun isThereTaxObject(){
@@ -121,7 +149,7 @@ class HistoryViewModel(
                     )
                 subscribeSingle(single, onSuccess = {
                     isLoadingVisible = false
-                    Log.d("History Response", it.toString())
+                    printText(it.toString())
                 }, onError = {
                     isLoadingVisible = false
                 })
@@ -148,13 +176,14 @@ class HistoryViewModel(
                     )
                 subscribeSingle(single, onSuccess = {
                     isLoadingVisible = false
-                    Log.d("History Response", it.toString())
+                    printText(it.toString())
                 }, onError = {
                     isLoadingVisible = false
                 })
             }
         }
     }
+
 
 
     class Factory(
@@ -164,7 +193,9 @@ class HistoryViewModel(
         private val getHistoryUseCase: BaseSingleUseCase<HistoryResponse?, GetHistoryRequestModel>,
         private val getZreportByRangeUseCase: BaseSingleUseCase<String?, GetZReportRequestModel>,
         private val getXReportUseCase: BaseSingleUseCase<String?, GetXReportRequestModel>,
-        private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>
+        private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>,
+        private val prefs: PrefsManager,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
@@ -175,7 +206,9 @@ class HistoryViewModel(
                     getHistoryUseCase,
                     getZreportByRangeUseCase,
                     getXReportUseCase,
-                    getOrderDetailsUseCase
+                    getOrderDetailsUseCase,
+                    prefs,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

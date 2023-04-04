@@ -112,6 +112,28 @@
     <string name="title_total_walkin_customers">Total Walkin Customers:</string>
     <string name="no_activities">No Activities</string>
 
+    <string name="today_stylized"><font color='black'><b>Today</b></font>&#xA0;<font color='#4eaff5'>(Leo)</font></string>
+    <string name="yesterday_stylized"><font color='black'><b>Yesterday</b></font>&#xA0;<font color='#4eaff5'>(Jana)</font></string>
+    <string name="last_month_stylized"><font color='black'><b>Last Month</b></font>&#xA0;<font color='#4eaff5'>(Mwezi uliopita)</font></string>
+    <string name="selected_date_stylized"><font color='black'><b>Selected Date</b></font>&#xA0;<font color='#4eaff5'>(Chagua tarehe)</font></string>
+
+    <string name="custom_z_report">Custom Z Report</string>
+    <string name="custom_z_report_hint">Select a date range to print your Z Report</string>
+    <string name="confirm_and_print">Confirm and Print</string>
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="select_start_date">Select start date</string>
+    <string name="select_end_date">Select end date</string>
+    <string name="printing_successful">Printing Successful</string>
+    <string name="printing_successful_message">Your Z Report has been printed\nsuccessfully</string>
+    <string name="okay">Okay</string>
+    <string name="warning_select_start_date">Please select start date.</string>
+    <string name="warning_future_date">The start date should be past day.</string>
+    <string name="warning_date_validation">The start date should be earlier than end date.</string>
+
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+
 
 
     <!-- Order Details -->

@@ -69,6 +69,13 @@ open class PrefsManager(context: Context) : Prefs {
             sharedPrefs.edit().putString(PrefsConstants.PREF_TAX_OBJECT, value).apply()
         }
 
+    override var currency: String
+        get() =
+            sharedPrefs.getString(PrefsConstants.PREF_CURRENCY,null)?:""
+        set(value) {
+            sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENCY, value).apply()
+        }
+
     private fun contains(key: String) = sharedPrefs.contains(key)
 
     private fun containsAndHasValue(key: String) =

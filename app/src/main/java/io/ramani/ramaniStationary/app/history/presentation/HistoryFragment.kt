@@ -1,15 +1,17 @@
 package io.ramani.ramaniStationary.app.history.presentation
 
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +26,7 @@ import io.ramani.ramaniStationary.domainCore.date.today
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_history.*
 import org.kodein.di.generic.factory
-import java.util.Calendar
+import java.util.*
 
 class HistoryFragment() : BaseFragment() {
 
@@ -37,6 +39,12 @@ class HistoryFragment() : BaseFragment() {
     private val activityHistoryList = mutableListOf<Activity>()
 
     private var isAllOrdersSelected = true
+
+    private var zReportPopupMenuWindow: PopupWindow? = null
+
+    private val zReportSelectDateDialog: Dialog = Dialog(requireContext())
+    private var zReportCustomStartDate: Date? = null
+    private  var zReportCustomEndDate:Date? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,9 +96,164 @@ class HistoryFragment() : BaseFragment() {
         super.initView(view)
         sales_history_rv.layoutManager = LinearLayoutManager(requireContext())
         sales_history_rv.adapter = historyRVAdapter
+        val customView = layoutInflater.inflate(R.layout.layout_menu_zreport, null)
+        zReportPopupMenuWindow =
+            PopupWindow(customView, 630, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
+
+        customView.findViewById<View>(R.id.menu_zreport_today).setOnClickListener { view: View? ->
+            zReportPopupMenuWindow!!.dismiss()
+            viewModel.printZreportToday()
+        }
+
+        customView.findViewById<View>(R.id.menu_zreport_yesterday)
+            .setOnClickListener { view: View? ->
+                zReportPopupMenuWindow!!.dismiss()
+                viewModel.printZreportYesterday()
+            }
+
+        customView.findViewById<View>(R.id.menu_zreport_last_month)
+            .setOnClickListener { view: View? ->
+                zReportPopupMenuWindow!!.dismiss()
+                viewModel.printZreportLastMonth()
+            }
+
+        customView.findViewById<View>(R.id.menu_zreport_selected_date)
+            .setOnClickListener { view: View? ->
+                zReportPopupMenuWindow!!.dismiss()
+
+//                showCustomZReportPopup()
+            }
         initSubscribers()
         initListeners()
     }
+
+//    private fun showCustomZReportPopup() {
+//        zReportCustomStartDate = null
+//        zReportCustomEndDate = null
+//        (zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_start_date_label) as TextView).text =
+//            ""
+//        (zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_end_date_label) as TextView).text =
+//            ""
+//        updateZReportCustomValidate()
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_progress).visibility =
+//            View.GONE
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_successful_layout).visibility =
+//            View.GONE
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_main_layout).visibility =
+//            View.VISIBLE
+//        zReportSelectDateDialog.show()
+//    }
+
+//    private fun updateZReportCustomValidate() {
+//        val enableToConfirm = zReportCustomStartDate != null && zReportCustomEndDate != null
+//        val confirmButton =
+//            zReportSelectDateDialog.findViewById<Button>(R.id.zreport_custom_confirm_button)
+//        confirmButton.isEnabled = enableToConfirm
+//    }
+
+//    private fun initCustomZReportPopup() {
+//        zReportSelectDateDialog.setContentView(R.layout.dialogue_zreport_select_date)
+//        zReportSelectDateDialog.getWindow()!!
+//            .setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        zReportSelectDateDialog.setCancelable(false)
+//        //zReportSelectDateDialog.getWindow().setGravity(Gravity.TOP);
+//        val wmlp = zReportSelectDateDialog.getWindow()!!.attributes
+//        wmlp.gravity = Gravity.CENTER
+//        wmlp.y = 0 //y position
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_close_button)
+//            .setOnClickListener { v: View? -> zReportSelectDateDialog.dismiss() }
+//        if (zReportCustomStartDate == null) zReportCustomStartDate = Date()
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_start_date_pick_layout)
+//            .setOnClickListener { v: View? ->
+//                // Show date picker
+//                val popup: Dialog = DatePickDialogWithTitle(
+//                    requireContext(),
+//                    R.string.select_start_date,
+//                    true,
+//                    zReportCustomStartDate
+//                ){
+//                        date ->
+//                    // If date is not past day including today, then it'll be ignored
+//                    val differenceInMiliseconds: Long =
+//                        Date().time - date.getTime()
+//                    if (differenceInMiliseconds < 0 || Helpers.getYYYYMMdd(date)
+//                            .equals(Helpers.getYYYYMMdd(Date()))
+//                    ) {
+//                        Toast.makeText(
+//                            this,
+//                            R.string.warning_future_date,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        return@label
+//                    }
+//                    if (zReportCustomEndDate != null && !date.before(zReportCustomEndDate)) {
+//                        Toast.makeText(
+//                            this,
+//                            R.string.warning_date_validation,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        return@label
+//                    }
+//                    zReportCustomStartDate = date
+//                    val textView =
+//                        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_start_date_label) as TextView
+//                    textView.setText(Helpers.getddMMMyyyy(zReportCustomStartDate))
+//                    textView.setTextColor(Color.BLACK)
+//
+//                    // Check validation
+//                    updateZReportCustomValidate()
+//                }
+//                popup.show()
+//            }
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_end_date_pick_layout)
+//            .setOnClickListener { v: View? ->
+//                // Show date picker
+//                if (zReportCustomStartDate == null) {
+//                    Toast.makeText(
+//                        this,
+//                        R.string.warning_select_start_date,
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    return@setOnClickListener
+//                }
+//                val popup: Dialog = DatePickDialogWithTitle(
+//                    this@DaySalesActivityHistoryMainActivity,
+//                    R.string.select_end_date,
+//                    true,
+//                    zReportCustomEndDate
+//                ) label@{ date ->
+//                    if (!zReportCustomStartDate.before(date)) {
+//                        Toast.makeText(
+//                            this,
+//                            R.string.warning_date_validation,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        return@label
+//                    }
+//                    zReportCustomEndDate = date
+//                    val textView =
+//                        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_end_date_label) as TextView
+//                    textView.setText(Helpers.getddMMMyyyy(zReportCustomEndDate))
+//                    textView.setTextColor(Color.BLACK)
+//
+//                    // Check validation
+//                    updateZReportCustomValidate()
+//                }
+//                popup.show()
+//            }
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_confirm_button)
+//            .setOnClickListener { v: View? ->
+//                if (zReportCustomStartDate == null || zReportCustomEndDate == null) return@setOnClickListener
+//                val startDate: String = Helpers.getYYYYMMdd(zReportCustomStartDate)
+//                val endDate: String = Helpers.getYYYYMMdd(zReportCustomEndDate)
+//                zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_progress).visibility =
+//                    View.VISIBLE
+//                tryToFlushSalesActivitiesInQueue()
+//                processFamocoZreportByRange(startDate, endDate)
+//            }
+//        zReportSelectDateDialog.findViewById<View>(R.id.zreport_custom_successful_confirm_button)
+//            .setOnClickListener { v: View? -> zReportSelectDateDialog.dismiss() }
+//    }
 
     private fun initListeners() {
 
@@ -221,7 +384,8 @@ class HistoryFragment() : BaseFragment() {
         }
 
         viewModel.historySummaryLiveData.observe(this) {
-            total_sales_history_value.setText(it.totalSpend.toString())
+            total_sales_history_value.setText(String.format("%s %s",it.totalSpend.toString(),viewModel.currency))
+            total_discount_value.setText(String.format("%s %s", it.totalDiscountValue, viewModel.currency))
             total_order_value.setText(it.numOrders.toString())
         }
 
@@ -229,28 +393,20 @@ class HistoryFragment() : BaseFragment() {
             if (it) {
                 sales_history_date_picker_zreport.setOnSingleClickListener {
                     //print Z report
-                    Toast.makeText(requireContext(), "Printing ...", Toast.LENGTH_LONG)
+
                 }
                 sales_history_date_picker_xreport.setOnSingleClickListener {
                     //print X report
-                    Toast.makeText(requireContext(), "Printing ...", Toast.LENGTH_LONG)
+                    viewModel.printXreport()
                 }
             } else {
                 sales_history_date_picker_zreport.setOnSingleClickListener {
                     //cannot print Z report
-                    Toast.makeText(
-                        requireContext(),
-                        "Cannot Print. No Tax Information",
-                        Toast.LENGTH_LONG
-                    )
+                    showError("Cannot Print Z Report. No Tax Information")
                 }
                 sales_history_date_picker_xreport.setOnSingleClickListener {
                     //cannot print X report
-                    Toast.makeText(
-                        requireContext(),
-                        "Cannot Print. No Tax Information",
-                        Toast.LENGTH_LONG
-                    )
+                    showError("Cannot Print X Report. No Tax Information")
                 }
             }
         }

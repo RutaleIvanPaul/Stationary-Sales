@@ -261,4 +261,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Famoco Printer
+    implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
+
+    //MobiIot
+    implementation files('libs/MobiIotAPI.jar')
 }

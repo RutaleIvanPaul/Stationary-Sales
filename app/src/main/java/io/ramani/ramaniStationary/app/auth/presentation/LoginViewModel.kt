@@ -55,6 +55,7 @@ class LoginViewModel(
                 prefs.currentUser = it.toString()
                 prefs.accessToken = it.token
                 prefs.timeZone = it.timeZone
+                prefs.currency = it.currency
                 loginActionLiveData.postValue(it)
 
                 getTaxObject(it.uuid)

@@ -14,4 +14,5 @@ interface Prefs {
     var timeZone: String
     var lastSyncTime: String
     var taxObject:String
+    var currency:String
 }

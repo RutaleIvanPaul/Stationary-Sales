@@ -20,7 +20,9 @@ val historyModule = Kodein.Module("historyModule"){
                 instance("GetHistoryUseCase"),
                 instance("GetZreportByRangeUseCase"),
                 instance("GetXReportUseCase"),
-                instance("GetOrderDetailsUseCase")
+                instance("GetOrderDetailsUseCase"),
+                instance(),
+                instance()
             )
         ).get(HistoryViewModel::class.java)
 

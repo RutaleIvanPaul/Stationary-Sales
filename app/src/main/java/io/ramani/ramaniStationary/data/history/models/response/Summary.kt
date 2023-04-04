@@ -7,5 +7,6 @@ data class Summary (
  val date: String? = null,
  val locationsVisited: Long = 0,
  val numOrders: Long = 0,
- val totalSpend: Double = 0.0
+ val totalSpend: Double = 0.0,
+ val totalDiscountValue: Double = 0.0
 )
