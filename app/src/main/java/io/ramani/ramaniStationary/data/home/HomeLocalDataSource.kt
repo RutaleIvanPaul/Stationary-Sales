@@ -2,14 +2,13 @@ package io.ramani.ramaniStationary.data.home
 
 import android.annotation.SuppressLint
 import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
+import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.data.database.RamaniDatabase
+import io.ramani.ramaniStationary.domain.createorder.model.SaleModel
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.entities.PaginationMeta
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
-import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
-import io.ramani.ramaniStationary.domain.home.model.MerchantModel
-import io.ramani.ramaniStationary.domain.home.model.ProductModel
-import io.ramani.ramaniStationary.domain.home.model.TaxModel
+import io.ramani.ramaniStationary.domain.home.model.*
 import io.ramani.ramaniStationary.domainCore.prefs.Prefs
 import io.reactivex.Single
 
@@ -50,6 +49,10 @@ class HomeLocalDataSource(
                 )
                 .build()
         )
+
+    override fun getTaxInformationByUserId(userId: String): Single<TaxInformationModel> {
+        TODO("Not yet implemented")
+    }
 
     // This is local repository operation
     @SuppressLint("CheckResult")

@@ -127,4 +127,8 @@
     <string name="printing_successful">Printing Successful</string>
     <string name="printing_successful_message">Your receipt is printed\nsuccessfully.</string>
 
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
+
 </resources>

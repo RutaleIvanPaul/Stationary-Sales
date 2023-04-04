@@ -9,19 +9,13 @@ import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationErr
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
-import io.ramani.ramaniStationary.data.home.models.request.DailySalesStatsRequestModel
-import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
-import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
-import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
+import io.ramani.ramaniStationary.data.home.models.request.*
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
-import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
-import io.ramani.ramaniStationary.domain.home.model.MerchantModel
-import io.ramani.ramaniStationary.domain.home.model.ProductModel
-import io.ramani.ramaniStationary.domain.home.model.TaxModel
+import io.ramani.ramaniStationary.domain.home.model.*
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -37,6 +31,7 @@ class HomeViewModel(
     private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
+    private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
     private val prefs: PrefsManager,
     private val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -82,6 +77,27 @@ class HomeViewModel(
             isLoadingVisible = false
 
             dailySalesStatsActionLiveData.postValue(it.data)
+        }, onError = {
+            isLoadingVisible = false
+//                notifyError(
+//                    it.message
+//                        ?: getString(R.string.an_error_has_occured_please_try_again),
+//                    PresentationError.ERROR_TEXT
+//                )
+            notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+        })
+    }
+
+    private fun getTaxInformationForUser() {
+        isLoadingVisible = true
+
+        val single = getTaxInformationUseCase.getSingle(GetTaxInformationRequestModel(userId))
+        subscribeSingle(single, onSuccess = {
+            isLoadingVisible = false
+
+            // Save it to pref
+            prefs.taxInformation = it
+
         }, onError = {
             isLoadingVisible = false
 //                notifyError(
@@ -221,6 +237,7 @@ class HomeViewModel(
         onDateChangedLiveData.postValue(dateFormatter.getCalendarTimeString(date))
 
         getDailySalesStats()
+        getTaxInformationForUser()
     }
 
     private fun getDailySalesStats() {
@@ -232,6 +249,7 @@ class HomeViewModel(
     }
 
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
+    fun getFormattedAmountLong(amount: Double): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
         private val application: Application,
@@ -241,6 +259,7 @@ class HomeViewModel(
         private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
+        private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
@@ -251,7 +270,7 @@ class HomeViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
+                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase, getTaxInformationUseCase,
                     prefs,
                     dateFormatter
                 ) as T

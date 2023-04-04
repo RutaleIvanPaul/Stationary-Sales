@@ -72,6 +72,7 @@ class HomeFragment : BaseFragment() {
         subscribeResponse()
 
         viewModel.start()
+
         viewModel.updateDate(null, null, null)
     }
 
@@ -82,7 +83,7 @@ class HomeFragment : BaseFragment() {
 
         viewModel.dailySalesStatsActionLiveData.observe(this) {
             if (it.isNotEmpty()) {
-                home_total_sales_tv.text = String.format("TSH %s", viewModel.getFormattedAmount(it.first().totalSales))
+                home_total_sales_tv.text = String.format("TSH %s", viewModel.getFormattedAmountLong(it.first().totalSales))
                 home_total_customers_tv.text = viewModel.getFormattedAmount(it.first().totalNumberOfCustomers)
             }
         }

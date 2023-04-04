@@ -8,7 +8,7 @@ import io.ramani.ramaniStationary.domainCore.entities.IBuilder
 data class DailySalesStatsModel(
     val companyName: String = "",
     val date: String = "",
-    val totalSales: Int = 0,
+    val totalSales: Double = 0.0,
     val totalOrders: Int = 0,
     val totalCanceledOrders: Int = 0,
     val totalNumberOfCustomers: Int = 0,
@@ -17,7 +17,7 @@ data class DailySalesStatsModel(
     class Builder : IBuilder<DailySalesStatsModel> {
         private var companyName: String = ""
         private var date: String = ""
-        private var totalSales: Int = 0
+        private var totalSales: Double = 0.0
         private var totalOrders: Int = 0
         private var totalCanceledOrders: Int = 0
         private var totalNumberOfCustomers: Int = 0
@@ -32,7 +32,7 @@ data class DailySalesStatsModel(
             return this
         }
 
-        fun totalSales(totalSales: Int): Builder {
+        fun totalSales(totalSales: Double): Builder {
             this.totalSales = totalSales
             return this
         }
@@ -66,7 +66,7 @@ data class DailySalesStatsModel(
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readInt(),
+        parcel.readDouble(),
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt()
@@ -76,7 +76,7 @@ data class DailySalesStatsModel(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(companyName)
         parcel.writeString(date)
-        parcel.writeInt(totalSales)
+        parcel.writeDouble(totalSales)
         parcel.writeInt(totalOrders)
         parcel.writeInt(totalCanceledOrders)
         parcel.writeInt(totalNumberOfCustomers)

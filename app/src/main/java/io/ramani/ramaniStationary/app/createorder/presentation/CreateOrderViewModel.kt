@@ -2,6 +2,7 @@ package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
@@ -22,8 +23,11 @@ import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
+import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
 import io.ramani.ramaniStationary.domain.home.model.TaxModel
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniStationary.domainCore.printer.PrintStatus
+import io.ramani.ramaniStationary.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.NumberFormat
@@ -39,7 +43,8 @@ class CreateOrderViewModel(
     private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
     private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
     private val prefs: PrefsManager,
-    val dateFormatter: DateFormatter
+    val dateFormatter: DateFormatter,
+    private val printerHelper: PrinterHelper
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userId = ""
@@ -59,6 +64,9 @@ class CreateOrderViewModel(
     val onAvailableStockProductsLoadedLiveData = SingleLiveEvent<List<AvailableProductModel>>()
 
     val onSaleSubmittedLiveData = SingleLiveEvent<Boolean>()
+
+    val taxInformation: TaxInformationModel
+        get() = prefs.taxInformation
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -181,6 +189,100 @@ class CreateOrderViewModel(
         }
     }
 
+    fun printBitmap(bitmap: Bitmap): PrintStatus {
+        val status = printerHelper.printBitmap(bitmap)
+        if(!status.status){
+            notifyErrorObserver(status.error, PresentationError.ERROR_TEXT)
+        }
+
+        return status
+    }
+
+    fun printText(text: String): PrintStatus {
+        val status = printerHelper.printText(text)
+        if(!status.status){
+            notifyErrorObserver(status.error, PresentationError.ERROR_TEXT)
+        }
+
+        return status
+    }
+
+    fun doPrintReceipt(): PrintStatus {
+        // Get tax information
+        val taxInformation = prefs.taxInformation
+
+        var receiptText = ""
+
+        CREATE_ORDER_MODEL.getLastOrder()?.let {
+            val priceMap = calculatePrices(it, taxInformation)
+
+            var totalTaxString = ""
+            if (taxInformation.isVRNNotRegistered()) {
+                totalTaxString = "${priceMap["total_cost_with_tax"]} TSH"
+            } else {
+                totalTaxString = "${it.totalCost} TSH"
+            }
+
+            receiptText = "\n*** START OF LEGAL RECEIPT***\n" +
+                    "   ${taxInformation.name}\n" +
+                    "TIN: ${taxInformation.tin}\n" +
+                    "VRN: ${taxInformation.vrn}\n" +
+                    "UIN: ${taxInformation.uin}\n" +
+                    "RECEIPT NUMBER:  ${taxInformation.gc - 1}\n" +
+                    "CUSTOMER NAME: ${it.buyerCompanyName}\n" +
+                    "CUSTOMER ID: ${it.merchantTIN ?: "NOT REGISTERED"}\n" +
+                    "CUSTOMER VRN: ${it.merchantVRN ?: "NOT REGISTERED"}\n" +
+                    "RECEIPT DATE: ${it.fullActivityTimeStamp}\n" +
+                    "RECEIPT TIME: ${it.checkInTime}\n" +
+                    "===============================\n" +
+                    priceMap["items"] +
+                    "===============================\n" +
+                    "TOTAL EXCL TAX: ${priceMap["total_cost_with_tax"]} TSH \n" +
+                    "TOTAL VAT 18%: ${priceMap["total_vat"]} TSH \n" +
+                    "TOTAL VAT E-EX: 0.00 TSH \n" +
+                    "TOTAL INCL TAX: ${totalTaxString} \n" +
+                    "   RECEIPT VERIFICATION CODE: \n" +
+                    "               ${taxInformation.receiptCode}${taxInformation.gc - 1}" +
+                    "\n\n--------------------------------\n\n" +
+                    "***END OF LEGAL RECEIPT***"
+        }
+
+        return printText(receiptText)
+    }
+
+    private fun calculatePrices(sale: SaleRequestModel, tax: TaxInformationModel): Map<String, String> {
+        var items = ""
+
+        var total_cost_with_tax = 0.0
+        var total_exempt = 0.0
+        var total_vat = 0.0
+
+        sale.createdOrders.first().item.forEach {
+            val item_cost = it.quantity * it.price
+            items += "${it.productName} ${it.quantity} x ${it.price} TSH = ${item_cost} TSH ${it.vatCategory}\n\n"
+
+            total_cost_with_tax += item_cost
+
+            if (it.vatCategory != "E") {
+                if (!tax.isVRNNotRegistered()) {
+                    //User's VRN is registered
+                    total_vat += 0.18 * item_cost / 1.18
+                }
+            } else {
+                //Item is Vat E
+                total_exempt += item_cost
+            }
+        }
+
+        val priceMap = HashMap<String, String>()
+        priceMap["items"] = items
+        priceMap["total_cost_with_tax"] = (total_cost_with_tax - total_vat).toString()
+        priceMap["total_exempt"] = total_exempt.toString()
+        priceMap["total_vat"] = total_vat.toString()
+
+        return priceMap
+    }
+
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
@@ -193,7 +295,8 @@ class CreateOrderViewModel(
         private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
         private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
         private val prefs: PrefsManager,
-        private val dateFormatter: DateFormatter
+        private val dateFormatter: DateFormatter,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -206,7 +309,8 @@ class CreateOrderViewModel(
                     getAvailableStockUseCase,
                     postNewSaleStockUseCase,
                     prefs,
-                    dateFormatter
+                    dateFormatter,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

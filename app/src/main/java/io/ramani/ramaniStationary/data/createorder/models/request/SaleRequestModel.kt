@@ -12,10 +12,11 @@ data class SaleRequestModel (
     val fullActivityTimeStamp: String,
     val checkInTime: String,
     val checkOutTime: String,
-    private val merchantTIN: String?,
-    private val merchantVRN: String?,
+    val merchantTIN: String?,
+    val merchantVRN: String?,
     val createdOrders: List<SaleOrderModel>,
     val notes: String,
+    val totalCost: Int,
 
     // Those parameter always null, but required by backend
     val zoneId: String = "zoneId",

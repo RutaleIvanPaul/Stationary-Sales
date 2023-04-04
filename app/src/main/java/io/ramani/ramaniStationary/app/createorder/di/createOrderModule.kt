@@ -21,6 +21,7 @@ val createOrderModule = Module("createOrderModule") {
                 instance("GetAvailableStockUseCase"),
                 instance("PostNewSaleUseCase"),
                 instance(),
+                instance(),
                 instance()
             )
         ).get(CreateOrderViewModel::class.java)

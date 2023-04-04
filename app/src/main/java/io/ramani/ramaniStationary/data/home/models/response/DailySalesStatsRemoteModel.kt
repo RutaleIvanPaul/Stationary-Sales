@@ -8,7 +8,7 @@ data class DailySalesStatsRemoteModel(
     @SerializedName("date")
     val date: String?,
     @SerializedName("totalSales")
-    val totalSales: Int?,
+    val totalSales: Double?,
     @SerializedName("totalOrders")
     val totalOrders: Int?,
     @SerializedName("totalCanceledOrders")
