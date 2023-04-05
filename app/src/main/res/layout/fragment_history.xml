@@ -181,8 +181,6 @@
             <Button
                 android:id="@+id/history_filter_all_order_button"
                 style="@style/CommonRailwayView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/filter_button_indicator"
                 android:stateListAnimator="@null"
@@ -193,8 +191,6 @@
             <Button
                 android:id="@+id/history_filter_ready_to_print_button"
                 style="@style/CommonRailwayView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"

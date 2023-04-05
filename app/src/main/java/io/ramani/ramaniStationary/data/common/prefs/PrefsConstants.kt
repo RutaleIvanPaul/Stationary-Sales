@@ -15,4 +15,6 @@ object PrefsConstants {
     const val PREF_LAST_SYNC_TIME = "last_sync_time"
     const val PREF_TAX_OBJECT = "tax_object"
     const val PREF_CURRENCY = "currency"
+
+    const val PREF_TAX_INFORMATION = "tax_information"
 }

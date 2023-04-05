@@ -1,9 +1,13 @@
 package io.ramani.ramaniStationary.app.history.presentation
 
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,14 +153,14 @@ class HistoryFragment() : BaseFragment() {
 //            View.VISIBLE
 //        zReportSelectDateDialog.show()
 //    }
-
+//
 //    private fun updateZReportCustomValidate() {
 //        val enableToConfirm = zReportCustomStartDate != null && zReportCustomEndDate != null
 //        val confirmButton =
 //            zReportSelectDateDialog.findViewById<Button>(R.id.zreport_custom_confirm_button)
 //        confirmButton.isEnabled = enableToConfirm
 //    }
-
+//
 //    private fun initCustomZReportPopup() {
 //        zReportSelectDateDialog.setContentView(R.layout.dialogue_zreport_select_date)
 //        zReportSelectDateDialog.getWindow()!!
@@ -190,7 +194,7 @@ class HistoryFragment() : BaseFragment() {
 //                            R.string.warning_future_date,
 //                            Toast.LENGTH_SHORT
 //                        ).show()
-//                        return@label
+//                        return
 //                    }
 //                    if (zReportCustomEndDate != null && !date.before(zReportCustomEndDate)) {
 //                        Toast.makeText(
@@ -198,7 +202,7 @@ class HistoryFragment() : BaseFragment() {
 //                            R.string.warning_date_validation,
 //                            Toast.LENGTH_SHORT
 //                        ).show()
-//                        return@label
+//                        return
 //                    }
 //                    zReportCustomStartDate = date
 //                    val textView =
@@ -223,7 +227,7 @@ class HistoryFragment() : BaseFragment() {
 //                    return@setOnClickListener
 //                }
 //                val popup: Dialog = DatePickDialogWithTitle(
-//                    this@DaySalesActivityHistoryMainActivity,
+//                    requireContext(),
 //                    R.string.select_end_date,
 //                    true,
 //                    zReportCustomEndDate

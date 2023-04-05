@@ -2,10 +2,7 @@ package io.ramani.ramaniStationary.data.home
 
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
-import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
-import io.ramani.ramaniStationary.domain.home.model.MerchantModel
-import io.ramani.ramaniStationary.domain.home.model.ProductModel
-import io.ramani.ramaniStationary.domain.home.model.TaxModel
+import io.ramani.ramaniStationary.domain.home.model.*
 import io.reactivex.Single
 
 class HomeRepository(
@@ -65,6 +62,9 @@ class HomeRepository(
         } else {
             localAuthDataSource.getMerchants(false, companyId, startDate, endDate, isActive, page)
         }
+
+    override fun getTaxInformationByUserId(userId: String): Single<TaxInformationModel> =
+        remoteAuthDataSource.getTaxInformationByUserId(userId)
 
     override fun saveMerchants(merchants: PagedList<MerchantModel>) = localAuthDataSource.saveMerchants(merchants)
     override fun saveProducts(products: PagedList<ProductModel>) = localAuthDataSource.saveProducts(products)

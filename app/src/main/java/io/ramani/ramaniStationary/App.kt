@@ -40,7 +40,7 @@ class App : Application(), KodeinAware {
             )
         }
         bind<IFilesDownloadManager>() with singleton { FilesDownloadManager(this@App, instance()) }
-        bind<PX400Printer>() with singleton { PX400Printer(this@App) }
+        bind<PX400Printer>() with singleton { PX400Printer(this@App)}
         import(appModule)
     }
 

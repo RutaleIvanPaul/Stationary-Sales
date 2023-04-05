@@ -43,6 +43,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         const val DATE_WITH_DASHES = "dd-MM-yyyy"
         const val DATE_WITH_DASHES_1 = "yyyy-MM-dd"
         const val DATE_WITH_DASHES_FULL = "yyyy-MM-dd'T'HH:mm:ss"
+        const val DATE_WITH_FULL = "EEE, dd MMM, yyyy"
     }
 
 
@@ -150,6 +151,15 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         return simpleDateFormat.format(date)
     }
 
+    fun getCalendarFullTime(date: Date): String {
+        val simpleDateFormat = SimpleDateFormat(DATE_WITH_FULL)
+        return simpleDateFormat.format(date)
+    }
+
+    fun getTimeWithFormmatter(date: Date, formatter: String): String {
+        val simpleDateFormat = SimpleDateFormat(formatter)
+        return simpleDateFormat.format(date)
+    }
 }
 
 

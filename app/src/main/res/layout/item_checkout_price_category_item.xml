@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/item_checkout_price_category_name"
+            style="@style/NormalRadioButton"
+            android:layout_centerVertical="true"
+            android:clickable="false"
+            android:text="@string/paid" />
+
+        <TextView
+            android:id="@+id/item_checkout_price_category_price"
+            style="@style/BoldTextLabel"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="TZS 5,000" />
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator"
+        android:layout_height="0.8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+</LinearLayout>

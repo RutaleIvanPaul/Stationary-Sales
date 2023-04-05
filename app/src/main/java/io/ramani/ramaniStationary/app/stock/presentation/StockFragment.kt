@@ -120,10 +120,12 @@ class StockFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        if(search_stock.isNotNull()) {
-            search_stock.removeTextChangedListener(searchTextWatcher)
+        if(isAdded) {
+            if (search_stock.isNotNull()) {
+                search_stock.removeTextChangedListener(searchTextWatcher)
+            }
         }
+        super.onDestroy()
     }
 
     private fun initSubscribers() {

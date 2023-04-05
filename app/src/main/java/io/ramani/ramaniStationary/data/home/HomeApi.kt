@@ -1,10 +1,7 @@
 package io.ramani.ramaniStationary.data.home
 
 import io.ramani.ramaniStationary.data.entities.BaseResponse
-import io.ramani.ramaniStationary.data.home.models.response.DailySalesStatsRemoteModel
-import io.ramani.ramaniStationary.data.home.models.response.MerchantRemoteModel
-import io.ramani.ramaniStationary.data.home.models.response.ProductRemoteModel
-import io.ramani.ramaniStationary.data.home.models.response.TaxRemoteModel
+import io.ramani.ramaniStationary.data.home.models.response.*
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -46,5 +43,10 @@ interface HomeApi {
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Single<BaseResponse<List<MerchantRemoteModel>>>
+
+    @GET("/get/tax/object/associated/with/user")
+    fun getTaxInformationByUserId(
+        @Query("userId") userId: String
+    ): Single<BaseResponse<TaxInformationRemoteModel>>
 
 }

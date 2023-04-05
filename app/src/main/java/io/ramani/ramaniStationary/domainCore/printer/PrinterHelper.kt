@@ -7,6 +7,7 @@ import io.ramani.ramaniStationary.app.common.presentation.language.StringProvide
 
 class PrinterHelper(
     private val pX400Printer: PX400Printer
+//    private val thermalPrinter: ThermalPrinter
 ) {
     fun isFamocoDevice(): Boolean {
         return Build.MANUFACTURER == "wizarPOS"

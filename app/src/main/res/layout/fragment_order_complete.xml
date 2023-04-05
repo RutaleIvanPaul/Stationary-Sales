@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fragment_order_complete_new_sale"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="30dp">
+
+        <ImageView
+            android:id="@+id/fragment_order_complete_checkmark"
+            style="@style/CircleCheck" />
+
+        <TextView
+            style="@style/BoldHugeTextLabel"
+            android:layout_marginTop="20dp"
+            android:text="@string/order_complete" />
+
+        <TextView
+            style="@style/NormalTextLabel"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/order_complete_message" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fragment_order_complete_new_sale"
+        style="@style/NormalStrokeActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_above="@+id/fragment_order_complete_print_receipt"
+        android:layout_marginBottom="10dp"
+        android:text="@string/new_sale" />
+
+    <TextView
+        android:id="@+id/fragment_order_complete_print_receipt"
+        style="@style/NormalActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/print_receipt" />
+
+    <!-- Printing Contents -->
+
+    <include
+        layout="@layout/layout_print_info"
+        android:visibility="gone" />
+</RelativeLayout>

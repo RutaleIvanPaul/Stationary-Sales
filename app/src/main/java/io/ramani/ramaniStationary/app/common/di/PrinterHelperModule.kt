@@ -6,9 +6,16 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
-val printerHelperModule = Kodein.Module("printerHelperModule") {
+val printerHelperModule = Kodein.Module("printerHelperModule"){
     bind<PrinterHelper>() with singleton {
         PrinterHelper(instance())
     }
 
+//    bind<ThermalPrinter>() with singleton {
+//        ThermalPrinter(instance("bluetoothOutputStream"))
+//    }
+//
+//    bind<OutputStream>("bluetoothOutputStream") with singleton {
+//        BluetoothConnection.instanceBluetoothSocket!!.outputStream
+//    }
 }

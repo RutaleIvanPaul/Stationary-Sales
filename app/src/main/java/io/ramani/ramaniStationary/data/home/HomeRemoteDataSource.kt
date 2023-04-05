@@ -3,19 +3,15 @@ package io.ramani.ramaniStationary.data.home
 import io.ramani.ramaniStationary.data.common.network.ApiConstants
 import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniStationary.data.entities.PaginationMetaRemote
-import io.ramani.ramaniStationary.data.home.models.response.DailySalesStatsRemoteModel
-import io.ramani.ramaniStationary.data.home.models.response.MerchantRemoteModel
-import io.ramani.ramaniStationary.data.home.models.response.ProductRemoteModel
-import io.ramani.ramaniStationary.data.home.models.response.TaxRemoteModel
+import io.ramani.ramaniStationary.data.home.models.response.*
 import io.ramani.ramaniStationary.domain.base.mappers.ModelMapper
 import io.ramani.ramaniStationary.domain.base.mappers.mapFromWith
+import io.ramani.ramaniStationary.domain.createorder.model.AvailableStockModel
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.entities.PaginationMeta
+import io.ramani.ramaniStationary.domain.entities.exceptions.ParseResponseException
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
-import io.ramani.ramaniStationary.domain.home.model.DailySalesStatsModel
-import io.ramani.ramaniStationary.domain.home.model.MerchantModel
-import io.ramani.ramaniStationary.domain.home.model.ProductModel
-import io.ramani.ramaniStationary.domain.home.model.TaxModel
+import io.ramani.ramaniStationary.domain.home.model.*
 import io.reactivex.Maybe
 import io.reactivex.Single
 
@@ -25,6 +21,7 @@ class HomeRemoteDataSource(
     private val taxRemoteMapper: ModelMapper<TaxRemoteModel, TaxModel>,
     private val productRemoteMapper: ModelMapper<ProductRemoteModel, ProductModel>,
     private val merchantRemoteMapper: ModelMapper<MerchantRemoteModel, MerchantModel>,
+    private val taxInformationRemoteMapper: ModelMapper<TaxInformationRemoteModel, TaxInformationModel>,
     private val metaRemoteMapper: ModelMapper<PaginationMetaRemote, PaginationMeta>,
 ) : HomeDataSource, BaseRemoteDataSource() {
 
@@ -124,6 +121,18 @@ class HomeRemoteDataSource(
                         )
                         .build()
                 )
+            }
+        )
+
+    override fun getTaxInformationByUserId(userId: String): Single<TaxInformationModel> =
+        callSingle(
+            homeApi.getTaxInformationByUserId(userId).flatMap {
+                val data = it.data
+                if (data != null) {
+                    Single.just(data.mapFromWith(taxInformationRemoteMapper))
+                } else {
+                    Single.error(ParseResponseException())
+                }
             }
         )
 
