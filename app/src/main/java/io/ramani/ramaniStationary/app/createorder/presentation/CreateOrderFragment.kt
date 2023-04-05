@@ -96,6 +96,13 @@ class CreateOrderFragment : BaseFragment() {
         }
     }
 
+    override fun onDestroy() {
+        if (isAdded)
+            create_order_search_textfield.removeTextChangedListener(searchTextWatcher)
+
+        super.onDestroy()
+    }
+
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
         loader.visible(visible)
@@ -155,5 +162,4 @@ class CreateOrderFragment : BaseFragment() {
             updateRV()
         }
     }
-
 }

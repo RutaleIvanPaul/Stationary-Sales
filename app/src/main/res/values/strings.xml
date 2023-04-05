@@ -35,6 +35,7 @@
     <string name="sales_report_tr">(Mauzo)</string>
     <string name="customers">Customers</string>
     <string name="customers_tr">(Wateja)</string>
+    <string name="customers_full">Customers (Wateja)</string>
     <string name="last_updated">Last updated %s</string>
 
     <string name="home">Home</string>
@@ -105,13 +106,14 @@
     <string name="customer_name">Customer Name</string>
     <string name="hint_customer_name">Enter Customer Name</string>
     <string name="mobile_number">Mobile number</string>
-    <string name="hint_mobile_number">767123456</string>
+    <string name="hint_mobile_number">+254 767123456</string>
     <string name="customer_type">Customer type</string>
     <string name="hint_customer_type">Select Customer type</string>
     <string name="shop_name">Shop name</string>
     <string name="hint_shop_name">Enter shop name</string>
     <string name="location">Location</string>
     <string name="hint_location">Enter street name</string>
+    <string name="add_customer">Add Customer</string>
 
     <string-array name="merchant_types">
         <item>Retail Shop</item>
@@ -130,5 +132,8 @@
     <string name="no_printer">Could not Find Printer Connected to device.</string>
     <string name="printer_opened">Printer Opened</string>
     <string name="printed">Printed.</string>
+
+    <!-- Merchant -->
+    <string name="hint_search_merchant">Search all Customers</string>
 
 </resources>

@@ -85,6 +85,9 @@ class HomeFragment : BaseFragment() {
             if (it.isNotEmpty()) {
                 home_total_sales_tv.text = String.format("TSH %s", viewModel.getFormattedAmountLong(it.first().totalSales))
                 home_total_customers_tv.text = viewModel.getFormattedAmount(it.first().totalNumberOfCustomers)
+            } else {
+                home_total_sales_tv.text = "TSH 0"
+                home_total_customers_tv.text = "0"
             }
         }
 

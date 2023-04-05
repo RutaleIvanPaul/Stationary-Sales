@@ -50,6 +50,8 @@ class CreateMerchantViewModel(
             userId = it.uuid
             companyId = it.companyId
 
+            getMerchants()
+            getTopPerformers()
         }
     }
 
