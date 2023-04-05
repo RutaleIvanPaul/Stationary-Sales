@@ -31,6 +31,7 @@ class OrderDetailsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        setToolbarTitle("")
         arguments?.let {
             orderID = it.getString(ARG_PARAM_ORDERID)
             viewModel.getOrderDetails(orderID!!)
@@ -41,7 +42,7 @@ class OrderDetailsFragment : BaseFragment() {
         super.initView(view)
 
         order_details_rv.layoutManager = LinearLayoutManager(requireContext())
-        orderDetailsRVAdapter = OrderDetailsRVAdapter(orderProductList){}
+        orderDetailsRVAdapter = OrderDetailsRVAdapter(orderProductList, viewModel.prefs){}
         order_details_rv.adapter = orderDetailsRVAdapter
 
         initSubscribers()
@@ -79,6 +80,7 @@ class OrderDetailsFragment : BaseFragment() {
             order_date_value.setText(it.order.orderDate)
             order_status_value.setText(it.order.orderStatus)
             print_status_value.setText(it.printStatus)
+            buyer_name.setText(it.buyerName)
 
             total_value.setText(String.format("%s %s",viewModel.currency,it.order.totalCost))
 

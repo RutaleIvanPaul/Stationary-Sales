@@ -29,7 +29,7 @@ class HistoryViewModel(
     private val getXReportUseCase: BaseSingleUseCase<String?, GetXReportRequestModel>,
     private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>,
     private val getReceiptUseCase: BaseSingleUseCase<TRAReceipt, PrintReceiptRequest>,
-    private val prefs: PrefsManager,
+    val prefs: PrefsManager,
     private val printerHelper: PrinterHelper
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
@@ -176,6 +176,7 @@ class HistoryViewModel(
     }
 
     fun getAndPrintReceipt(orderId: String){
+        isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy { userModel ->
             sessionManager.getTaxObject().subscribeBy {taxInformation ->
                 val single = getReceiptUseCase.getSingle(
@@ -203,7 +204,7 @@ class HistoryViewModel(
         private val getXReportUseCase: BaseSingleUseCase<String?, GetXReportRequestModel>,
         private val getOrderDetailsUseCase: BaseSingleUseCase<List<OrderDetailsResponse>?, GetOrderDetailsRequestModel>,
         private val getReceiptUseCase: BaseSingleUseCase<TRAReceipt, PrintReceiptRequest>,
-        private val prefs: PrefsManager,
+        val prefs: PrefsManager,
         private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
