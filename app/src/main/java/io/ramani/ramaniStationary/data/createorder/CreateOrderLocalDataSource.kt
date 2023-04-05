@@ -1,4 +1,4 @@
-package io.ramani.ramaniStationary.data.createorder.models
+package io.ramani.ramaniStationary.data.createorder
 
 import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
