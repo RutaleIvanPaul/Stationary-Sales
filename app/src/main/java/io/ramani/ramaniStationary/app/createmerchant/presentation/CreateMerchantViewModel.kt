@@ -8,12 +8,15 @@ import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationErr
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.createmerchant.models.request.GetTopPerformersRequestModel
+import io.ramani.ramaniStationary.data.createmerchant.models.request.RegisterMerchantRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
+import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.createmerchant.model.NameValueModel
 import io.ramani.ramaniStationary.domain.createmerchant.model.TopPerformersModel
+import io.ramani.ramaniStationary.domain.createmerchant.useCase.RegisterMerchantUseCase
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
@@ -29,10 +32,12 @@ class CreateMerchantViewModel(
     sessionManager: ISessionManager,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
     private val getTopPerformersUseCase: BaseSingleUseCase<TopPerformersModel, GetTopPerformersRequestModel>,
+    private val registerMerchantUseCase: BaseSingleUseCase<MerchantModel, RegisterMerchantRequestModel>,
     private val prefs: PrefsManager,
     val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
+    var userModel: UserModel = UserModel()
     var userId = ""
     var companyId = ""
 
@@ -44,9 +49,12 @@ class CreateMerchantViewModel(
     val topMerchants = mutableListOf<NameValueModel>()
     val onTopPerformersLoadedLiveData = SingleLiveEvent<TopPerformersModel>()
 
+    val onMerchantAddedLiveData = SingleLiveEvent<MerchantModel>()
+
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
         sessionManager.getLoggedInUser().subscribeBy {
+            userModel = it
             userId = it.uuid
             companyId = it.companyId
 
@@ -79,6 +87,8 @@ class CreateMerchantViewModel(
 
     @SuppressLint("CheckResult")
     fun getTopPerformers() {
+        isLoadingVisible = true
+
         topSalePeoples.clear()
         topMerchants.clear()
 
@@ -88,11 +98,33 @@ class CreateMerchantViewModel(
         sessionManager.getLoggedInUser().subscribeBy { user ->
             val single = getTopPerformersUseCase.getSingle(GetTopPerformersRequestModel(user.companyId, startDate, endDate, 1000))
             subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+
                 topSalePeoples.addAll(it.topSalesPeople)
                 topMerchants.addAll(it.topMerchants)
 
                 onTopPerformersLoadedLiveData.postValue(it)
             }, onError = {
+                isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            })
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun registerMerchant(merchant: RegisterMerchantRequestModel) {
+        isLoadingVisible = true
+
+        sessionManager.getLoggedInUser().subscribeBy { user ->
+            val single = registerMerchantUseCase.getSingle(merchant)
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+
+                merchantList.add(it)
+
+                onMerchantAddedLiveData.postValue(it)
+            }, onError = {
+                isLoadingVisible = false
                 notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
@@ -106,6 +138,7 @@ class CreateMerchantViewModel(
         private val sessionManager: ISessionManager,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
         private val getTopPerformersUseCase: BaseSingleUseCase<TopPerformersModel, GetTopPerformersRequestModel>,
+        private val registerMerchantUseCase: BaseSingleUseCase<MerchantModel, RegisterMerchantRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
@@ -118,6 +151,7 @@ class CreateMerchantViewModel(
                     sessionManager,
                     getMerchantsUseCase,
                     getTopPerformersUseCase,
+                    registerMerchantUseCase,
                     prefs,
                     dateFormatter
                 ) as T

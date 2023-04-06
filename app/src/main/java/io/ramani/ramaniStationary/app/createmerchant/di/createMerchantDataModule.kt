@@ -36,6 +36,7 @@ val createMerchantDataModule = Kodein.Module("createMerchantDataModule") {
         CreateMerchantRemoteDataSource(
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }

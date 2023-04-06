@@ -93,8 +93,8 @@ class CreateMerchantFragment : BaseFragment() {
     }
 
     private fun createNewMerchant() {
-        val dialog = CreateNewMerchantDialog(requireActivity(), viewModel) { merchant ->
-
+        val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { merchant ->
+            updateRV()
         }
 
         dialog.show()
@@ -102,9 +102,13 @@ class CreateMerchantFragment : BaseFragment() {
 
     private fun updateRV() {
         val keyword = create_merchant_search_textfield.text.trim().toString()
-        val merchants = if (keyword.isNotEmpty()) viewModel.merchantList.filter { merchant -> merchant.name.contains(keyword, true) } else viewModel.merchantList
+        val merchants =
+            if (keyword.isNotEmpty())
+                viewModel.merchantList.filter { merchant -> merchant.name.contains(keyword, true) }
+            else
+                viewModel.merchantList
 
-        merchantAdapter = CreateMerchantRVAdapter(merchants as MutableList<MerchantModel>, viewModel.topMerchants) { position, item ->
+        merchantAdapter = CreateMerchantRVAdapter(merchants.sortedByDescending { merchant -> merchant.updatedAt } as MutableList<MerchantModel>, viewModel.topMerchants) { position, item ->
 
         }
 
@@ -115,11 +119,8 @@ class CreateMerchantFragment : BaseFragment() {
     }
 
     private val searchTextWatcher = object : TextWatcher {
-
         override fun afterTextChanged(s: Editable) {}
-
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             updateRV()
         }

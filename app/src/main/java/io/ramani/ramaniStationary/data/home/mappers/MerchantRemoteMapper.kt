@@ -20,11 +20,13 @@ class MerchantRemoteMapper(
                 .id(from.id ?: "")
                 .name(from.name ?: "")
                 .isActive(from.isActive ?: true)
-                .gps(from.gps ?: "")
+                .gps(/* from.gps ?: */ "0, 0")
                 .salesPersonUID(from.salesPersonUID ?: "")
                 .salesPersonName(from.salesPersonName ?: "")
                 .members(members)
                 .merchantTIN(from.merchantTIN ?: "")
+                .merchantVRN(from.merchantVRN ?: "")
+                .updatedAt(from.updatedAt ?: "")
                 .city(from.city ?: "")
                 .creditLimit(from.creditLimit ?: 0)
                 .merchantType(from.merchantType ?: "")
@@ -41,11 +43,13 @@ class MerchantRemoteMapper(
                 to.id,
                 to.name,
                 to.isActive,
-                to.gps,
+                /* to.gps,*/
                 to.salesPersonUID,
                 to.salesPersonName,
                 members,
                 to.merchantTIN,
+                to.merchantVRN,
+                to.updatedAt,
                 to.city,
                 to.creditLimit,
                 to.merchantType

@@ -20,6 +20,7 @@ val createMerchantModule = Module("createMerchantModule") {
                 instance(), instance(), instance(),
                 instance("GetMerchantsUseCase"),
                 instance("GetTopPerformersUseCase"),
+                instance("RegisterMerchantUseCase"),
                 instance(),
                 instance()
             )

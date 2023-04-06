@@ -57,7 +57,8 @@
             android:id="@+id/create_merchant_merchant_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/create_merchant_search" />
+            android:layout_below="@+id/create_merchant_search"
+            android:paddingBottom="15dp" />
 
         <ProgressBar
             android:id="@+id/create_merchant_loader"

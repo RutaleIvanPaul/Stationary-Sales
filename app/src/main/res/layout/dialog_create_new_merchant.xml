@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -34,13 +35,30 @@
             android:layout_marginTop="15dp"
             android:text="@string/mobile_number" />
 
-        <EditText
-            android:id="@+id/dialog_create_merchant_phone_textfield"
-            style="@style/NormalTextField"
-            android:layout_height="37dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:inputType="phone"
-            android:hint="@string/hint_mobile_number" />
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/dialog_create_merchant_country_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:gravity="center"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/rounded_rectangle_grey"
+                app:ccp_contentColor="@color/black"
+                app:ccp_textSize="12sp" />
+
+            <EditText
+                android:id="@+id/dialog_create_merchant_phone_textfield"
+                style="@style/NormalTextField"
+                android:layout_height="37dp"
+                android:hint="@string/hint_mobile_number"
+                android:inputType="phone" />
+        </LinearLayout>
 
         <!-- Customer Type -->
 
@@ -52,8 +70,8 @@
         <com.skydoves.powerspinner.PowerSpinnerView
             android:id="@+id/dialog_create_merchant_type"
             style="@style/CustomSpinner"
-            android:hint="@string/hint_customer_type"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:hint="@string/hint_customer_type" />
 
         <!-- Shop Name -->
 
@@ -83,6 +101,34 @@
             android:layout_marginTop="5dp"
             android:hint="@string/hint_location" />
 
+        <!-- TIN -->
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="15dp"
+            android:text="@string/customer_tin_number" />
+
+        <EditText
+            android:id="@+id/dialog_create_merchant_tin_textfield"
+            style="@style/NormalTextField"
+            android:layout_height="37dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/hint_customer_tin_number" />
+
+        <!-- VRN -->
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="15dp"
+            android:text="@string/customer_vrn_number" />
+
+        <EditText
+            android:id="@+id/dialog_create_merchant_vrn_textfield"
+            style="@style/NormalTextField"
+            android:layout_height="37dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/hint_customer_vrn_number" />
+
         <TextView
             android:id="@+id/dialog_create_merchant_add"
             style="@style/NormalActionButton"
@@ -92,4 +138,12 @@
             android:layout_marginBottom="20dp"
             android:text="@string/add_customer" />
     </LinearLayout>
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/dialog_create_merchant_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
