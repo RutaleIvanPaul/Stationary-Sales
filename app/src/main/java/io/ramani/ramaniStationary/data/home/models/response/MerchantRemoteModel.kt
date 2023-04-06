@@ -10,8 +10,8 @@ data class MerchantRemoteModel(
     val name: String?,
     @SerializedName("isActive")
     val isActive: Boolean?,
-    @SerializedName("gps")
-    val gps: String?,
+    // @SerializedName("gps")
+    // val gps: String?,
     @SerializedName("salesPersonUID")
     val salesPersonUID: String?,
     @SerializedName("salesPersonName")
@@ -20,6 +20,10 @@ data class MerchantRemoteModel(
     val members: List<MerchantMemberRemoteModel>?,
     @SerializedName("merchantTIN")
     val merchantTIN: String?,
+    @SerializedName("merchantVRN")
+    val merchantVRN: String?,
+    @SerializedName("updated_at")
+    val updatedAt: String?,
     @SerializedName("city")
     val city: String?,
     @SerializedName("creditLimit")

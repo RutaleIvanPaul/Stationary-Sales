@@ -9,7 +9,7 @@ class MerchantMemberRemoteMapper : ModelMapper<MerchantMemberRemoteModel, Mercha
     override fun mapFrom(from: MerchantMemberRemoteModel): MerchantMemberModel =
         MerchantMemberModel.Builder()
             .name(from.name ?: "")
-            .name(from.phoneNumber ?: "")
+            .phoneNumber(from.phoneNumber ?: "")
             .build()
 
     override fun mapTo(to: MerchantMemberModel): MerchantMemberRemoteModel =

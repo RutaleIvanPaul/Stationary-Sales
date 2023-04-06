@@ -169,7 +169,7 @@ class CreateOrderViewModel(
             userId = it.uuid
             companyId = it.companyId
             val userName = it.name
-            val companyName = ""
+            val companyName = it.companyId
             val date = Date()
             val fullTimeStamp = dateFormatter.getTimeWithFormmatter(date, "dd MMM, yyyy HH:mm")
             val checkTime = dateFormatter.getTimeWithFormmatter(date, "HH:mm:ss")

@@ -13,7 +13,7 @@ import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domain.home.model.TaxModel
 
 const val DATABASE_NAME = "ramani_stationary_app_db"
-const val DATABASE_VERSION = 1
+const val DATABASE_VERSION = 2
 
 @Database(
     entities = [MerchantModel::class, ProductModel::class, TaxModel::class],

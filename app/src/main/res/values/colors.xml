@@ -19,6 +19,7 @@
     <color name="light_white_grey">#FAFAFA</color>
     <color name="text_hint_color">#AEAEAE</color>
     <color name="light_blue">#ced9e1</color>
+    <color name="light_grey_background">#f9f9f9</color>
 
     <color name="ramani_green">#04C401</color>
     <color name="ramani_blue">#1D8CF8</color>

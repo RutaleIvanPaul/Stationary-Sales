@@ -17,6 +17,8 @@ data class SaleRequestModel (
     val createdOrders: List<SaleOrderModel>,
     val notes: String,
     val totalCost: Int,
+    val hasNewMerchantTIN: Boolean = false,
+    val hasNewMerchantVRN: Boolean = false,
 
     // Those parameter always null, but required by backend
     val zoneId: String = "zoneId",
@@ -28,7 +30,6 @@ data class SaleRequestModel (
     val customerFormsAnswers: List<String> = mutableListOf(),
     val areThereMerchantsToUpdate: Boolean = false,
     val reregisteredLocation: Boolean = false,
-    val hasNewMerchantTIN: Boolean = false,
     val batteryLife: Double = 100.0,
     val photoUrls: List<String> = mutableListOf(),
     val VRN: String = "",
