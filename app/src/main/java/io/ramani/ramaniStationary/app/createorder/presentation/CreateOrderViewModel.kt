@@ -8,12 +8,14 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
+import io.ramani.ramaniStationary.data.createmerchant.models.request.RegisterMerchantRequestModel
 import io.ramani.ramaniStationary.data.createorder.models.request.GetAvailableStockRequestModel
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
+import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
@@ -42,6 +44,7 @@ class CreateOrderViewModel(
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
     private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
     private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
+    private val registerMerchantUseCase: BaseSingleUseCase<MerchantModel, RegisterMerchantRequestModel>,
     private val prefs: PrefsManager,
     val dateFormatter: DateFormatter,
     private val printerHelper: PrinterHelper
@@ -49,6 +52,7 @@ class CreateOrderViewModel(
 
     var userId = ""
     var companyId = ""
+    var userModel: UserModel = UserModel()
 
     val merchantList = mutableListOf<MerchantModel>()
     val merchantNameList = mutableListOf<String>()
@@ -65,6 +69,8 @@ class CreateOrderViewModel(
 
     val onSaleSubmittedLiveData = SingleLiveEvent<Boolean>()
 
+    val onMerchantAddedLiveData = SingleLiveEvent<MerchantModel>()
+
     val taxInformation: TaxInformationModel
         get() = prefs.taxInformation
 
@@ -73,6 +79,7 @@ class CreateOrderViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
+            userModel = it
 
             getProducts()
             getMerchants()
@@ -88,10 +95,10 @@ class CreateOrderViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(false, companyId, "", "", true, 1))
             subscribeSingle(single, onSuccess = {
-                merchantList.addAll(it.data)
+                merchantList.addAll(it.data.sortedByDescending { merchant -> merchant.updatedAt })
 
-                merchantList.forEach {
-                    merchantNameList.add(it.name)
+                merchantList.forEach { merchant ->
+                    merchantNameList.add(merchant.name)
                 }
 
                 onMerchantsLoadedLiveData.postValue(merchantList)
@@ -283,6 +290,26 @@ class CreateOrderViewModel(
         return priceMap
     }
 
+    @SuppressLint("CheckResult")
+    fun registerMerchant(merchant: RegisterMerchantRequestModel) {
+        isLoadingVisible = true
+
+        sessionManager.getLoggedInUser().subscribeBy { user ->
+            val single = registerMerchantUseCase.getSingle(merchant)
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+
+                merchantList.add(0, it)
+                merchantNameList.add(0, it.name)
+
+                onMerchantAddedLiveData.postValue(it)
+            }, onError = {
+                isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            })
+        }
+    }
+
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
@@ -294,6 +321,7 @@ class CreateOrderViewModel(
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
         private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
         private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
+        private val registerMerchantUseCase: BaseSingleUseCase<MerchantModel, RegisterMerchantRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter,
         private val printerHelper: PrinterHelper
@@ -308,6 +336,7 @@ class CreateOrderViewModel(
                     getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
                     getAvailableStockUseCase,
                     postNewSaleStockUseCase,
+                    registerMerchantUseCase,
                     prefs,
                     dateFormatter,
                     printerHelper

@@ -11,7 +11,9 @@ import com.skydoves.powerspinner.PowerSpinnerView
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
+import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createmerchant.presentation.CreateMerchantViewModel
+import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderViewModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MerchantRouteModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MetaDataItem
 import io.ramani.ramaniStationary.data.createmerchant.models.request.RegisterMerchantRequestModel
@@ -26,7 +28,7 @@ import kotlinx.android.synthetic.main.dialog_create_new_merchant.*
  */
 class CreateNewMerchantDialog(
     context: Context,
-    val viewModel: CreateMerchantViewModel,
+    val viewModel: BaseViewModel,
     val fragment: BaseFragment, /* Parent Fragment */
     val onItemAdded: (MerchantModel) -> Unit
 ) : Dialog(context) {
@@ -48,11 +50,20 @@ class CreateNewMerchantDialog(
         window?.setBackgroundDrawableResource(android.R.color.transparent);
         window?.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
 
-        viewModel.onMerchantAddedLiveData.observe(fragment) {
-            dialog_create_merchant_loader.visible(false)
+        if (viewModel is CreateMerchantViewModel) {
+            viewModel.onMerchantAddedLiveData.observe(fragment) {
+                dialog_create_merchant_loader.visible(false)
 
-            onItemAdded(it)
-            dismiss()
+                onItemAdded(it)
+                dismiss()
+            }
+        } else if (viewModel is CreateOrderViewModel) {
+            viewModel.onMerchantAddedLiveData.observe(fragment) {
+                dialog_create_merchant_loader.visible(false)
+
+                onItemAdded(it)
+                dismiss()
+            }
         }
 
         initView()
@@ -105,27 +116,51 @@ class CreateNewMerchantDialog(
             val tin = dialog_create_merchant_tin_textfield.text.trim().toString()
             val vrn = dialog_create_merchant_vrn_textfield.text.trim().toString()
 
-            val sellerId = viewModel.companyId
-            val salesPersonUID = viewModel.userId
-            val salesPersonName = viewModel.userModel.name
+            if (viewModel is CreateMerchantViewModel) {
+                val sellerId = viewModel.companyId
+                val salesPersonUID = viewModel.userId
+                val salesPersonName = viewModel.userModel.name
 
-            dialog_create_merchant_loader.visible(true)
+                dialog_create_merchant_loader.visible(true)
 
-            // Submit
-            val merchantRequest = RegisterMerchantRequestModel(
-                name, "0, 0", sellerId, salesPersonUID, salesPersonName,
-                merchantStatus = 0,
-                categories = 0,
-                merchantType = selectedMerchantType,
-                merchantTIN = tin,
-                merchantVRN = vrn,
-                members = mutableListOf(MerchantMemberModel(name, phoneNumber = number)),
-                isActive = true,
-                routes = mutableListOf(MerchantRouteModel("WalkIn", "WalkIn")),
-                metaData = mutableListOf(MetaDataItem("WalkIn", "WalkIn", "WalkIn"))
-            )
+                // Submit
+                val merchantRequest = RegisterMerchantRequestModel(
+                    name, "0, 0", sellerId, salesPersonUID, salesPersonName,
+                    merchantStatus = 0,
+                    categories = 0,
+                    merchantType = selectedMerchantType,
+                    merchantTIN = tin,
+                    merchantVRN = vrn,
+                    members = mutableListOf(MerchantMemberModel(name, phoneNumber = number)),
+                    isActive = true,
+                    routes = mutableListOf(MerchantRouteModel("WalkIn", "WalkIn")),
+                    metaData = mutableListOf(MetaDataItem("WalkIn", "WalkIn", "WalkIn"))
+                )
 
-            viewModel.registerMerchant(merchantRequest)
+                viewModel.registerMerchant(merchantRequest)
+            } else if (viewModel is CreateOrderViewModel) {
+                val sellerId = viewModel.companyId
+                val salesPersonUID = viewModel.userId
+                val salesPersonName = viewModel.userModel.name
+
+                dialog_create_merchant_loader.visible(true)
+
+                // Submit
+                val merchantRequest = RegisterMerchantRequestModel(
+                    name, "0, 0", sellerId, salesPersonUID, salesPersonName,
+                    merchantStatus = 0,
+                    categories = 0,
+                    merchantType = selectedMerchantType,
+                    merchantTIN = tin,
+                    merchantVRN = vrn,
+                    members = mutableListOf(MerchantMemberModel(name, phoneNumber = number)),
+                    isActive = true,
+                    routes = mutableListOf(MerchantRouteModel("WalkIn", "WalkIn")),
+                    metaData = mutableListOf(MetaDataItem("WalkIn", "WalkIn", "WalkIn"))
+                )
+
+                viewModel.registerMerchant(merchantRequest)
+            }
         }
     }
 
