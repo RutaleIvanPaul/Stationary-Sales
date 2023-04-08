@@ -113,6 +113,7 @@
             style="@style/NormalTextField"
             android:layout_height="37dp"
             android:layout_marginTop="5dp"
+            android:inputType="numberSigned"
             android:hint="@string/hint_customer_tin_number" />
 
         <!-- VRN -->
@@ -127,6 +128,7 @@
             style="@style/NormalTextField"
             android:layout_height="37dp"
             android:layout_marginTop="5dp"
+            android:inputType="numberSigned"
             android:hint="@string/hint_customer_vrn_number" />
 
         <TextView
