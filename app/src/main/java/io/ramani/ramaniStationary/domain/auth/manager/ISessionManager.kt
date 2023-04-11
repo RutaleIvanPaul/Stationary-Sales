@@ -16,7 +16,4 @@ interface ISessionManager {
 
     fun logout(): Single<Any>
 
-    fun getTaxObject():Single<TaxInformationResponse>
-
-
 }

@@ -18,7 +18,4 @@ interface AuthApi {
 
     @POST("/auth/logout/single-session/03-11-2022")
     fun logout(): Single<BaseResponse<Any>>
-
-    @GET("/get/tax/object/associated/with/user")
-    fun getTaxObject(@Query("userId")userId: String): Single<BaseResponse<TaxInformationResponse>>
 }

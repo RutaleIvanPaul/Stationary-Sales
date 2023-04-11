@@ -1,7 +1,7 @@
 package io.ramani.ramaniStationary.data.auth.models
 
 data class TaxInformationResponse(
-   val _id: String,
+   val _id: String = "",
    val UIN: String,
    val RECEIPTCODE: String,
    val RCNUM: Long,// RCNUM is GC

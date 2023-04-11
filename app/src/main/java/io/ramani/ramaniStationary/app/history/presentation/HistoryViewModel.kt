@@ -1,8 +1,7 @@
 package io.ramani.ramaniStationary.app.history.presentation
 
+import android.annotation.SuppressLint
 import android.app.Application
-import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +12,6 @@ import io.ramani.ramaniStationary.data.history.models.request.*
 import io.ramani.ramaniStationary.data.history.models.response.*
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniStationary.domain.history.useCase.GetReceiptUseCase
 import io.ramani.ramaniStationary.domainCore.date.*
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
@@ -86,15 +84,10 @@ class HistoryViewModel(
     }
 
     fun isThereTaxObject(){
-        sessionManager.getTaxObject().subscribeBy {
-            if (it.isNotNull()){
-                isThereTaxObject.postValue(true)
-            }else{
-                isThereTaxObject.postValue(false)
-            }
-        }
+        isThereTaxObject.postValue(prefs.taxInformation.isNotNull())
     }
 
+    @SuppressLint("CheckResult")
     fun getHistory(day: Int, month: String, year: Int) {
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
@@ -103,8 +96,8 @@ class HistoryViewModel(
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
                 historyActivityListOriginal.addAll(it?.activities!!)
-                historyActivityLiveData.postValue(it?.activities!!)
-                historySummaryLiveData.postValue(it?.summary!!)
+                historyActivityLiveData.postValue(it.activities!!)
+                historySummaryLiveData.postValue(it.summary!!)
             }, onError = {
                 isLoadingVisible = false
                 notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
@@ -125,75 +118,70 @@ class HistoryViewModel(
         })
     }
 
+    @SuppressLint("CheckResult")
     fun getXReport(date: String) {
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy { userModel ->
-            sessionManager.getTaxObject().subscribeBy { taxInformation ->
-                val single =
-                    getXReportUseCase.getSingle(
-                        GetXReportRequestModel(
-                            taxInformation.UIN,
-                            date,
-                            userModel.name,
-                            userModel.companyId
-                        )
+            val single =
+                getXReportUseCase.getSingle(
+                    GetXReportRequestModel(
+                        prefs.taxInformation.uin,
+                        date,
+                        userModel.name,
+                        userModel.companyId
                     )
-                subscribeSingle(single, onSuccess = {
-                    isLoadingVisible = false
-                    printText(it.toString())
-                }, onError = {
-                    isLoadingVisible = false
-                })
-            }
+                )
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+                printText(it.toString())
+            }, onError = {
+                isLoadingVisible = false
+            })
         }
     }
 
+    @SuppressLint("CheckResult")
     fun getZreportByRange(
         startDate: String,
         endDate: String
     ) {
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy { userModel ->
-            sessionManager.getTaxObject().subscribeBy { taxInformation ->
-                val single =
-                    getZreportByRangeUseCase.getSingle(
-                        GetZReportRequestModel(
-                            taxInformation.UIN,
-                            userModel.companyId,
-                            startDate,
-                            endDate,
-                            userModel.name
-                        )
+            val single =
+                getZreportByRangeUseCase.getSingle(
+                    GetZReportRequestModel(
+                        prefs.taxInformation.uin,
+                        userModel.companyId,
+                        startDate,
+                        endDate,
+                        userModel.name
                     )
-                subscribeSingle(single, onSuccess = {
-                    isLoadingVisible = false
-                    printText(it.toString())
-                }, onError = {
-                    isLoadingVisible = false
-                })
-            }
+                )
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+                printText(it.toString())
+            }, onError = {
+                isLoadingVisible = false
+            })
         }
     }
 
+    @SuppressLint("CheckResult")
     fun getAndPrintReceipt(orderId: String){
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy { userModel ->
-            sessionManager.getTaxObject().subscribeBy {taxInformation ->
-                val single = getReceiptUseCase.getSingle(
-                    PrintReceiptRequest(orderId,taxInformation.UIN,userModel.name)
-                )
+            val single = getReceiptUseCase.getSingle(
+                PrintReceiptRequest(orderId, prefs.taxInformation.uin, userModel.name)
+            )
 
-                subscribeSingle(single, onSuccess = {
-                    isLoadingVisible = false
-                    printText(it.receiptText)
-                }, onError = {
-                    isLoadingVisible = false
-                })
-            }
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+                printText(it.receiptText)
+            }, onError = {
+                isLoadingVisible = false
+            })
         }
     }
-
-
 
     class Factory(
         private val application: Application,

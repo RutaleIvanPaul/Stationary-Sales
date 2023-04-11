@@ -11,7 +11,4 @@ interface AuthDataSource {
     fun setCurrentUser(user: UserModel): Completable
     fun logout(): Single<Any>
     fun refreshAccessToken(token: String): Completable
-    fun getTaxObject():Single<TaxInformationResponse>
-    fun getTaxObjectOnline(userId : String):Single<TaxInformationResponse>
-
 }

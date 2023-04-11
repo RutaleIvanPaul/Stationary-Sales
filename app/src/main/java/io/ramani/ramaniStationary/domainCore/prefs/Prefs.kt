@@ -15,7 +15,6 @@ interface Prefs {
     var accountType: String
     var timeZone: String
     var lastSyncTime: String
-    var taxObject:String
     var currency:String
     var taxInformation: TaxInformationModel
 }

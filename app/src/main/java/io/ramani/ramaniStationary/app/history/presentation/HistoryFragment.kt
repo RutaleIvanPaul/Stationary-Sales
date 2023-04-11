@@ -76,12 +76,16 @@ class HistoryFragment() : BaseFragment() {
     }
 
     private fun getHistory() {
-        val split = today().split("/")
-        viewModel.getHistory(
-            split.get(0).toInt(),
-            viewModel.monthsArray.get(split.get(1).toInt() - 1),
-            split.get(2).toInt()
-        )
+        try {
+            val split = today().split("/")
+            viewModel.getHistory(
+                split[0].toInt(),
+                viewModel.monthsArray[split[1].toInt() - 1],
+                split[2].toInt()
+            )
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onCreateView(
@@ -317,21 +321,25 @@ class HistoryFragment() : BaseFragment() {
     }
 
     private fun setDatePickerTodayText() {
-        val split = today().split("/")
-        sales_history_date_picker.setText(
-            String.format(
-                "%s %s %s",
-                split.get(0).toInt(),
-                viewModel.monthsArray.get(split.get(1).toInt() - 1),
-                split.get(2).toInt()
+        try {
+            val split = today().split("/")
+            sales_history_date_picker.setText(
+                String.format(
+                    "%s %s %s",
+                    split[0].toInt(),
+                    viewModel.monthsArray[split[1].toInt() - 1],
+                    split[2].toInt()
+                )
             )
-        )
+        } catch(e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     private val startDateSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            sales_history_date_picker.setText(String.format("%s %s %s",dayOfMonth,viewModel.monthsArray.get(monthOfYear),year))
-            viewModel.getHistory(dayOfMonth,viewModel.monthsArray.get(monthOfYear),year)
+            sales_history_date_picker.text = String.format("%s %s %s",dayOfMonth,viewModel.monthsArray.get(monthOfYear),year)
+            viewModel.getHistory(dayOfMonth, viewModel.monthsArray[monthOfYear],year)
         }
 
     private val searchTextWatcher = object : TextWatcher {
@@ -341,7 +349,7 @@ class HistoryFragment() : BaseFragment() {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            if (s.toString().isNullOrEmpty()){
+            if (s.toString().isEmpty()){
                 if(isAllOrdersSelected) {
                     viewModel.historyActivityLiveData.postValue(viewModel.historyActivityListOriginal.distinct())
                 }
@@ -353,7 +361,7 @@ class HistoryFragment() : BaseFragment() {
             }else {
                 if (isAllOrdersSelected) {
                     viewModel.historyActivityLiveData.postValue(viewModel.historyActivityListOriginal.filter {
-                        it?.locationName!!.contains(
+                        it.locationName!!.contains(
                             s.toString(),
                             ignoreCase = true
                         )
@@ -363,7 +371,7 @@ class HistoryFragment() : BaseFragment() {
                     viewModel.historyActivityLiveData.postValue(viewModel.historyActivityListOriginal.filter {
                         it.printStatus.equals("Not Printed")
                     }.filter {
-                        it?.locationName!!.contains(
+                        it.locationName!!.contains(
                             s.toString(),
                             ignoreCase = true
                         )

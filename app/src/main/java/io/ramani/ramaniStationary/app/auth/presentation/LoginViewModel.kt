@@ -23,7 +23,6 @@ class LoginViewModel(
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
-    private val taxObjectUseCase: BaseSingleUseCase<TaxInformationResponse, TaxInformationRequest>,
     private val prefs: PrefsManager
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -57,8 +56,6 @@ class LoginViewModel(
                 prefs.timeZone = it.timeZone
                 prefs.currency = it.currency
                 loginActionLiveData.postValue(it)
-
-                getTaxObject(it.uuid)
             }, onError = {
                 isLoadingVisible = false
 //                notifyError(
@@ -72,21 +69,11 @@ class LoginViewModel(
         }
     }
 
-    fun getTaxObject(uuid: String) {
-        val single = taxObjectUseCase.getSingle(TaxInformationRequest(userId = uuid))
-        subscribeSingle(single, onSuccess = {
-            prefs.taxObject = Gson().toJson(it)
-        },onError = {
-            notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-        })
-    }
-
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
-        private val taxObjectUseCase: BaseSingleUseCase<TaxInformationResponse, TaxInformationRequest>,
         private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
@@ -97,7 +84,6 @@ class LoginViewModel(
                     stringProvider,
                     sessionManager,
                     loginUseCase,
-                    taxObjectUseCase,
                     prefs
                 ) as T
             }
