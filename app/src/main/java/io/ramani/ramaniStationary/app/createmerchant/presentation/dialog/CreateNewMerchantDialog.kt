@@ -164,4 +164,8 @@ class CreateNewMerchantDialog(
         }
     }
 
+    override fun onBackPressed() {
+        dismiss()
+    }
+
 }

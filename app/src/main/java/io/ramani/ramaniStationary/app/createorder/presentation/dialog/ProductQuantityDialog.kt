@@ -135,4 +135,7 @@ class ProductQuantityDialog(
         }
     }
 
+    override fun onBackPressed() {
+        dismiss()
+    }
 }
