@@ -126,7 +126,7 @@ class CREATE_ORDER_MODEL {
             val request = SaleRequestModel(
                 companyId,
                 companyName,
-                customer?.id ?: "walkIn Customer",
+                customer?.id ?: "",
                 customer?.name ?: "walkIn Customer",
                 userName,
                 userId,

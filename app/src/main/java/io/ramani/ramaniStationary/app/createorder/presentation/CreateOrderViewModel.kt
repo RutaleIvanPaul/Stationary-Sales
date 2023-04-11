@@ -264,7 +264,7 @@ class CreateOrderViewModel(
         var total_exempt = 0.0
         var total_vat = 0.0
 
-        sale.createdOrders.first().item.forEach {
+        sale.createdOrders.first().items.forEach {
             val item_cost = it.quantity * it.price
             items += "${it.productName} ${it.quantity} x ${it.price} TSH = ${item_cost} TSH ${it.vatCategory}\n\n"
 

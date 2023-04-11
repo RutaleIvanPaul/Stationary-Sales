@@ -117,21 +117,11 @@ class CreateOrderFragment : BaseFragment() {
         val keyword = create_order_search_textfield.text.trim().toString()
         val products = if (keyword.isNotEmpty()) viewModel.productList.filter { product -> product.name.contains(keyword, true) } else viewModel.productList
 
-        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.availableStockProductList) { item, isAdded, unitChanged ->
-            isAdded?.let {
-                item.selectedQuantity = if (it) ++item.selectedQuantity else --item.selectedQuantity
-                if (item.selectedQuantity < 0)
-                    item.selectedQuantity = 0
-            }
-
-            unitChanged?.let {
-                item.selectedUnit = it
-            }
-
+        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.availableStockProductList) { item ->
             // Add or remove product from orders
             CREATE_ORDER_MODEL.addOrRemoveProduct(item)
 
-            productsAdapter.notifyDataSetChanged()
+            //productsAdapter.notifyDataSetChanged()
             updateCheckOutStatus()
         }
 
