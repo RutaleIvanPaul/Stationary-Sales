@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.skydoves.powerspinner.PowerSpinnerView
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createmerchant.presentation.CreateMerchantViewModel
+import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODEL
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderViewModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MerchantRouteModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MetaDataItem
@@ -165,7 +167,22 @@ class CreateNewMerchantDialog(
     }
 
     override fun onBackPressed() {
-        dismiss()
+        openWarningDialog()
+    }
+
+    private fun openWarningDialog() {
+        val confirmDialog = AlertDialog.Builder(context)
+        confirmDialog.apply {
+            setTitle(R.string.warning_cancel_creating_merchant)
+
+            setPositiveButton(R.string.okay) { dialog, which ->
+                dismiss()
+            }
+
+            setNegativeButton(android.R.string.cancel, null)
+
+            show()
+        }
     }
 
 }
