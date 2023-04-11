@@ -63,4 +63,7 @@ class ProductPriceCategoryDialog(
         }
     }
 
+    override fun onBackPressed() {
+        dismiss()
+    }
 }
