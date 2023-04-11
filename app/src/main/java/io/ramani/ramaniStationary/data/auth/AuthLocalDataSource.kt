@@ -5,6 +5,7 @@ import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniStationary.domain.auth.AuthDataSource
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
+import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
 import io.ramani.ramaniStationary.domainCore.prefs.Prefs
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -34,6 +35,8 @@ class AuthLocalDataSource(
         prefsManager.accessToken = ""
         prefsManager.currentWarehouse = ""
         prefsManager.taxObject = ""
+        prefsManager.lastSyncTime = ""
+        prefsManager.taxInformation = TaxInformationModel()
 
         return Single.just(true)
     }

@@ -126,7 +126,7 @@ class CREATE_ORDER_MODEL {
             val request = SaleRequestModel(
                 companyId,
                 companyName,
-                customer?.id ?: "",
+                customer?.id ?: "walkIn Customer",
                 customer?.name ?: "walkIn Customer",
                 userName,
                 userId,
@@ -137,7 +137,9 @@ class CREATE_ORDER_MODEL {
                 customerVrnNumber,
                 listOf(order),
                 "",
-                totalCost = getTotalOrderedPrice()
+                totalCost = getTotalOrderedPrice(),
+                hasNewMerchantTIN = customer != null,
+                hasNewMerchantVRN = customer != null
             )
 
             // Save as json

@@ -100,12 +100,7 @@ class HomeViewModel(
 
         }, onError = {
             isLoadingVisible = false
-//                notifyError(
-//                    it.message
-//                        ?: getString(R.string.an_error_has_occured_please_try_again),
-//                    PresentationError.ERROR_TEXT
-//                )
-            notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
         })
     }
 

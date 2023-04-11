@@ -20,6 +20,8 @@ data class MerchantModel(
     var salesPersonName: String = "",
     var members: List<MerchantMemberModel> = listOf(),
     var merchantTIN: String = "",
+    var merchantVRN: String = "",
+    var updatedAt: String = "",
     var city: String = "",
     var creditLimit: Int = 0,
     var merchantType: String = "Default"
@@ -34,6 +36,8 @@ data class MerchantModel(
         private var salesPersonName: String = ""
         private var members: List<MerchantMemberModel> = listOf()
         private var merchantTIN: String = ""
+        private var merchantVRN: String = ""
+        private var updatedAt: String = ""
         private var city: String = ""
         private var creditLimit: Int = 0
         private var merchantType: String = "Default"
@@ -78,6 +82,16 @@ data class MerchantModel(
             return this
         }
 
+        fun merchantVRN(merchantVRN: String): Builder {
+            this.merchantVRN = merchantVRN
+            return this
+        }
+
+        fun updatedAt(updatedAt: String): Builder {
+            this.updatedAt = updatedAt
+            return this
+        }
+
         fun city(city: String): Builder {
             this.city = city
             return this
@@ -103,6 +117,8 @@ data class MerchantModel(
                 salesPersonName,
                 members,
                 merchantTIN,
+                merchantVRN,
+                updatedAt,
                 city,
                 creditLimit,
                 merchantType
@@ -119,6 +135,8 @@ data class MerchantModel(
         parcel.createTypedArrayList(MerchantMemberModel) ?: listOf(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readString() ?: ""
     ) {
@@ -132,6 +150,9 @@ data class MerchantModel(
         parcel.writeString(salesPersonUID)
         parcel.writeString(salesPersonName)
         parcel.writeTypedList(members)
+        parcel.writeString(merchantTIN)
+        parcel.writeString(merchantVRN)
+        parcel.writeString(updatedAt)
         parcel.writeString(merchantTIN)
         parcel.writeString(city)
         parcel.writeInt(creditLimit)

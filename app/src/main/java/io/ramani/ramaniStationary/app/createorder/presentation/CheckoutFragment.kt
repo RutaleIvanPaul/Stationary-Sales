@@ -13,6 +13,7 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingle
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.app.createmerchant.presentation.dialog.CreateNewMerchantDialog
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CheckoutProductsRVAdapter
@@ -61,6 +62,19 @@ class CheckoutFragment : BaseFragment() {
             requireActivity().onBackPressed()
         }
 
+        // Add new customer
+        checkout_customer_add_new.setOnSingleClickListener {
+            val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { merchant ->
+                updateMerchants()
+
+                checkout_select_customer_spinner.selectItemByIndex(0)
+
+                updateUI()
+            }
+
+            dialog.show()
+        }
+
         checkout_payment_method_paid.setOnCheckedChangeListener { button, checked ->
             if (checked)
                 CREATE_ORDER_MODEL.paymentMethod = button.text.toString()
@@ -92,22 +106,7 @@ class CheckoutFragment : BaseFragment() {
 
     private fun subscribeResponse() {
         viewModel.onMerchantsLoadedLiveData.observe(this) {
-            checkout_select_customer_spinner.apply {
-                setItems(viewModel.merchantNameList)
-                setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
-                    viewModel.merchantList[newIndex].apply {
-                        CREATE_ORDER_MODEL.customer = this
-                        CREATE_ORDER_MODEL.customerTinNumber = this.merchantTIN
-                        checkout_tin_number.setText(this.merchantTIN)
-
-                        updateUI()
-                    }
-                }
-
-                CREATE_ORDER_MODEL.customer?.let {
-                    text = it.name
-                }
-            }
+            updateMerchants()
         }
 
         viewModel.onSaleSubmittedLiveData.observe(this) {
@@ -120,6 +119,7 @@ class CheckoutFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         CREATE_ORDER_MODEL.onOrderedProductsUpdatedLiveData.postValue(true)
+        checkout_select_customer_spinner.dismiss()
 
         return super.onBackButtonPressed()
     }
@@ -132,6 +132,26 @@ class CheckoutFragment : BaseFragment() {
     override fun showError(error: String) {
         super.showError(error)
         errorDialog(error)
+    }
+
+    private fun updateMerchants() {
+        checkout_select_customer_spinner.apply {
+            setItems(viewModel.merchantNameList)
+            setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+                viewModel.merchantList[newIndex].apply {
+                    CREATE_ORDER_MODEL.customer = this
+                    CREATE_ORDER_MODEL.customerTinNumber = this.merchantTIN
+                    checkout_tin_number.setText(this.merchantTIN)
+                    checkout_vrn_number.setText(this.merchantVRN)
+
+                    updateUI()
+                }
+            }
+
+            CREATE_ORDER_MODEL.customer?.let {
+                text = it.name
+            }
+        }
     }
 
     private fun updateRV() {

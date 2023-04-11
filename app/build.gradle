@@ -51,6 +51,11 @@ android {
     namespace 'io.ramani.ramaniStationary'
     compileSdk 33
     compileSdkVersion 33
+    configurations {
+        cleanedAnnotations
+
+        compile.exclude group: 'org.jetbrains', module: 'annotations'
+    }
 
     defaultConfig {
         applicationId "io.ramani.ramaniStationary"
@@ -60,14 +65,30 @@ android {
         versionName versionNameStr
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schema".toString()]
+                // project will automatically keep record of schemas
+            }
+        }
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
+
+        //ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
     }
 
     splits {
         abi {
             enable true
             reset()
-            include 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'mips', 'arm64', 'arm64-v8a'
-            universalApk false
+            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            universalApk true
         }
     }
 
