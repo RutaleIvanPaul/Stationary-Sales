@@ -10,6 +10,7 @@ import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.createmerchant.presentation.CreateMerchantFragment
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
 import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
+import io.ramani.ramaniStationary.app.reports.presentation.ReportsFragment
 import io.ramani.ramaniStationary.app.stock.presentation.StockFragment
 
 class HomeFlowController(
@@ -71,11 +72,19 @@ class HomeFlowController(
     }
 
     override fun openAllTodaySales() {
-        // TODO("Not yet implemented")
+        val fragment = ReportsFragment.newInstance()
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
     }
 
     override fun openAllCustomers() {
-        // TODO("Not yet implemented")
+        val fragment = ReportsFragment.newInstance()
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
     }
 
     override fun openCreateNewOrder() {
