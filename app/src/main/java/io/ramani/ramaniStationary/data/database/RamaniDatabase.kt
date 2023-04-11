@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.data.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -14,10 +15,16 @@ import io.ramani.ramaniStationary.domain.home.model.TaxModel
 
 const val DATABASE_NAME = "ramani_stationary_app_db"
 const val DATABASE_VERSION = 2
-
 @Database(
+    version = DATABASE_VERSION,
     entities = [MerchantModel::class, ProductModel::class, TaxModel::class],
-    version = DATABASE_VERSION
+    autoMigrations = [
+        AutoMigration(
+            from = 1,
+            to = 2
+        )
+    ],
+    exportSchema = true
 )
 @TypeConverters(ProductCategoryConverts::class, MerchantMemberConverts::class)
 abstract class RamaniDatabase : RoomDatabase() {
