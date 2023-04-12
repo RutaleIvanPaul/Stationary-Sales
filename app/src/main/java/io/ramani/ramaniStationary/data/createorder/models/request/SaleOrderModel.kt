@@ -12,5 +12,5 @@ data class SaleOrderModel (
     val totalCost: Double,
     val deliveryStatus: Double,
     val paymentStatus: Double,
-    val item: List<SaleOrderItemModel>
+    val items: List<SaleOrderItemModel>
 ) : Params
