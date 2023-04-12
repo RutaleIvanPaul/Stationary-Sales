@@ -24,7 +24,7 @@ val authModule = Module("authModule") {
             fragment, LoginViewModel.Factory(
                 instance(), instance(), instance(),
                 instance("loginUseCase"),
-                instance("getTaxObjectUseCase")
+                instance()
             )
         ).get(LoginViewModel::class.java)
     }
