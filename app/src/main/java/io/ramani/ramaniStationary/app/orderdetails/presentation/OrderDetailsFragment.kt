@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.history.presentation.HistoryViewModel
@@ -31,11 +33,16 @@ class OrderDetailsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        setToolbarTitle("")
+        requireActivity().findViewById<TextView>(R.id.appbar).visible(visible = false)
         arguments?.let {
             orderID = it.getString(ARG_PARAM_ORDERID)
             viewModel.getOrderDetails(orderID!!)
         }
+    }
+
+    override fun onPause() {
+        requireActivity().findViewById<TextView>(R.id.appbar).visible(visible = true)
+        super.onPause()
     }
 
     override fun initView(view: View?) {
@@ -86,6 +93,12 @@ class OrderDetailsFragment : BaseFragment() {
 
             orderProductList.addAll(it.order.items)
             orderDetailsRVAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.onPrintReceiptLiveData.observe(this){
+            if (it){
+                print_status_value.setText(getString(R.string.printed))
+            }
         }
     }
 

@@ -201,5 +201,6 @@
     <!-- Merchant -->
     <string name="hint_search_merchant">Search all Customers</string>
     <string name="invalid_phone_number">Phone numbers should be 9 or 10 digits long</string>
+    <string name="n_a">N/A</string>
 
 </resources>

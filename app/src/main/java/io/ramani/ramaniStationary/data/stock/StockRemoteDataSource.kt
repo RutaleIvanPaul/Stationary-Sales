@@ -20,8 +20,12 @@ class StockRemoteDataSource(
     override fun getAvailableStock(salesPersonUID: String): Single<GetRollingStock?> =
         callSingle(
             stockApi.getAvailableStock(salesPersonUID).flatMap {
-                val data = it?.data?.get(0)
-                Single.just(data)
+                if(!it.data.isNullOrEmpty()) {
+                    val data = it?.data?.get(0)
+                    Single.just(data)
+                }else{
+                    Single.just(null)
+                }
             }
         )
 }
