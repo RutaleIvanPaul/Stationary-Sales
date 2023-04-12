@@ -23,6 +23,7 @@
     <string name="has_auth">Has Authentication</string>
     <string name="user_name">Username</string>
     <string name="password">Password</string>
+    <string name="n_a">N/A</string>
 
     <!-- Home -->
     <string name="today_sales">Today Sales</string>
@@ -201,6 +202,6 @@
     <!-- Merchant -->
     <string name="hint_search_merchant">Search all Customers</string>
     <string name="invalid_phone_number">Phone numbers should be 9 or 10 digits long</string>
-    <string name="n_a">N/A</string>
+    <string name="warning_cancel_creating_merchant">Are you sure you want to cancel creating merchant?</string>
 
 </resources>

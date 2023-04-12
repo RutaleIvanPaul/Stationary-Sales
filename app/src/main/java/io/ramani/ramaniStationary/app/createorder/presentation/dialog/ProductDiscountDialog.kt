@@ -71,4 +71,7 @@ class ProductDiscountDialog(
         }
     }
 
+    override fun onBackPressed() {
+        dismiss()
+    }
 }

@@ -64,7 +64,7 @@ class CheckoutFragment : BaseFragment() {
 
         // Add new customer
         checkout_customer_add_new.setOnSingleClickListener {
-            val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { merchant ->
+            val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { _ ->
                 updateMerchants()
 
                 checkout_select_customer_spinner.selectItemByIndex(0)
