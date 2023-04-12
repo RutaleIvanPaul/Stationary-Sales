@@ -8,6 +8,7 @@ import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationErr
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.createmerchant.models.request.GetTopPerformersRequestModel
+import io.ramani.ramaniStationary.data.reports.models.request.GetSalesSummaryStatisticsRequestModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
@@ -15,6 +16,7 @@ import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.createmerchant.model.NameValueModel
 import io.ramani.ramaniStationary.domain.createmerchant.model.TopPerformersModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
+import io.ramani.ramaniStationary.domain.reports.model.SalesSummaryStatisticsModel
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniStationary.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
@@ -27,6 +29,7 @@ class ReportsViewModel(
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val getTopPerformersUseCase: BaseSingleUseCase<TopPerformersModel, GetTopPerformersRequestModel>,
+    private val getSalesSummaryStatisticsUseCase: BaseSingleUseCase<SalesSummaryStatisticsModel, GetSalesSummaryStatisticsRequestModel>,
     private val prefs: PrefsManager,
     private val dateFormatter: DateFormatter,
     private val printerHelper: PrinterHelper
@@ -97,6 +100,7 @@ class ReportsViewModel(
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val getTopPerformersUseCase: BaseSingleUseCase<TopPerformersModel, GetTopPerformersRequestModel>,
+        private val getSalesSummaryStatisticsUseCase: BaseSingleUseCase<SalesSummaryStatisticsModel, GetSalesSummaryStatisticsRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter,
         private val printerHelper: PrinterHelper
@@ -109,6 +113,7 @@ class ReportsViewModel(
                     stringProvider,
                     sessionManager,
                     getTopPerformersUseCase,
+                    getSalesSummaryStatisticsUseCase,
                     prefs,
                     dateFormatter,
                     printerHelper

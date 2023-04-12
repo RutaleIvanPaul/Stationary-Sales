@@ -212,7 +212,7 @@
     <string name="sale_summary">Sale Summary</string>
     <string name="total_sales_value">Total sales value</string>
     <string name="total_sales_count">Total sales count</string>
-    <string name="discounts_given">Discounts given</string>
+    <string name="total_credit_given">Total Credit Given</string>
     <string name="top_customers">Top Customers</string>
     <string name="amount">Amount</string>
     <string name="top_products">Top Products</string>

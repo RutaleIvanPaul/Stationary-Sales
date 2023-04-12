@@ -114,7 +114,7 @@
 
                             <TextView
                                 style="@style/NormalTextLabel"
-                                android:text="@string/discounts_given"
+                                android:text="@string/total_credit_given"
                                 android:textColor="@color/text_grey" />
 
                             <LinearLayout
@@ -125,12 +125,12 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:id="@+id/reports_discounts_given_currency"
+                                    android:id="@+id/reports_total_discount_given_currency"
                                     style="@style/BoldTextLabel"
                                     android:text="TZS" />
 
                                 <TextView
-                                    android:id="@+id/reports_discounts_given"
+                                    android:id="@+id/reports_total_discount_given"
                                     style="@style/BoldHugeTextLabel"
                                     android:layout_marginStart="5dp"
                                     android:text="100,000" />

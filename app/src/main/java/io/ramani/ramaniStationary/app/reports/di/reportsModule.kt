@@ -18,6 +18,7 @@ val reportsModule = Module("reportsModule") {
             fragment, ReportsViewModel.Factory(
                 instance(), instance(), instance(),
                 instance("GetTopPerformersUseCase"),
+                instance("GetSalesSummaryStatisticsUseCase"),
                 instance(),
                 instance(),
                 instance()
