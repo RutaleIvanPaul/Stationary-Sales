@@ -16,15 +16,12 @@ val authModule = Module("authModule") {
     import(authDataModule)
     import(authDomainModule)
 
-
-
-
     bind<LoginViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, LoginViewModel.Factory(
                 instance(), instance(), instance(),
                 instance("loginUseCase"),
-                instance("getTaxObjectUseCase")
+                instance()
             )
         ).get(LoginViewModel::class.java)
     }
