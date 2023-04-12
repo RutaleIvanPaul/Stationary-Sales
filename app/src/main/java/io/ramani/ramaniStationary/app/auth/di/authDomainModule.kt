@@ -1,6 +1,8 @@
 package io.ramani.ramaniStationary.app.auth.di
 
 import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
+import io.ramani.ramaniStationary.data.auth.models.request.TaxInformationRequest
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.ramani.ramaniStationary.domain.auth.useCase.LoginUseCase
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase

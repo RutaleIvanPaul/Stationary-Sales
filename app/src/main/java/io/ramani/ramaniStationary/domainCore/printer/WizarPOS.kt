@@ -7,10 +7,9 @@ import com.cloudpos.DeviceException
 import com.cloudpos.POSTerminal
 import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
-import io.ramani.ramaniStationary.domainCore.printer.POSDevice
 
 
-class WizarPOS(var context: Context) : POSDevice {
+class WizarPOS(var context: Context) : POSDevice{
     private var device: PrinterDevice? = null
     private val TAG = "Printer Work"
 

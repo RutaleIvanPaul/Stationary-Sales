@@ -243,6 +243,8 @@ class HomeViewModel(
         )
     }
 
+    fun getFormattedAmount(amount: Double): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
+
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
     fun getFormattedAmountLong(amount: Double): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 

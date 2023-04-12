@@ -43,6 +43,4 @@ class AuthLocalDataSource(
         Completable.fromAction {
             prefsManager.accessToken = token
         }
-
-
 }

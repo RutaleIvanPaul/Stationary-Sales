@@ -1,27 +1,23 @@
 package io.ramani.ramaniStationary.app.stock.presentation
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextWatcher
-import android.text.style.ImageSpan
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
+import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.stock.models.response.ProductsItem
-import kotlinx.android.synthetic.main.activity_main.*
+import io.ramani.ramaniStationary.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_stock.*
 import org.kodein.di.generic.factory
 
@@ -38,15 +34,15 @@ class StockFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        setToolbarTitle("Stock")
         viewModel.start()
-
+        setToolbarTitle("Stock")
         availableStockRVAdapter = AvailableStockRVAdapter(availableStockProductsList, onItemClick = {})
 
     }
 
     override fun onResume() {
         super.onResume()
+        initListeners()
         viewModel.getAvailableStock()
     }
 
@@ -55,7 +51,7 @@ class StockFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        requireActivity().findViewById<TextView>(R.id.stock_textview).visible(visible = true)
+        requireActivity().findViewById<TextView>(R.id.toolbar_title_textview).visible(visible = true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_stock, container, false)
     }
@@ -73,6 +69,11 @@ class StockFragment : BaseFragment() {
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
         stock_loader.visible(visible)
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun initListeners() {
@@ -93,6 +94,9 @@ class StockFragment : BaseFragment() {
         appbar_refresh_tv.setOnSingleClickListener {
             viewModel.getAvailableStock()
         }
+
+        requireActivity().findViewById<TextView>(R.id.toolbar_title_textview).setText("Stock")
+
     }
 
     private val searchTextWatcher = object : TextWatcher {
@@ -116,8 +120,12 @@ class StockFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
+        if(isAdded) {
+            if (search_stock.isNotNull()) {
+                search_stock.removeTextChangedListener(searchTextWatcher)
+            }
+        }
         super.onDestroy()
-        search_stock.removeTextChangedListener(searchTextWatcher)
     }
 
     private fun initSubscribers() {

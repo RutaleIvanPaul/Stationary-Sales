@@ -18,7 +18,7 @@ import com.chad.baserecyclerviewadapterhelper.entity.Status;
 import com.chad.baserecyclerviewadapterhelper.utils.Tips;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.jaredrummler.materialspinner.MaterialSpinner;
+//import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.kyleduo.switchbutton.SwitchButton;
 
 /**
@@ -38,7 +38,7 @@ public class AnimationUseActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         initAdapter();
-        initMenu();
+//        initMenu();
         initView();
     }
 
@@ -82,53 +82,53 @@ public class AnimationUseActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAnimationAdapter);
     }
 
-    private void initMenu() {
-        MaterialSpinner spinner = findViewById(R.id.spinner);
-        spinner.setItems("AlphaIn", "ScaleIn", "SlideInBottom", "SlideInLeft", "SlideInRight", "Custom1", "Custom2");
-        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                switch (position) {
-                    case 0:
-                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.AlphaIn);
-                        break;
-                    case 1:
-                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
-                        break;
-                    case 2:
-                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInBottom);
-                        break;
-                    case 3:
-                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInLeft);
-                        break;
-                    case 4:
-                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInRight);
-                        break;
-                    case 5:
-                        mAnimationAdapter.setAdapterAnimation(new CustomAnimation1());
-                        break;
-                    case 6:
-                        mAnimationAdapter.setAdapterAnimation(new CustomAnimation2());
-                        break;
-                    default:
-                        break;
-                }
-                mRecyclerView.setAdapter(mAnimationAdapter);
-            }
-        });
-        //init firstOnly state
-        mAnimationAdapter.setAnimationFirstOnly(false);
-        SwitchButton switchButton = findViewById(R.id.switch_button);
-        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                mAnimationAdapter.setAnimationFirstOnly(isChecked);
-                mAnimationAdapter.notifyDataSetChanged();
-            }
-        });
-
-    }
+//    private void initMenu() {
+//        MaterialSpinner spinner = findViewById(R.id.spinner);
+//        spinner.setItems("AlphaIn", "ScaleIn", "SlideInBottom", "SlideInLeft", "SlideInRight", "Custom1", "Custom2");
+//        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+//
+//            @Override
+//            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+//                switch (position) {
+//                    case 0:
+//                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.AlphaIn);
+//                        break;
+//                    case 1:
+//                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
+//                        break;
+//                    case 2:
+//                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInBottom);
+//                        break;
+//                    case 3:
+//                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInLeft);
+//                        break;
+//                    case 4:
+//                        mAnimationAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.SlideInRight);
+//                        break;
+//                    case 5:
+//                        mAnimationAdapter.setAdapterAnimation(new CustomAnimation1());
+//                        break;
+//                    case 6:
+//                        mAnimationAdapter.setAdapterAnimation(new CustomAnimation2());
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                mRecyclerView.setAdapter(mAnimationAdapter);
+//            }
+//        });
+//        //init firstOnly state
+//        mAnimationAdapter.setAnimationFirstOnly(false);
+//        SwitchButton switchButton = findViewById(R.id.switch_button);
+//        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+//                mAnimationAdapter.setAnimationFirstOnly(isChecked);
+//                mAnimationAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//    }
 
 
 }

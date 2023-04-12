@@ -9,7 +9,9 @@ import io.ramani.ramaniStationary.app.common.presentation.dialogs.BaseNavigation
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.createmerchant.presentation.CreateMerchantFragment
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
+import io.ramani.ramaniStationary.app.history.presentation.HistoryFragment
 import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
+import io.ramani.ramaniStationary.app.orderdetails.presentation.OrderDetailsFragment
 import io.ramani.ramaniStationary.app.stock.presentation.StockFragment
 
 class HomeFlowController(
@@ -63,7 +65,12 @@ class HomeFlowController(
     }
 
     override fun openHistory() {
-        // TODO("Not yet implemented")
+        val fragment = HistoryFragment.newInstance()
+        navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.REPLACE,
+            needAnimation = false
+        )
     }
 
     override fun openCredit() {
@@ -106,6 +113,14 @@ class HomeFlowController(
         } else {
             navigationBack()
         }
+    }
+
+    override fun openOrderDetails(orderID: String) {
+        val fragment = OrderDetailsFragment.newInstance(orderID)
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
     }
 
     protected fun navigationBack() {

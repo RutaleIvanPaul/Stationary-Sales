@@ -12,7 +12,7 @@ class PX400Printer(var context: Context) {
     private var device: POSDevice? = null
     private val TAG = "Printer Work"
 
-    fun open():Boolean {
+    fun open(): Boolean {
         initDevice()
         if (device != null) {
             try {
@@ -24,7 +24,7 @@ class PX400Printer(var context: Context) {
                 ex.printStackTrace()
                 return false
             }
-        }else {
+        } else {
             return false
         }
     }
@@ -33,9 +33,9 @@ class PX400Printer(var context: Context) {
         try {
             device?.close()
             device = null
-            Log.d(TAG,"Close Printer succeed!")
+            Log.d(TAG, "Close Printer succeed!")
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Close Printer Failed!")
+            Log.d(TAG, "Close Printer Failed!")
             ex.printStackTrace()
         }
     }
@@ -46,22 +46,22 @@ class PX400Printer(var context: Context) {
             format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
             format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             device?.printText(format, msg)
-            Log.d(TAG,"Print Text  succeed!")
+            Log.d(TAG, "Print Text  succeed!")
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Print Text Failed!")
+            Log.d(TAG, "Print Text Failed!")
             ex.printStackTrace()
         }
     }
 
-    fun printBitmap(bitmap: Bitmap){
+    fun printBitmap(bitmap: Bitmap) {
         try {
 //            val format = Format()
 //            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
 //            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
             device?.printBitmap(bitmap)
-            Log.d(TAG,"Print Bitmap  succeed!")
+            Log.d(TAG, "Print Bitmap  succeed!")
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Print Bitmap Failed!")
+            Log.d(TAG, "Print Bitmap Failed!")
             ex.printStackTrace()
         }
     }
@@ -75,11 +75,11 @@ class PX400Printer(var context: Context) {
         }
     }
 
-   private fun initDevice(){
-       val name = Build.MANUFACTURER
-       if (device == null) {
-           device = getDevice(name)
-       }
+    private fun initDevice() {
+        val name = Build.MANUFACTURER
+        if (device == null) {
+            device = getDevice(name)
+        }
     }
 
     init {

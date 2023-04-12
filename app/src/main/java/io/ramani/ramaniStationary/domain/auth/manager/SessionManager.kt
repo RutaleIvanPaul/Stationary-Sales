@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.domain.auth.manager
 
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.domain.auth.AuthDataSource
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
 import io.reactivex.Completable

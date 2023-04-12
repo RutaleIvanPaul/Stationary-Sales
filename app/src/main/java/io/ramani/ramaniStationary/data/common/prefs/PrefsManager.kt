@@ -67,6 +67,13 @@ open class PrefsManager(context: Context) : Prefs {
                 .putString(PrefsConstants.PREF_LAST_SYNC_TIME, value).apply()
         }
 
+    override var currency: String
+        get() =
+            sharedPrefs.getString(PrefsConstants.PREF_CURRENCY,null)?:""
+        set(value) {
+            sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENCY, value).apply()
+        }
+
     override var taxInformation: TaxInformationModel
         get() {
             val taxInformationString = sharedPrefs.getString(PrefsConstants.PREF_TAX_INFORMATION, null) ?: ""

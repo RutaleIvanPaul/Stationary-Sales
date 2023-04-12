@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.domainCore.printer
 
 import android.Manifest
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
 import android.content.Context

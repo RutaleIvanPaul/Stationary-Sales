@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.data.auth
 
 import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
 import io.ramani.ramaniStationary.data.auth.models.UserRemoteModel
 import io.ramani.ramaniStationary.data.common.network.ErrorConstants
 import io.ramani.ramaniStationary.data.common.network.toErrorResponseModel
@@ -127,6 +128,4 @@ class AuthRemoteDataSource(
     override fun refreshAccessToken(token: String): Completable {
         TODO("Not yet implemented")
     }
-
-
 }

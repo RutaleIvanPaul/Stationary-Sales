@@ -5,10 +5,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.auth.models.LoginRequestModel
+import io.ramani.ramaniStationary.data.auth.models.TaxInformationResponse
+import io.ramani.ramaniStationary.data.auth.models.request.TaxInformationRequest
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.auth.model.UserModel
@@ -51,6 +54,7 @@ class LoginViewModel(
                 prefs.currentUser = it.toString()
                 prefs.accessToken = it.token
                 prefs.timeZone = it.timeZone
+                prefs.currency = it.currency
                 loginActionLiveData.postValue(it)
             }, onError = {
                 isLoadingVisible = false

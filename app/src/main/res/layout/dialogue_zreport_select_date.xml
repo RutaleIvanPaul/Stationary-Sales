@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_320sdp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_15sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/zreport_custom_main_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_15sdp">
+
+                <!-- Header -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/CommonRailwayView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/zreport_custom_close_button"
+                        android:text="@string/custom_z_report"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/zreport_custom_close_button"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_close_icon"
+                        app:tint="@color/black" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/CommonRailwayView"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/custom_z_report_hint"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="12sp" />
+
+                <!-- Start Date -->
+
+                <TextView
+                    style="@style/CommonRailwayView"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/start_date"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/zreport_custom_start_date_pick_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/round_coral_grey_outline"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/start_date_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/ramani_green" />
+
+                    <TextView
+                        android:id="@+id/zreport_custom_start_date_label"
+                        style="@style/CommonRailwayView"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/zreport_custom_start_date_drop_down"
+                        android:layout_toEndOf="@+id/start_date_icon"
+                        android:hint="@string/select_start_date"
+                        android:textFontWeight="800" />
+
+                    <ImageView
+                        android:id="@+id/zreport_custom_start_date_drop_down"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_drop_down_caret"
+                        app:tint="@color/ramani_green" />
+
+                </RelativeLayout>
+
+                <!-- End Date -->
+
+                <TextView
+                    style="@style/CommonRailwayView"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/end_date"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/zreport_custom_end_date_pick_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/round_coral_grey_outline"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/end_date_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="@color/ramani_green" />
+
+                    <TextView
+                        android:id="@+id/zreport_custom_end_date_label"
+                        style="@style/CommonRailwayView"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/zreport_custom_end_date_drop_down"
+                        android:layout_toEndOf="@+id/end_date_icon"
+                        android:hint="@string/select_end_date"
+                        android:textFontWeight="800" />
+
+                    <ImageView
+                        android:id="@+id/zreport_custom_end_date_drop_down"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_drop_down_caret"
+                        app:tint="@color/ramani_green" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/zreport_custom_confirm_button"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/button_round_coral_blue"
+                    android:text="@string/confirm_and_print"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/zreport_custom_progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_grey"
+                android:alpha="0.5"
+                android:visibility="gone"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:progressTint="@color/colorAccent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/zreport_custom_successful_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="48dp"
+                    android:src="@drawable/ic_circle_check" />
+
+                <TextView
+                    style="@style/CommonRailwayView"
+                    android:layout_marginTop="35dp"
+                    android:text="@string/printing_successful"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/CommonRailwayView"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/printing_successful_message"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/zreport_custom_successful_confirm_button"
+                    style="@style/CommonRailwayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:background="@drawable/button_round_coral_blue"
+                    android:text="@string/okay"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

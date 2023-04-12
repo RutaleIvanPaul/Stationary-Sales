@@ -4,6 +4,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Interval
 import org.joda.time.LocalDate
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -135,6 +136,34 @@ fun DateTime.getDateInPast(monthDifference: Int) =
     this.minusMonths(monthDifference).millis
 
 fun today(): String = LocalDate().toString("dd/MM/YYYY")
+
+fun todayHyphenated(): String = LocalDate().toString("YYYY-MM-dd")
+
+fun getDateYesterDay(): String {
+    val df: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DATE, -1)
+    val yesterday = calendar.time
+    return df.format(yesterday)
+}
+
+fun getDateLastMonthStart(): String {
+    val df: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.MONTH, -1)
+    calendar[Calendar.DATE] = 1
+    val startLastMonth = calendar.time
+    return df.format(startLastMonth)
+}
+
+fun getDateLastMonthEnd(): String {
+    val df: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.MONTH, -1)
+    calendar[Calendar.DAY_OF_MONTH] = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    val endLastMonth = calendar.time
+    return df.format(endLastMonth)
+}
 
 data class PeriodDisplay(val period: Int, val type: Int) {
     companion object {
