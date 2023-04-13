@@ -171,7 +171,7 @@
     <string name="customer_name">Customer Name</string>
     <string name="hint_customer_name">Enter Customer Name</string>
     <string name="mobile_number">Mobile number</string>
-    <string name="hint_mobile_number">767123456</string>
+    <string name="hint_mobile_number">Enter mobile number</string>
     <string name="customer_type">Customer type</string>
     <string name="hint_customer_type">Select Customer type</string>
     <string name="shop_name">Shop name</string>

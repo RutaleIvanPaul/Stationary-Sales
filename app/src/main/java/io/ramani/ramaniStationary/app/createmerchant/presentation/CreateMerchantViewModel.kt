@@ -49,7 +49,7 @@ class CreateMerchantViewModel(
     val topMerchants = mutableListOf<NameValueModel>()
     val onTopPerformersLoadedLiveData = SingleLiveEvent<TopPerformersModel>()
 
-    val onMerchantAddedLiveData = SingleLiveEvent<MerchantModel>()
+    val onMerchantAddedLiveData = SingleLiveEvent<Pair<MerchantModel?, String>>()
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -122,10 +122,11 @@ class CreateMerchantViewModel(
 
                 merchantList.add(it)
 
-                onMerchantAddedLiveData.postValue(it)
+                onMerchantAddedLiveData.postValue(Pair(first = it, second = ""))
             }, onError = {
                 isLoadingVisible = false
                 notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                onMerchantAddedLiveData.postValue(Pair(first = null, second = getErrorMessage(it)))
             })
         }
     }

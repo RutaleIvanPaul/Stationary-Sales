@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.skydoves.powerspinner.PowerSpinnerView
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.loadImage
+import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import java.text.NumberFormat
@@ -45,17 +46,20 @@ class CreateOrderProductsRVAdapter(
                     override fun afterTextChanged(s: Editable) {}
                     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                        val isOkay = false
-
                         try {
                             val amount = s.trim().toString().toInt()
-                            if (amount <= availableStockAmount) {
-                                getView<EditText>(R.id.item_product_quantity).setTextColor(Color.BLACK)
-                                item.selectedQuantity = amount
-                                onItemChanged(item)
+
+                            if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                                if (amount <= availableStockAmount) {
+                                    getView<EditText>(R.id.item_product_quantity).setTextColor(Color.BLACK)
+                                    item.selectedQuantity = amount
+                                    onItemChanged(item)
+                                } else {
+                                    getView<EditText>(R.id.item_product_quantity).setTextColor(Color.RED)
+                                    item.selectedQuantity = 0
+                                    onItemChanged(item)
+                                }
                             } else {
-                                getView<EditText>(R.id.item_product_quantity).setTextColor(Color.RED)
-                                item.selectedQuantity = 0
                                 onItemChanged(item)
                             }
                         } catch (e: java.lang.Exception) {
@@ -66,21 +70,31 @@ class CreateOrderProductsRVAdapter(
             }
 
             getView<ImageView>(R.id.item_product_add_plus_button).apply {
-                this.isEnabled = availableStockAmount > 0
+                if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                    this.isEnabled = availableStockAmount > 0
 
-                setOnClickListener {
-                    item.selectedQuantity = ++item.selectedQuantity
-                    if (item.selectedQuantity > availableStockAmount)
-                        item.selectedQuantity = availableStockAmount
+                    setOnClickListener {
+                        item.selectedQuantity = ++item.selectedQuantity
+                        if (item.selectedQuantity > availableStockAmount)
+                            item.selectedQuantity = availableStockAmount
 
-                    quantityTextView.setText(item.selectedQuantity.toString())
+                        quantityTextView.setText(item.selectedQuantity.toString())
 
-                    onItemChanged(item)
+                        onItemChanged(item)
+                    }
+                } else {
+                    setOnClickListener {
+                        item.selectedQuantity = ++item.selectedQuantity
+                        quantityTextView.setText(item.selectedQuantity.toString())
+                        onItemChanged(item)
+                    }
                 }
             }
 
             getView<ImageView>(R.id.item_product_add_minus_button).apply {
-                this.isEnabled = availableStockAmount > 0
+                if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                    this.isEnabled = availableStockAmount > 0
+                }
 
                 setOnClickListener {
                     item.selectedQuantity = --item.selectedQuantity
@@ -120,7 +134,10 @@ class CreateOrderProductsRVAdapter(
             }
 
             unitSpinner.dismiss()
-            unitSpinner.isEnabled = availableStockAmount > 0
+
+            if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                unitSpinner.isEnabled = availableStockAmount > 0
+            }
         }
     }
 }

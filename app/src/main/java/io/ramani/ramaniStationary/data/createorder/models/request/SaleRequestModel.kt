@@ -19,6 +19,7 @@ data class SaleRequestModel (
     val totalCost: Int,
     val hasNewMerchantTIN: Boolean = false,
     val hasNewMerchantVRN: Boolean = false,
+    var printStatus: String = "Not Printed",
 
     // Those parameter always null, but required by backend
     val zoneId: String = "zoneId",

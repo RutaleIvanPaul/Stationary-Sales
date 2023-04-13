@@ -26,6 +26,8 @@ import org.kodein.di.generic.factory
 
 class CreateOrderFragment : BaseFragment() {
     companion object {
+        val RESTRICTION_ENABLED = false
+
         fun newInstance() = CreateOrderFragment()
     }
 

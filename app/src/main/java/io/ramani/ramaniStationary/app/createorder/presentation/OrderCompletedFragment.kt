@@ -19,6 +19,7 @@ import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
+import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.domainCore.printer.Manufacturer
 import kotlinx.android.synthetic.main.fragment_order_complete.*
 import kotlinx.android.synthetic.main.layout_print_info.*
@@ -120,8 +121,10 @@ class OrderCompletedFragment : BaseFragment() {
             flow.openPrintSuccessful()
         */
 
-        if (viewModel.doPrintReceipt().status)
+        if (viewModel.doPrintReceipt().status) {
+            CREATE_ORDER_MODEL.setPrinted()
             flow.openPrintSuccessful()
+        }
     }
 
     private fun preparePrintInfo() {

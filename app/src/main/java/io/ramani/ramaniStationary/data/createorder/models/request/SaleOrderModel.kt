@@ -3,6 +3,7 @@ package io.ramani.ramaniStationary.data.createorder.models.request
 import io.ramani.ramaniStationary.domain.base.v2.Params
 
 data class SaleOrderModel (
+    val identify: Long,
     val buyerId: String,
     val sellerId: String,
     val orderStatus: Double,

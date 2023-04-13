@@ -94,7 +94,7 @@ class CREATE_ORDER_MODEL {
             return vat
         }
 
-        fun createSaleRequestModel(companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String): SaleRequestModel {
+        fun createSaleRequestModel(timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String): SaleRequestModel {
             val orderItems = mutableListOf<SaleOrderItemModel>()
             productsToBeOrdered.forEach {
                 orderItems.add(SaleOrderItemModel(
@@ -111,6 +111,7 @@ class CREATE_ORDER_MODEL {
             }
 
             val order = SaleOrderModel(
+                timeSeconds,
                 customer?.id ?: "",
                 companyId,
                 3.0,
@@ -139,7 +140,8 @@ class CREATE_ORDER_MODEL {
                 "",
                 totalCost = getTotalOrderedPrice(),
                 hasNewMerchantTIN = customer != null,
-                hasNewMerchantVRN = customer != null
+                hasNewMerchantVRN = customer != null,
+                printStatus = "Not Printed"
             )
 
             // Save as json
@@ -147,6 +149,11 @@ class CREATE_ORDER_MODEL {
 
             return request
         }
+
+        fun setPrinted() =
+            getLastOrder()?.let {
+                it.printStatus = "Printed"
+            }
 
         fun getLastOrder(): SaleRequestModel? =
             if (lastOrderJson.isNotEmpty()) Gson().fromJson(lastOrderJson, SaleRequestModel::class.java) else null
