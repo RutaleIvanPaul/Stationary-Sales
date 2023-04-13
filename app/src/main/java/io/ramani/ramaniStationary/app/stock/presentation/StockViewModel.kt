@@ -34,15 +34,21 @@ class StockViewModel(
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             val single = availableStockUseCase.getSingle(AvailableStockRequestModel(it.uuid))
-            subscribeSingle(single, onSuccess = {
+            subscribeSingle(single, onSuccess = { getRollingStock ->
                 isLoadingVisible = false
-                if (!it?.products?.isEmpty()!!) {
-                    avaialableProductsListOriginal.addAll(it.products)
-                    availableStockProductsLiveData.postValue(it.products)
+                if (getRollingStock != null) {
+                    if (getRollingStock?.products?.isNullOrEmpty() == false) {
+                        avaialableProductsListOriginal.addAll(getRollingStock.products)
+                        availableStockProductsLiveData.postValue(getRollingStock.products)
+                    }
                 }
             }, onError = {
                 isLoadingVisible = false
-                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                if(it.message.equals("item is null",true)){
+                    notifyErrorObserver(getErrorMessage(Throwable("No Stock Assigned")), PresentationError.ERROR_TEXT)
+                }else {
+                    notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                }
             })
         }
     }

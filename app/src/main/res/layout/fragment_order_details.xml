@@ -208,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/subtotal_label"
-                    android:text="9"
+                    android:text="@string/n_a"
                     android:textAlignment="textEnd"
                     android:textColor="@color/black" />
 
@@ -235,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/discount_label"
-                    android:text="9"
+                    android:text="@string/n_a"
                     android:textAlignment="textEnd"
                     android:textColor="@color/black" />
 
@@ -262,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/totalvat_label"
-                    android:text="9"
+                    android:text="@string/n_a"
                     android:textAlignment="textEnd"
                     android:textColor="@color/black" />
 

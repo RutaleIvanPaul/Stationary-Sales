@@ -23,6 +23,7 @@
     <string name="has_auth">Has Authentication</string>
     <string name="user_name">Username</string>
     <string name="password">Password</string>
+    <string name="n_a">N/A</string>
 
     <!-- Home -->
     <string name="today_sales">Today Sales</string>

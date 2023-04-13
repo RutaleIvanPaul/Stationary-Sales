@@ -70,6 +70,8 @@ class HistoryFragment() : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        requireActivity().findViewById<TextView>(R.id.toolbar_title_textview).visible(visible = true)
+        setToolbarTitle("Sales History")
         viewModel.isThereTaxObject()
         initListeners()
         getHistory()
