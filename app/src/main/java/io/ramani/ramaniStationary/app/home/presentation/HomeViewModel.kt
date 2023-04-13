@@ -10,6 +10,7 @@ import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.home.models.request.*
+import io.ramani.ramaniStationary.data.home.models.response.UserAccountDetailsRemoteModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
@@ -27,11 +28,12 @@ class HomeViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
+    private val getUserAccountDetailsUseCase: BaseSingleUseCase<List<UserAccountDetailsModel>, GetUserAccountDetailsRequestModel>,
+    private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
     private val dailySalesStatsUseCase: BaseSingleUseCase<PagedList<DailySalesStatsModel>, DailySalesStatsRequestModel>,
     private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
-    private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
     private val prefs: PrefsManager,
     private val dateFormatter: DateFormatter
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -69,6 +71,28 @@ class HomeViewModel(
         }
     }
 
+    fun getUserAccountDetails() {
+        val single = getUserAccountDetailsUseCase.getSingle(GetUserAccountDetailsRequestModel(companyId))
+        subscribeSingle(single, onSuccess = {
+            // Save it to pref
+            if (it.isNotEmpty())
+                prefs.userAccountDetails = it.first()
+
+        }, onError = {
+            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+        })
+    }
+
+    fun getTaxInformationForUser() {
+        val single = getTaxInformationUseCase.getSingle(GetTaxInformationRequestModel(userId))
+        subscribeSingle(single, onSuccess = {
+            // Save it to pref
+            prefs.taxInformation = it
+        }, onError = {
+            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+        })
+    }
+
     private fun getDailySalesStats(startDate: String, endDate: String) {
         isLoadingVisible = true
 
@@ -85,22 +109,6 @@ class HomeViewModel(
 //                    PresentationError.ERROR_TEXT
 //                )
             notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-        })
-    }
-
-    private fun getTaxInformationForUser() {
-        isLoadingVisible = true
-
-        val single = getTaxInformationUseCase.getSingle(GetTaxInformationRequestModel(userId))
-        subscribeSingle(single, onSuccess = {
-            isLoadingVisible = false
-
-            // Save it to pref
-            prefs.taxInformation = it
-
-        }, onError = {
-            isLoadingVisible = false
-            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
         })
     }
 
@@ -231,8 +239,9 @@ class HomeViewModel(
 
         onDateChangedLiveData.postValue(dateFormatter.getCalendarTimeString(date))
 
-        getDailySalesStats()
+        getUserAccountDetails()
         getTaxInformationForUser()
+        getDailySalesStats()
     }
 
     private fun getDailySalesStats() {
@@ -252,11 +261,12 @@ class HomeViewModel(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
+        private val getUserAccountDetailsUseCase: BaseSingleUseCase<List<UserAccountDetailsModel>, GetUserAccountDetailsRequestModel>,
+        private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
         private val dailySalesStatsUseCase: BaseSingleUseCase<PagedList<DailySalesStatsModel>, DailySalesStatsRequestModel>,
         private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
-        private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
@@ -267,7 +277,9 @@ class HomeViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase, getTaxInformationUseCase,
+                    getUserAccountDetailsUseCase,
+                    getTaxInformationUseCase,
+                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
                     prefs,
                     dateFormatter
                 ) as T

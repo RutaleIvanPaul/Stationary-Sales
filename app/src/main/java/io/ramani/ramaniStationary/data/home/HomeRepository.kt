@@ -66,6 +66,9 @@ class HomeRepository(
     override fun getTaxInformationByUserId(userId: String): Single<TaxInformationModel> =
         remoteAuthDataSource.getTaxInformationByUserId(userId)
 
+    override fun getAccountDetails(companyId: String): Single<List<UserAccountDetailsModel>> =
+        remoteAuthDataSource.getAccountDetails(companyId)
+
     override fun saveMerchants(merchants: PagedList<MerchantModel>) = localAuthDataSource.saveMerchants(merchants)
     override fun saveProducts(products: PagedList<ProductModel>) = localAuthDataSource.saveProducts(products)
     override fun saveTaxes(taxes: PagedList<TaxModel>) = localAuthDataSource.saveTaxes(taxes)

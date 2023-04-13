@@ -17,7 +17,9 @@ val homeModule = Module("homeModule") {
         ViewModelProvider(
             fragment, HomeViewModel.Factory(
                 instance(), instance(), instance(),
-                instance("DailySalesStatsUseCase"), instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"), instance("GetTaxInformationUseCase"),
+                instance("GetUserAccountDetailsUseCase"),
+                instance("GetTaxInformationUseCase"),
+                instance("DailySalesStatsUseCase"), instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"),
                 instance(),
                 instance()
             )
