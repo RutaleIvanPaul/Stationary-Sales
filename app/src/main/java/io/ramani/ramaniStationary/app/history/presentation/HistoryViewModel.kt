@@ -137,6 +137,7 @@ class HistoryViewModel(
                 printText(it.toString())
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
@@ -163,6 +164,7 @@ class HistoryViewModel(
                 printText(it.toString())
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
@@ -181,6 +183,7 @@ class HistoryViewModel(
                 onPrintReceiptLiveData.postValue(true)
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }

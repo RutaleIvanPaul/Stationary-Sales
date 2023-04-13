@@ -37,7 +37,7 @@ class StockViewModel(
             subscribeSingle(single, onSuccess = { getRollingStock ->
                 isLoadingVisible = false
                 if (getRollingStock != null) {
-                    if (!getRollingStock?.products?.isNullOrEmpty()!!) {
+                    if (getRollingStock?.products?.isNullOrEmpty() == false) {
                         avaialableProductsListOriginal.addAll(getRollingStock.products)
                         availableStockProductsLiveData.postValue(getRollingStock.products)
                     }
