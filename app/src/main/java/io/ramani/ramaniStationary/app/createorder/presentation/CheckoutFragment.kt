@@ -176,7 +176,7 @@ class CheckoutFragment : BaseFragment() {
     private fun updateQuantity(position: Int, product: ProductModel) {
         val availableStockAmount = viewModel.getAvailableStockAmount(product)
 
-        val dialog = ProductQuantityDialog(requireActivity(), product, availableStockAmount, position) { position, product ->
+        val dialog = ProductQuantityDialog(requireActivity(), product, viewModel.isRestrictSalesByStockAssigned, availableStockAmount, position) { position, product ->
             productsAdapter.notifyItemChanged(position)
             updateUI()
         }

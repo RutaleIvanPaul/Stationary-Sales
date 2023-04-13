@@ -26,8 +26,6 @@ import org.kodein.di.generic.factory
 
 class CreateOrderFragment : BaseFragment() {
     companion object {
-        val RESTRICTION_ENABLED = false
-
         fun newInstance() = CreateOrderFragment()
     }
 
@@ -119,7 +117,7 @@ class CreateOrderFragment : BaseFragment() {
         val keyword = create_order_search_textfield.text.trim().toString()
         val products = if (keyword.isNotEmpty()) viewModel.productList.filter { product -> product.name.contains(keyword, true) } else viewModel.productList
 
-        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.availableStockProductList) { item ->
+        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.isRestrictSalesByStockAssigned, viewModel.availableStockProductList) { item ->
             // Add or remove product from orders
             CREATE_ORDER_MODEL.addOrRemoveProduct(item)
 

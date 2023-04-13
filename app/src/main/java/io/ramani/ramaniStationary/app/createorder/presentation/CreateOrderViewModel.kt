@@ -76,6 +76,8 @@ class CreateOrderViewModel(
 
     val onMerchantAddedLiveData = SingleLiveEvent<Pair<MerchantModel?, String>>()
 
+    val isRestrictSalesByStockAssigned = prefs.userAccountDetails.restrictSalesByStockAssigned
+
     val taxInformation: TaxInformationModel
         get() = prefs.taxInformation
 

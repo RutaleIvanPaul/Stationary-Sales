@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.dialog_checkout_quantity.*
 class ProductQuantityDialog(
     context: Context,
     private val product: ProductModel,
+    private val isRestrictSalesByStockAssigned: Boolean,
     private val availableStockAmount: Int,
     private val itemPosition: Int,
     val onItemChanged: (Int, ProductModel) -> Unit
@@ -83,7 +84,7 @@ class ProductQuantityDialog(
                         quantity = s.toString().toInt()
 
                         // Check if restriction is enabled
-                        if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                        if (isRestrictSalesByStockAssigned) {
                             if (s.toString().toInt() > availableStockAmount) {
                                 dialog_quantity_warning.visibility = View.VISIBLE
                             } else {
@@ -119,7 +120,7 @@ class ProductQuantityDialog(
             var isOkayClickable = false
 
             // Check if restriction is enabled
-            if (CreateOrderFragment.RESTRICTION_ENABLED) {
+            if (isRestrictSalesByStockAssigned) {
                 if (quantity > availableStockAmount) {
                     dialog_quantity_warning.visibility = View.VISIBLE
                 } else {

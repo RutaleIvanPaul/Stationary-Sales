@@ -21,6 +21,7 @@ import java.util.*
 
 class CreateOrderProductsRVAdapter(
     data: MutableList<ProductModel>,
+    private val isRestrictSalesByStockAssigned: Boolean,
     private val availableStockProducts: MutableList<AvailableProductModel>,
     val onItemChanged: (ProductModel) -> Unit
 ) :
@@ -49,7 +50,7 @@ class CreateOrderProductsRVAdapter(
                         try {
                             val amount = s.trim().toString().toInt()
 
-                            if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                            if (isRestrictSalesByStockAssigned) {
                                 if (amount <= availableStockAmount) {
                                     getView<EditText>(R.id.item_product_quantity).setTextColor(Color.BLACK)
                                     item.selectedQuantity = amount
@@ -70,7 +71,7 @@ class CreateOrderProductsRVAdapter(
             }
 
             getView<ImageView>(R.id.item_product_add_plus_button).apply {
-                if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                if (isRestrictSalesByStockAssigned) {
                     this.isEnabled = availableStockAmount > 0
 
                     setOnClickListener {
@@ -92,7 +93,7 @@ class CreateOrderProductsRVAdapter(
             }
 
             getView<ImageView>(R.id.item_product_add_minus_button).apply {
-                if (CreateOrderFragment.RESTRICTION_ENABLED) {
+                if (isRestrictSalesByStockAssigned) {
                     this.isEnabled = availableStockAmount > 0
                 }
 
@@ -135,7 +136,7 @@ class CreateOrderProductsRVAdapter(
 
             unitSpinner.dismiss()
 
-            if (CreateOrderFragment.RESTRICTION_ENABLED) {
+            if (isRestrictSalesByStockAssigned) {
                 unitSpinner.isEnabled = availableStockAmount > 0
             }
         }
