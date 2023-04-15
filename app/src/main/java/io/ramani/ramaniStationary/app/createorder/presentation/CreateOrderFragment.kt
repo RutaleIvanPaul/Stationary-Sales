@@ -1,6 +1,8 @@
 package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -68,8 +70,10 @@ class CreateOrderFragment : BaseFragment() {
             flow.openCheckout()
         }
 
-        initSubscribers()
-        updateCheckOutStatus()
+        Handler(Looper.getMainLooper()).postDelayed({
+            initSubscribers()
+            updateCheckOutStatus()
+        }, 300)
     }
 
     private fun initSubscribers() {

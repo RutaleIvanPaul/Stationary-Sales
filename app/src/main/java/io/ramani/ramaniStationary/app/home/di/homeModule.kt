@@ -20,6 +20,8 @@ val homeModule = Module("homeModule") {
                 instance("GetUserAccountDetailsUseCase"),
                 instance("GetTaxInformationUseCase"),
                 instance("DailySalesStatsUseCase"), instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"),
+                instance("PostNewSaleUseCase"),
+                instance(),
                 instance(),
                 instance()
             )

@@ -19,8 +19,8 @@ val createOrderModule = Module("createOrderModule") {
                 instance(), instance(), instance(),
                 instance("GetTaxesUseCase"), instance("GetProductsUseCase"), instance("GetMerchantsUseCase"),
                 instance("GetAvailableStockUseCase"),
-                instance("PostNewSaleUseCase"),
                 instance("RegisterMerchantUseCase"),
+                instance(),
                 instance(),
                 instance(),
                 instance()

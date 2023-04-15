@@ -1,6 +1,5 @@
 package io.ramani.ramaniStationary.app.createorder.presentation
 
-import com.google.gson.Gson
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleOrderItemModel
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleOrderModel
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
@@ -9,7 +8,6 @@ import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
 import io.ramani.ramaniStationary.domainCore.lang.isNotNull
-import java.util.*
 
 /**
  * This is shared model class for create order feature
@@ -25,8 +23,6 @@ class CREATE_ORDER_MODEL {
         var comment = ""
 
         val onOrderedProductsUpdatedLiveData = SingleLiveEvent<Boolean>()
-
-        var lastOrderJson = ""
 
         fun addOrRemoveProduct(product: ProductModel) {
             if (product.selectedQuantity == 0) {
@@ -44,7 +40,7 @@ class CREATE_ORDER_MODEL {
             onOrderedProductsUpdatedLiveData.postValue(true)
         }
 
-        fun clearAll() {
+        fun clear() {
             productsToBeOrdered.forEach {
                 it.clearParams()
             }
@@ -94,7 +90,7 @@ class CREATE_ORDER_MODEL {
             return vat
         }
 
-        fun createSaleRequestModel(timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String): SaleRequestModel {
+        fun createSaleRequestModel(timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String, receiptCode: String, vrn: String): SaleRequestModel {
             val orderItems = mutableListOf<SaleOrderItemModel>()
             productsToBeOrdered.forEach {
                 orderItems.add(SaleOrderItemModel(
@@ -111,7 +107,7 @@ class CREATE_ORDER_MODEL {
             }
 
             val order = SaleOrderModel(
-                timeSeconds,
+                userId,
                 customer?.id ?: "",
                 companyId,
                 3.0,
@@ -141,21 +137,13 @@ class CREATE_ORDER_MODEL {
                 totalCost = getTotalOrderedPrice(),
                 hasNewMerchantTIN = customer != null,
                 hasNewMerchantVRN = customer != null,
-                printStatus = "Not Printed"
+                printStatus = "Not Printed",
+                wasCreatedOrderSelected = true,
+                RECEIPTCODE = receiptCode,
+                VRN = vrn
             )
-
-            // Save as json
-            lastOrderJson = Gson().toJson(request)
 
             return request
         }
-
-        fun setPrinted() =
-            getLastOrder()?.let {
-                it.printStatus = "Printed"
-            }
-
-        fun getLastOrder(): SaleRequestModel? =
-            if (lastOrderJson.isNotEmpty()) Gson().fromJson(lastOrderJson, SaleRequestModel::class.java) else null
     }
 }

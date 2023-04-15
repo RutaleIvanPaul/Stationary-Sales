@@ -2,9 +2,6 @@ package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -19,7 +16,6 @@ import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
-import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.domainCore.printer.Manufacturer
 import kotlinx.android.synthetic.main.fragment_order_complete.*
 import kotlinx.android.synthetic.main.layout_print_info.*
@@ -27,9 +23,16 @@ import org.kodein.di.generic.factory
 import java.text.NumberFormat
 import java.util.*
 
+private const val ARG_PARAM_SALE_IDENTIFY = "saleIdentify"
+
 class OrderCompletedFragment : BaseFragment() {
     companion object {
-        fun newInstance() = OrderCompletedFragment()
+        fun newInstance(saleIdentify: Long) =
+            OrderCompletedFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(ARG_PARAM_SALE_IDENTIFY, saleIdentify)
+                }
+            }
     }
 
     private val viewModelProvider: (Fragment) -> CreateOrderViewModel by factory()
@@ -42,6 +45,8 @@ class OrderCompletedFragment : BaseFragment() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_order_complete
 
+    private var saleIdentify: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
@@ -50,6 +55,10 @@ class OrderCompletedFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
+
+        arguments?.let {
+            saleIdentify = it.getLong(ARG_PARAM_SALE_IDENTIFY)
+        }
 
         flow = CreateOrderFlowController(baseActivity!!, R.id.main_fragment_container)
         authFlow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
@@ -121,14 +130,17 @@ class OrderCompletedFragment : BaseFragment() {
             flow.openPrintSuccessful()
         */
 
-        if (viewModel.doPrintReceipt().status) {
-            CREATE_ORDER_MODEL.setPrinted()
+        viewModel.updatePrintStatus(saleIdentify, "Printed")
+
+        if (viewModel.doPrintReceipt(saleIdentify).status) {
+            viewModel.updatePrintStatus(saleIdentify, "Printed")
+
             flow.openPrintSuccessful()
         }
     }
 
     private fun preparePrintInfo() {
-        CREATE_ORDER_MODEL.getLastOrder()?.let {
+        viewModel.getSaleRequest(saleIdentify).let {
             print_info_tin_tv.text = it.merchantTIN ?: ""
             print_info_vrn_tv.text = it.merchantVRN ?: "*NOREGISTERED*"
             print_info_uni_tv.text = ""

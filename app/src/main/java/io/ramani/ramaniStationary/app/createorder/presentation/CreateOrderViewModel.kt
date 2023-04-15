@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -14,8 +15,10 @@ import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationErr
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.createmerchant.models.request.RegisterMerchantRequestModel
+import io.ramani.ramaniStationary.data.createorder.database.SaleJsonModel
 import io.ramani.ramaniStationary.data.createorder.models.request.GetAvailableStockRequestModel
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
+import io.ramani.ramaniStationary.data.database.RamaniDatabase
 import io.ramani.ramaniStationary.data.home.models.request.GetMerchantRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetProductRequestModel
 import io.ramani.ramaniStationary.data.home.models.request.GetTaxRequestModel
@@ -25,7 +28,6 @@ import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableStockModel
-import io.ramani.ramaniStationary.domain.createorder.model.SaleModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
@@ -48,11 +50,11 @@ class CreateOrderViewModel(
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
     private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
-    private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
     private val registerMerchantUseCase: BaseSingleUseCase<MerchantModel, RegisterMerchantRequestModel>,
     private val prefs: PrefsManager,
     val dateFormatter: DateFormatter,
-    private val printerHelper: PrinterHelper
+    private val printerHelper: PrinterHelper,
+    private val database: RamaniDatabase
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userId = ""
@@ -72,7 +74,7 @@ class CreateOrderViewModel(
     val availableStockProductList = mutableListOf<AvailableProductModel>()
     val onAvailableStockProductsLoadedLiveData = SingleLiveEvent<List<AvailableProductModel>>()
 
-    val onSaleSubmittedLiveData = SingleLiveEvent<Boolean>()
+    val onSaleSavedLoadedData = SingleLiveEvent<Long>()
 
     val onMerchantAddedLiveData = SingleLiveEvent<Pair<MerchantModel?, String>>()
 
@@ -176,7 +178,7 @@ class CreateOrderViewModel(
     }
 
     @SuppressLint("CheckResult")
-    fun postSales() {
+    fun saveSale() {
         isLoadingVisible = true
 
         sessionManager.getLoggedInUser().subscribeBy {
@@ -188,28 +190,40 @@ class CreateOrderViewModel(
             val fullTimeStamp = dateFormatter.getTimeWithFormmatter(date, "dd MMM, yyyy HH:mm")
             val checkTime = dateFormatter.getTimeWithFormmatter(date, "HH:mm:ss")
             val deliveryDate = dateFormatter.getCalendarTimeWithDashes(date)
+            val receiptCode = prefs.taxInformation.receiptCode
+            val vrn = prefs.taxInformation.vrn
 
-            val request = CREATE_ORDER_MODEL.createSaleRequestModel(date.time, companyId, companyName, userId, userName, fullTimeStamp, checkTime, deliveryDate)
-            val single = postNewSaleStockUseCase.getSingle(request)
-            subscribeSingle(single, onSuccess = {
+            val request = CREATE_ORDER_MODEL.createSaleRequestModel(date.time, companyId, companyName, userId, userName, fullTimeStamp, checkTime, deliveryDate, receiptCode, vrn)
+            val requestJson = Gson().toJson(request)
+            val saleJson = SaleJsonModel(date.time, false, requestJson)
+            database.getSaleDao().insert(saleJson).subscribeBy { identify ->
                 isLoadingVisible = false
 
-                onSaleSubmittedLiveData.postValue(true)
-
-            }, onError = {
-                isLoadingVisible = false
-                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-            })
+                onSaleSavedLoadedData.postValue(identify)
+            }
         }
     }
 
-    fun doPrintReceipt(): PrintStatus {
+    fun getSaleRequest(saleIdentify: Long): SaleRequestModel {
+        val saleJson = database.getSaleDao().getSale(saleIdentify)
+        return Gson().fromJson(saleJson.request, SaleRequestModel::class.java)
+    }
+
+    fun updatePrintStatus(saleIdentify: Long, printStatus: String) {
+        val saleJson = database.getSaleDao().getSale(saleIdentify)
+        val sale = Gson().fromJson(saleJson.request, SaleRequestModel::class.java)
+        sale.printStatus = printStatus
+        saleJson.request = Gson().toJson(sale)
+        database.getSaleDao().update(saleJson)
+    }
+
+    fun doPrintReceipt(saleIdentify: Long): PrintStatus {
         // Get tax information
         val taxInformation = prefs.taxInformation
 
         var receiptText = ""
 
-        CREATE_ORDER_MODEL.getLastOrder()?.let {
+        getSaleRequest(saleIdentify).let {
             val priceMap = calculatePrices(it, taxInformation)
 
             var totalTaxString = ""
@@ -363,11 +377,11 @@ class CreateOrderViewModel(
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
         private val getAvailableStockUseCase: BaseSingleUseCase<List<AvailableStockModel>, GetAvailableStockRequestModel>,
-        private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
         private val registerMerchantUseCase: BaseSingleUseCase<MerchantModel, RegisterMerchantRequestModel>,
         private val prefs: PrefsManager,
         private val dateFormatter: DateFormatter,
-        private val printerHelper: PrinterHelper
+        private val printerHelper: PrinterHelper,
+        private val database: RamaniDatabase
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -378,11 +392,11 @@ class CreateOrderViewModel(
                     sessionManager,
                     getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
                     getAvailableStockUseCase,
-                    postNewSaleStockUseCase,
                     registerMerchantUseCase,
                     prefs,
                     dateFormatter,
-                    printerHelper
+                    printerHelper,
+                    database
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

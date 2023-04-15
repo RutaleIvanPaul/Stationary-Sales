@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "fce1ab98e366c35633d4efefb8cc2827",
+    "version": 3,
+    "identityHash": "52f86e4e9682c10e84754693869b9298",
     "entities": [
       {
         "tableName": "Merchant",
@@ -243,12 +243,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Sales",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`identify` INTEGER NOT NULL, `isSent` INTEGER NOT NULL, `request` TEXT NOT NULL, PRIMARY KEY(`identify`))",
+        "fields": [
+          {
+            "fieldPath": "identify",
+            "columnName": "identify",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSent",
+            "columnName": "isSent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "request",
+            "columnName": "request",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "identify"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fce1ab98e366c35633d4efefb8cc2827')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '52f86e4e9682c10e84754693869b9298')"
     ]
   }
 }
