@@ -73,4 +73,8 @@ class PrintSuccessfulFragment : BaseFragment() {
         super.showError(error)
         errorDialog(error)
     }
+
+    override fun onBackButtonPressed(): Boolean {
+        return true
+    }
 }
