@@ -68,6 +68,7 @@
     <string name="add_product">+ Add product</string>
 
     <string name="out_of_stock">Out of Stock</string>
+    <string name="out_of_stock_na">N / A</string>
 
     <string name="qty">QTY</string>
     <string name="price_category">Price Category</string>

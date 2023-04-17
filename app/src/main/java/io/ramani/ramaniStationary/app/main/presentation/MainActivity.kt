@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -71,7 +72,25 @@ class MainActivity : BaseActivity() {
         }
 
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager.registerDefaultNetworkCallback(networkCallback)
+
+        val builder = NetworkRequest.Builder()
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+
+        val networkRequest = builder.build()
+        connectivityManager.registerNetworkCallback(networkRequest, object : ConnectivityManager.NetworkCallback () {
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    checkNetworkStatus()
+                }
+
+                override fun onLost(network: Network) {
+                    super.onLost(network)
+                    checkNetworkStatus()
+                }
+            })
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -82,29 +101,4 @@ class MainActivity : BaseActivity() {
 
     private fun checkNetworkStatus() =
         MAIN_SHARED_MODEL.updateNetworkStatus(viewModel.isOnline(getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager))
-
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-
-            checkNetworkStatus()
-        }
-
-        // Network capabilities have changed for the network
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            val unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
-        }
-
-        // lost network connection
-        override fun onLost(network: Network) {
-            super.onLost(network)
-
-            checkNetworkStatus()
-        }
-    }
 }

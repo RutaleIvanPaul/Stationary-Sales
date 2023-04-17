@@ -22,6 +22,7 @@ import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewMod
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_create_order.*
 import org.kodein.di.generic.factory
@@ -114,7 +115,9 @@ class CreateOrderFragment : BaseFragment() {
 
     override fun showError(error: String) {
         super.showError(error)
-        errorDialog(error)
+
+        if (MAIN_SHARED_MODEL.isOnline)
+            errorDialog(error)
     }
 
     private fun updateRV() {

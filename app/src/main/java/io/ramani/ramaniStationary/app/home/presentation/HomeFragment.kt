@@ -115,7 +115,9 @@ class HomeFragment : BaseFragment() {
 
     override fun showError(error: String) {
         super.showError(error)
-        errorDialog(error)
+
+        if (MAIN_SHARED_MODEL.isOnline)
+            errorDialog(error)
     }
 
     private fun setupMenu() {

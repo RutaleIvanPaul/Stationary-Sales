@@ -112,6 +112,10 @@ class OrderCompletedFragment : BaseFragment() {
         errorDialog(error)
     }
 
+    override fun onBackButtonPressed(): Boolean {
+        return true
+    }
+
     private fun printOrderInfo() {
         /*
         val printView = print_scrollview

@@ -101,20 +101,14 @@ class CreateOrderViewModel(
         merchantList.clear()
         merchantNameList.clear()
 
-        sessionManager.getLoggedInUser().subscribeBy {
-            val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(false, companyId, "", "", true, 1))
-            subscribeSingle(single, onSuccess = {
-                merchantList.addAll(it.data.sortedByDescending { merchant -> merchant.updatedAt })
+        database.getMerchantDao().getMerchants().apply {
+            merchantList.addAll(sortedByDescending { merchant -> merchant.updatedAt })
 
-                merchantList.forEach { merchant ->
-                    merchantNameList.add(merchant.name)
-                }
+            merchantList.forEach { merchant ->
+                merchantNameList.add(merchant.name)
+            }
 
-                onMerchantsLoadedLiveData.postValue(merchantList)
-
-            }, onError = {
-                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-            })
+            onMerchantsLoadedLiveData.postValue(merchantList)
         }
     }
 
@@ -122,15 +116,9 @@ class CreateOrderViewModel(
     fun getProducts() {
         productList.clear()
 
-        sessionManager.getLoggedInUser().subscribeBy {
-            val single = getProductsUseCase.getSingle(GetProductRequestModel(false, companyId, "", "",false, 1))
-            subscribeSingle(single, onSuccess = {
-                productList.addAll(it.data)
-                onProductsLoadedLiveData.postValue(productList)
-
-            }, onError = {
-                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-            })
+        database.getProductDao().getProducts().apply {
+            productList.addAll(this)
+            onProductsLoadedLiveData.postValue(productList)
         }
     }
 
@@ -138,14 +126,9 @@ class CreateOrderViewModel(
     fun getTaxes() {
         taxesList.clear()
 
-        sessionManager.getLoggedInUser().subscribeBy {
-            val single = getTaxesUseCase.getSingle(GetTaxRequestModel(false, companyId, userId, "", 1))
-            subscribeSingle(single, onSuccess = {
-                taxesList.addAll(it.data)
-                onTaxesLoadedLiveData.postValue(taxesList)
-            }, onError = {
-                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-            })
+        database.getTaxDao().getTaxes().apply {
+            taxesList.addAll(this)
+            onTaxesLoadedLiveData.postValue(taxesList)
         }
     }
 
@@ -167,7 +150,8 @@ class CreateOrderViewModel(
 
             }, onError = {
                 isLoadingVisible = false
-                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+                onAvailableStockProductsLoadedLiveData.postValue(availableStockProductList)
+                // notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
