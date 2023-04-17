@@ -28,8 +28,8 @@ class CreateOrderFlowController(
         )
     }
 
-    override fun openOrderCompleted() {
-        val fragment = OrderCompletedFragment.newInstance()
+    override fun openOrderCompleted(saleIdentify: Long) {
+        val fragment = OrderCompletedFragment.newInstance(saleIdentify)
         activity.navigationManager?.open(
             fragment,
             openMethod = NavigationManager.OpenMethod.ADD

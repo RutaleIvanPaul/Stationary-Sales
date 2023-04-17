@@ -108,7 +108,8 @@ class CreateMerchantFragment : BaseFragment() {
             else
                 viewModel.merchantList
 
-        merchantAdapter = CreateMerchantRVAdapter(merchants.sortedByDescending { merchant -> merchant.updatedAt } as MutableList<MerchantModel>, viewModel.topMerchants) { position, item ->
+        val matchedMerchants = merchants.sortedByDescending { merchant -> merchant.updatedAt }
+        merchantAdapter = CreateMerchantRVAdapter(if (matchedMerchants.isNotEmpty()) matchedMerchants.toMutableList() else mutableListOf(), viewModel.topMerchants) { position, item ->
 
         }
 

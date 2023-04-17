@@ -54,6 +54,10 @@ class HomeLocalDataSource(
         TODO("Not yet implemented")
     }
 
+    override fun getAccountDetails(companyId: String): Single<List<UserAccountDetailsModel>> {
+        TODO("Not yet implemented")
+    }
+
     // This is local repository operation
     @SuppressLint("CheckResult")
     override fun saveMerchants(merchants: PagedList<MerchantModel>) = db.getMerchantDao().insertAll(merchants = merchants.data)

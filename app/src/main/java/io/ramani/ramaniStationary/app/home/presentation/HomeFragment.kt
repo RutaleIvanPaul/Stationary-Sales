@@ -14,8 +14,10 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.showSelectP
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODEL
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.kodein.di.generic.factory
 import java.util.*
@@ -74,6 +76,15 @@ class HomeFragment : BaseFragment() {
         viewModel.start()
 
         viewModel.updateDate(null, null, null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        CREATE_ORDER_MODEL.clear()
+
+        if (isAdded && MAIN_SHARED_MODEL.isOnline)
+            viewModel.tryToUnsentSale()
     }
 
     private fun subscribeResponse() {

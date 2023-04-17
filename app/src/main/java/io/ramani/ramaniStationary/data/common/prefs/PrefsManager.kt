@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODEL
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
+import io.ramani.ramaniStationary.domain.home.model.UserAccountDetailsModel
 import io.ramani.ramaniStationary.domainCore.prefs.Prefs
 
 /**
@@ -72,6 +73,16 @@ open class PrefsManager(context: Context) : Prefs {
             sharedPrefs.getString(PrefsConstants.PREF_CURRENCY,null)?:""
         set(value) {
             sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENCY, value).apply()
+        }
+
+    override var userAccountDetails: UserAccountDetailsModel
+        get() {
+            val userDetailsString = sharedPrefs.getString(PrefsConstants.PREF_USER_ACCOUNT_DETAILS, null) ?: ""
+            return if (userDetailsString.isNotEmpty()) Gson().fromJson(userDetailsString, UserAccountDetailsModel::class.java) else UserAccountDetailsModel()
+        }
+        set(value) {
+            val userDetailsString = value.toJson()
+            sharedPrefs.edit().putString(PrefsConstants.PREF_USER_ACCOUNT_DETAILS, userDetailsString).apply()
         }
 
     override var taxInformation: TaxInformationModel

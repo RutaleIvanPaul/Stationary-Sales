@@ -16,5 +16,6 @@ object PrefsConstants {
     const val PREF_TAX_OBJECT = "tax_object"
     const val PREF_CURRENCY = "currency"
 
+    const val PREF_USER_ACCOUNT_DETAILS = "user_account_details"
     const val PREF_TAX_INFORMATION = "tax_information"
 }

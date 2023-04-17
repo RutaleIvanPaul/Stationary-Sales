@@ -32,4 +32,8 @@ val homeDomainModule = Kodein.Module("homeDomainModule") {
         GetTaxInformationUseCase(instance(), instance(), instance("homeDataSource"))
     }
 
+    bind<BaseSingleUseCase<List<UserAccountDetailsModel>, GetUserAccountDetailsRequestModel>>("GetUserAccountDetailsUseCase") with provider {
+        GetUserAccountDetailsUseCase(instance(), instance(), instance("homeDataSource"))
+    }
+
 }

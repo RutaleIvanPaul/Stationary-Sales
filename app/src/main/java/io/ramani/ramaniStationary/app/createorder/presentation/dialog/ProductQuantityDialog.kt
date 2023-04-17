@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import io.ramani.ramaniStationary.R
+import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.dialog_checkout_quantity.*
 
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.dialog_checkout_quantity.*
 class ProductQuantityDialog(
     context: Context,
     private val product: ProductModel,
+    private val isRestrictSalesByStockAssigned: Boolean,
     private val availableStockAmount: Int,
     private val itemPosition: Int,
     val onItemChanged: (Int, ProductModel) -> Unit
@@ -81,17 +83,22 @@ class ProductQuantityDialog(
                     if (s.toString().isNotEmpty()) {
                         quantity = s.toString().toInt()
 
-                        if (s.toString().toInt() > availableStockAmount) {
-                            dialog_quantity_warning.visibility = View.VISIBLE
+                        // Check if restriction is enabled
+                        if (isRestrictSalesByStockAssigned) {
+                            if (s.toString().toInt() > availableStockAmount) {
+                                dialog_quantity_warning.visibility = View.VISIBLE
+                            } else {
+                                dialog_quantity_warning.visibility = View.INVISIBLE
+                                isOkayClickable = true
+                            }
                         } else {
-                            dialog_quantity_warning.visibility = View.INVISIBLE
                             isOkayClickable = true
                         }
                     } else {
                         quantity = 0
                     }
 
-                    dialog_quantity_okay.isEnabled = isOkayClickable
+                    dialog_quantity_okay.isEnabled = isOkayClickable && (quantity > 0)
                 }
             })
         }
@@ -112,10 +119,15 @@ class ProductQuantityDialog(
 
             var isOkayClickable = false
 
-            if (quantity > availableStockAmount) {
-                dialog_quantity_warning.visibility = View.VISIBLE
+            // Check if restriction is enabled
+            if (isRestrictSalesByStockAssigned) {
+                if (quantity > availableStockAmount) {
+                    dialog_quantity_warning.visibility = View.VISIBLE
+                } else {
+                    dialog_quantity_warning.visibility = View.INVISIBLE
+                    isOkayClickable = true
+                }
             } else {
-                dialog_quantity_warning.visibility = View.INVISIBLE
                 isOkayClickable = true
             }
 
