@@ -41,8 +41,11 @@ class ReportsViewModel(
 
     val topSalePeoples = mutableListOf<NameValueModel>()
     val topMerchants = mutableListOf<NameValueModel>()
+    val topProducts = mutableListOf<NameValueModel>()
+    var salesSummary: SalesSummaryStatisticsModel = SalesSummaryStatisticsModel()
+
     val onTopPerformersLoadedLiveData = SingleLiveEvent<TopPerformersModel>()
-    var totalSales: String = "0"
+    val onSalesSummaryLoadedLiveData = SingleLiveEvent<SalesSummaryStatisticsModel>()
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -59,9 +62,9 @@ class ReportsViewModel(
     fun getTopPerformers(startDate: Date?, endDate: Date?) {
         isLoadingVisible = true
 
-        totalSales = "0"
         topSalePeoples.clear()
         topMerchants.clear()
+        topProducts.clear()
 
         val today = Date()
 
@@ -75,13 +78,12 @@ class ReportsViewModel(
 
                 topSalePeoples.addAll(it.topSalesPeople)
                 topMerchants.addAll(it.topMerchants)
+                topProducts.addAll(it.topMerchants)
 
                 var total = 0
                 topSalePeoples.forEach { nv ->
                     total += nv.value.toInt()
                 }
-
-                totalSales = getFormattedAmount(total)
 
                 onTopPerformersLoadedLiveData.postValue(it)
             }, onError = {
@@ -91,9 +93,37 @@ class ReportsViewModel(
         }
     }
 
-    private fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
+    @SuppressLint("CheckResult")
+    fun getSalesSummary(startDate: Date?, endDate: Date?) {
+        isLoadingVisible = true
+
+        val today = Date()
+
+        val startDateStr = if (startDate != null) getDateString(startDate) else getDateString(today)
+        val endDateStr = if (endDate != null) getDateString(endDate) else getDateString(today)
+
+        sessionManager.getLoggedInUser().subscribeBy { user ->
+            val single = getSalesSummaryStatisticsUseCase.getSingle(
+                GetSalesSummaryStatisticsRequestModel(user.companyId, 1, startDateStr, endDateStr)
+            )
+            subscribeSingle(single, onSuccess = { summary ->
+                isLoadingVisible = false
+
+                salesSummary = summary
+
+                onSalesSummaryLoadedLiveData.postValue(summary)
+            }, onError = {
+                isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            })
+        }
+    }
+
+    fun getFormattedAmount(amount: Double): String = NumberFormat.getNumberInstance(Locale.US).format(amount.toInt())
     private fun getStartDateString(date: Date) = dateFormatter.getTimeWithFormmatter(date, "yyyy-MM-dd'T'00:00:00.000'Z'")
     private fun getEndDateString(date: Date) = dateFormatter.getTimeWithFormmatter(date, "yyyy-MM-dd'T'23:59:59.000'Z'")
+
+    private fun getDateString(date: Date) = dateFormatter.getTimeWithFormmatter(date, "yyyy-MM-dd")
 
     class Factory(
         private val application: Application,

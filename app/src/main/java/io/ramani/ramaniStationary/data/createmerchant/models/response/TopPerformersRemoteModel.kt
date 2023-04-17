@@ -6,5 +6,7 @@ data class TopPerformersRemoteModel(
     @SerializedName("topSalespeople")
     val topSalespeople: List<NameValueRemoteModel>?,
     @SerializedName("topMerchants")
-    val topMerchants: List<NameValueRemoteModel>?
+    val topMerchants: List<NameValueRemoteModel>?,
+    @SerializedName("topProducts")
+    val topProducts: List<NameValueRemoteModel>?
 )

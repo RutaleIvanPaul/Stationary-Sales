@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.app.reports.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.reports.presentation.adapter.NameValueRVAdapter
+import io.ramani.ramaniStationary.domain.reports.model.SalesSummaryStatisticsModel
 import kotlinx.android.synthetic.main.fragment_reports.*
 import org.kodein.di.generic.factory
 
@@ -42,7 +44,7 @@ class ReportsFragment : BaseFragment() {
 
         }
 
-        updateUI()
+        updateUI(viewModel.salesSummary)
         initSubscribers()
     }
 
@@ -57,7 +59,11 @@ class ReportsFragment : BaseFragment() {
 
     private fun subscribeResponse() {
         viewModel.onTopPerformersLoadedLiveData.observe(this) {
-            updateUI()
+            updateTopPerformers()
+        }
+
+        viewModel.onSalesSummaryLoadedLiveData.observe(this) {
+            updateUI(it)
         }
     }
 
@@ -71,13 +77,20 @@ class ReportsFragment : BaseFragment() {
         errorDialog(error)
     }
 
-    private fun updateUI() {
-        reports_total_sales_value.text = viewModel.totalSales
+    @SuppressLint("SetTextI18n")
+    private fun updateUI(summary:SalesSummaryStatisticsModel) {
+        val currency = summary.currency
 
-        updateRV()
+        reports_total_sales_value_currency.text = currency
+        reports_total_sales_value.text = viewModel.getFormattedAmount(summary.totalSalesValue.value)
+
+        reports_total_sales_count.text = viewModel.getFormattedAmount(summary.totalSalesCount.value)
+
+        reports_total_credit_given_currency.text = currency
+        reports_total_credit_given.text = viewModel.getFormattedAmount(summary.totalCreditGiven.value)
     }
 
-    private fun updateRV() {
+    private fun updateTopPerformers() {
         topCustomersAdapter = NameValueRVAdapter(viewModel.topMerchants.take(4).toMutableList())
 
         reports_top_customers_list.apply {
@@ -91,6 +104,5 @@ class ReportsFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(requireActivity())
             adapter = topCustomersAdapter
         }
-
     }
 }
