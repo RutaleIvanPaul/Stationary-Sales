@@ -14,6 +14,7 @@ import com.skydoves.powerspinner.PowerSpinnerView
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import java.text.NumberFormat
@@ -36,12 +37,13 @@ class CreateOrderProductsRVAdapter(
 
             getView<ImageView>(R.id.item_product_add_imageview).loadImage(item.imagePath, R.mipmap.ic_holder, R.mipmap.ic_holder)
 
+            val onlineMode = MAIN_SHARED_MODEL.isOnline
             val availableStockProducts = availableStockProducts.filter { product -> product.productId == item.id }
             val availableStockAmount = if (availableStockProducts.isNotEmpty()) availableStockProducts.first().quantity else 0
 
             val quantityTextView = getView<EditText>(R.id.item_product_quantity)
             quantityTextView.apply {
-                isEnabled = availableStockAmount > 0
+                isEnabled = if (!onlineMode) true else availableStockAmount > 0
 
                 addTextChangedListener(object: TextWatcher {
                     override fun afterTextChanged(s: Editable) {}
@@ -50,13 +52,17 @@ class CreateOrderProductsRVAdapter(
                         try {
                             val amount = s.trim().toString().toInt()
 
-                            if (isRestrictSalesByStockAssigned) {
+                            if (onlineMode && isRestrictSalesByStockAssigned) {
                                 if (amount <= availableStockAmount) {
-                                    getView<EditText>(R.id.item_product_quantity).setTextColor(Color.BLACK)
+                                    getView<EditText>(R.id.item_product_quantity).setTextColor(
+                                        Color.BLACK
+                                    )
                                     item.selectedQuantity = amount
                                     onItemChanged(item)
                                 } else {
-                                    getView<EditText>(R.id.item_product_quantity).setTextColor(Color.RED)
+                                    getView<EditText>(R.id.item_product_quantity).setTextColor(
+                                        Color.RED
+                                    )
                                     item.selectedQuantity = 0
                                     onItemChanged(item)
                                 }
@@ -71,12 +77,12 @@ class CreateOrderProductsRVAdapter(
             }
 
             getView<ImageView>(R.id.item_product_add_plus_button).apply {
-                if (isRestrictSalesByStockAssigned) {
-                    this.isEnabled = availableStockAmount > 0
+                if (onlineMode && isRestrictSalesByStockAssigned) {
+                    isEnabled = availableStockAmount > 0
 
                     setOnClickListener {
                         item.selectedQuantity = ++item.selectedQuantity
-                        if (item.selectedQuantity > availableStockAmount)
+                        if (onlineMode && item.selectedQuantity > availableStockAmount)
                             item.selectedQuantity = availableStockAmount
 
                         quantityTextView.setText(item.selectedQuantity.toString())
@@ -84,6 +90,8 @@ class CreateOrderProductsRVAdapter(
                         onItemChanged(item)
                     }
                 } else {
+                    isEnabled = true
+
                     setOnClickListener {
                         item.selectedQuantity = ++item.selectedQuantity
                         quantityTextView.setText(item.selectedQuantity.toString())
@@ -93,8 +101,10 @@ class CreateOrderProductsRVAdapter(
             }
 
             getView<ImageView>(R.id.item_product_add_minus_button).apply {
-                if (isRestrictSalesByStockAssigned) {
-                    this.isEnabled = availableStockAmount > 0
+                if (onlineMode && isRestrictSalesByStockAssigned) {
+                    isEnabled = availableStockAmount > 0
+                } else {
+                    isEnabled = true
                 }
 
                 setOnClickListener {
@@ -109,11 +119,16 @@ class CreateOrderProductsRVAdapter(
             }
 
             getView<TextView>(R.id.item_product_add_available_quantity).apply {
-                if (availableStockAmount > 0) {
-                    text = String.format("%d %ss Available", availableStockAmount, item.units)
-                    setTextColor(ContextCompat.getColor(context, R.color.ramani_green))
+                if (onlineMode) {
+                    if (availableStockAmount > 0) {
+                        text = String.format("%d %ss Available", availableStockAmount, item.units)
+                        setTextColor(ContextCompat.getColor(context, R.color.ramani_green))
+                    } else {
+                        text = context.resources.getString(R.string.out_of_stock)
+                        setTextColor(Color.RED)
+                    }
                 } else {
-                    text = context.resources.getString(R.string.out_of_stock)
+                    text = context.resources.getString(R.string.out_of_stock_na)
                     setTextColor(Color.RED)
                 }
             }
@@ -136,8 +151,10 @@ class CreateOrderProductsRVAdapter(
 
             unitSpinner.dismiss()
 
-            if (isRestrictSalesByStockAssigned) {
+            if (onlineMode && isRestrictSalesByStockAssigned) {
                 unitSpinner.isEnabled = availableStockAmount > 0
+            } else {
+                unitSpinner.isEnabled = true
             }
         }
     }
