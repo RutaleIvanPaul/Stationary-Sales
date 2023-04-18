@@ -24,6 +24,7 @@ class CreateOrderProductsRVAdapter(
     data: MutableList<ProductModel>,
     private val isRestrictSalesByStockAssigned: Boolean,
     private val availableStockProducts: MutableList<AvailableProductModel>,
+    private val currency: String,
     val onItemChanged: (ProductModel) -> Unit
 ) :
     BaseQuickAdapter<ProductModel, BaseViewHolder>(R.layout.item_product_add, data) {
@@ -32,7 +33,7 @@ class CreateOrderProductsRVAdapter(
             val price = if (item.productCategories.isNotEmpty()) item.productCategories[0].unitPrice.toInt() else 0
 
             setText(R.id.item_product_add_name, item.name)
-            setText(R.id.item_product_add_price, String.format("Tsh %s", NumberFormat.getNumberInstance(Locale.US).format(price)))
+            setText(R.id.item_product_add_price, String.format("%s %s", currency, NumberFormat.getNumberInstance(Locale.US).format(price)))
             setText(R.id.item_product_quantity, item.selectedQuantity.toString())
 
             getView<ImageView>(R.id.item_product_add_imageview).loadImage(item.imagePath, R.mipmap.ic_holder, R.mipmap.ic_holder)

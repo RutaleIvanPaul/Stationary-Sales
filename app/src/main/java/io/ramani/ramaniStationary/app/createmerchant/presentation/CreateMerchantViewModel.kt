@@ -40,6 +40,7 @@ class CreateMerchantViewModel(
     var userModel: UserModel = UserModel()
     var userId = ""
     var companyId = ""
+    var currency = ""
 
     val merchantList = mutableListOf<MerchantModel>()
     val merchantNameList = mutableListOf<String>()
@@ -57,6 +58,7 @@ class CreateMerchantViewModel(
             userModel = it
             userId = it.uuid
             companyId = it.companyId
+            currency = prefs.currency
 
             getMerchants()
             getTopPerformers()

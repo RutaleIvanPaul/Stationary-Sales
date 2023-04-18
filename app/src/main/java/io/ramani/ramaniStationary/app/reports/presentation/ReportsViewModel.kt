@@ -41,6 +41,7 @@ class ReportsViewModel(
     var userModel: UserModel = UserModel()
     var userId = ""
     var companyId = ""
+    var currency = ""
 
     val topSalePeoples = mutableListOf<NameValueModel>()
     val topMerchants = mutableListOf<NameValueModel>()
@@ -63,6 +64,7 @@ class ReportsViewModel(
             userModel = it
             userId = it.uuid
             companyId = it.companyId
+            currency = prefs.currency
 
             updateDate(ReportsFragment.DayRange.TODAY)
         }

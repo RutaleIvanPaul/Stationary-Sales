@@ -94,10 +94,10 @@ class HomeFragment : BaseFragment() {
 
         viewModel.dailySalesStatsActionLiveData.observe(this) {
             if (it.isNotEmpty()) {
-                home_total_sales_tv.text = String.format("TSH %s", viewModel.getFormattedAmountLong(it.first().totalSales))
+                home_total_sales_tv.text = String.format("%s %s", viewModel.currency, viewModel.getFormattedAmountLong(it.first().totalSales))
                 home_total_customers_tv.text = viewModel.getFormattedAmount(it.first().totalNumberOfCustomers)
             } else {
-                home_total_sales_tv.text = "TSH 0"
+                home_total_sales_tv.text = String.format("%s 0", viewModel.currency)
                 home_total_customers_tv.text = "0"
             }
         }

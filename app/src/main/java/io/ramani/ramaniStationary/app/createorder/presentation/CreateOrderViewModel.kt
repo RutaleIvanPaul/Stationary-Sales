@@ -60,6 +60,7 @@ class CreateOrderViewModel(
     var userId = ""
     var companyId = ""
     var userModel: UserModel = UserModel()
+    var currency = ""
 
     val merchantList = mutableListOf<MerchantModel>()
     val merchantNameList = mutableListOf<String>()
@@ -89,6 +90,7 @@ class CreateOrderViewModel(
             userId = it.uuid
             companyId = it.companyId
             userModel = it
+            currency = prefs.currency
 
             getProducts()
             getMerchants()
@@ -351,7 +353,7 @@ class CreateOrderViewModel(
         return qrBitmap
     }
 
-    fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
+    fun getFormattedAmount(amount: Int): String = String.format("${prefs.currency} ${NumberFormat.getNumberInstance(Locale.US).format(amount)}")
 
     class Factory(
         private val application: Application,
