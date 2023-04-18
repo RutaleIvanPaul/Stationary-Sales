@@ -133,7 +133,6 @@
     <string name="warning_date_validation">The start date should be earlier than end date.</string>
 
 
-
     <!-- Order Details -->
     <string name="more">More</string>
     <string name="order_delivery">Delivery</string>
@@ -167,7 +166,7 @@
     <string name="half_price">Half price</string>
     <string name="back_to_school_discount">Back to school discount</string>
     <string name="black_friday">Black Friday</string>
-    
+
     <!-- Merchant -->
     <string name="customer_name">Customer Name</string>
     <string name="hint_customer_name">Enter Customer Name</string>
@@ -203,5 +202,9 @@
     <string name="hint_search_merchant">Search all Customers</string>
     <string name="invalid_phone_number">Phone numbers should be 9 or 10 digits long</string>
     <string name="warning_cancel_creating_merchant">Are you sure you want to cancel creating merchant?</string>
+    <string name="title_total_outstanding">Total Outstanding:</string>
+    <string name="title_total_number_of_orders">Total Number of Orders:</string>
+    <string name="title_total_number_of_merchants">Total Number of Merchants:</string>
+    <string name="missing_dates">Missing Dates</string>
 
 </resources>
