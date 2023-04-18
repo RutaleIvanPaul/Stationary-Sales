@@ -14,7 +14,7 @@ class NameValueRVAdapter(
     override fun convert(holder: BaseViewHolder, item: NameValueModel) {
         with(holder) {
             setText(R.id.item_name_value_name, item.name)
-            setText(R.id.item_name_value_value, String.format("Tsh %s", NumberFormat.getNumberInstance(Locale.US).format(item.value)))
+            setText(R.id.item_name_value_value, item.value)
         }
     }
 }

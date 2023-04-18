@@ -17,6 +17,7 @@ import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewMod
 import io.ramani.ramaniStationary.app.createmerchant.presentation.adapter.CreateMerchantRVAdapter
 import io.ramani.ramaniStationary.app.createmerchant.presentation.dialog.CreateNewMerchantDialog
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
+import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.fragment_create_merchant.*
 import org.kodein.di.generic.factory
 
@@ -32,6 +33,7 @@ class CreateMerchantFragment : BaseFragment() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_create_merchant
     private lateinit var merchantAdapter: CreateMerchantRVAdapter
+    private lateinit var addMerchantDialog: CreateNewMerchantDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,12 @@ class CreateMerchantFragment : BaseFragment() {
         }
 
         create_merchant_add_new.setOnSingleClickListener {
-            createNewMerchant()
+            addMerchantDialog.show()
+        }
+
+        addMerchantDialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { merchant ->
+            updateRV()
+            addMerchantDialog.dismiss()
         }
 
         initSubscribers()
@@ -90,14 +97,6 @@ class CreateMerchantFragment : BaseFragment() {
     override fun showError(error: String) {
         super.showError(error)
         errorDialog(error)
-    }
-
-    private fun createNewMerchant() {
-        val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { merchant ->
-            updateRV()
-        }
-
-        dialog.show()
     }
 
     private fun updateRV() {

@@ -43,6 +43,7 @@ class CheckoutFragment : BaseFragment() {
     override fun getLayoutResId(): Int = R.layout.fragment_checkout
 
     private lateinit var productsAdapter: CheckoutProductsRVAdapter
+    private lateinit var addMerchantDialog: CreateNewMerchantDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,16 +64,15 @@ class CheckoutFragment : BaseFragment() {
         }
 
         // Add new customer
+        addMerchantDialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { _ ->
+            updateMerchants()
+            checkout_select_customer_spinner.selectItemByIndex(0)
+            updateUI()
+            addMerchantDialog.dismiss()
+        }
+
         checkout_customer_add_new.setOnSingleClickListener {
-            val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { _ ->
-                updateMerchants()
-
-                checkout_select_customer_spinner.selectItemByIndex(0)
-
-                updateUI()
-            }
-
-            dialog.show()
+            addMerchantDialog.show()
         }
 
         checkout_payment_method_paid.setOnCheckedChangeListener { button, checked ->

@@ -19,8 +19,8 @@ class CreateMerchantRVAdapter(
 
             val matchedMerchants = topMerchants.filter { merchant -> merchant.name.lowercase() == item.name.lowercase() }
 
-            val totalOrders = if (matchedMerchants.isNotEmpty()) matchedMerchants.first().value else "0"
-            setText(R.id.item_merchant_orders, String.format("%s Orders", totalOrders.replace("TSH ", "")))
+            val totalOrders = if (matchedMerchants.isNotEmpty()) matchedMerchants.first().value else "TSH 0"
+            setText(R.id.item_merchant_orders, totalOrders)
 
             itemView.setOnClickListener {
                 onItemSelected(getItemPosition(item), item)

@@ -57,18 +57,30 @@ class CreateNewMerchantDialog(
                 dialog_create_merchant_loader.visible(false)
 
                 onItemAdded(it)
-                dismiss()
+                cleanUI()
             }
         } else if (viewModel is CreateOrderViewModel) {
             viewModel.onMerchantAddedLiveData.observe(fragment) {
                 dialog_create_merchant_loader.visible(false)
 
                 onItemAdded(it)
-                dismiss()
+
+                cleanUI()
             }
         }
 
         initView()
+    }
+
+    private fun cleanUI() {
+        dialog_create_merchant_name_textfield.setText("")
+        dialog_create_merchant_phone_textfield.setText("")
+        dialog_create_merchant_type.text = ""
+        selectedMerchantType = -1
+        dialog_create_merchant_shopname_textfield.setText("")
+        dialog_create_merchant_location_textfield.setText("")
+        dialog_create_merchant_tin_textfield.setText("")
+        dialog_create_merchant_vrn_textfield.setText("")
     }
 
     private fun initView() {

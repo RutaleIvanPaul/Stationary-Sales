@@ -103,7 +103,11 @@ class HomeFlowController(
     }
 
     override fun openSalesReports() {
-        // TODO("Not yet implemented")
+        val fragment = ReportsFragment.newInstance()
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
     }
 
     override fun openCreateMerchant() {

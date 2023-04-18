@@ -2,6 +2,8 @@ package io.ramani.ramaniStationary.app.reports.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
+import android.text.format.DateUtils
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
@@ -18,6 +20,7 @@ import io.ramani.ramaniStationary.domain.createmerchant.model.TopPerformersModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.reports.model.SalesSummaryStatisticsModel
 import io.ramani.ramaniStationary.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniStationary.domainCore.printer.PrintStatus
 import io.ramani.ramaniStationary.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -47,6 +50,13 @@ class ReportsViewModel(
     val onTopPerformersLoadedLiveData = SingleLiveEvent<TopPerformersModel>()
     val onSalesSummaryLoadedLiveData = SingleLiveEvent<SalesSummaryStatisticsModel>()
 
+    var startDate = Date()
+    var endDate = Date()
+    var dayRange = ReportsFragment.DayRange.TODAY
+    var calendar = Calendar.getInstance()
+
+    var onDateChangedLiveData = SingleLiveEvent<ReportsFragment.DayRange>()
+
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
         sessionManager.getLoggedInUser().subscribeBy {
@@ -54,8 +64,38 @@ class ReportsViewModel(
             userId = it.uuid
             companyId = it.companyId
 
-            getTopPerformers(null, null)
+            updateDate(ReportsFragment.DayRange.TODAY)
         }
+    }
+
+    fun updateDate(dayRange: ReportsFragment.DayRange) {
+        val today = Date()
+        when (dayRange) {
+            ReportsFragment.DayRange.TODAY -> {
+                startDate = today
+                endDate = today
+            }
+            ReportsFragment.DayRange.YESTERDAY -> {
+                val yesterday = Date(System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS)
+                startDate = yesterday
+                endDate = yesterday
+            }
+            ReportsFragment.DayRange.LAST_7_DAYS -> {
+                startDate = Date(System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS * 6)
+                endDate = today
+            }
+            ReportsFragment.DayRange.LAST_30_DAYS -> {
+                startDate = Date(System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS * 30)
+                endDate = today
+            }
+            else -> {}
+        }
+
+        this.dayRange = dayRange
+        onDateChangedLiveData.postValue(dayRange)
+
+        getTopPerformers(startDate, endDate)
+        getSalesSummary(startDate, endDate)
     }
 
     @SuppressLint("CheckResult")
@@ -78,12 +118,7 @@ class ReportsViewModel(
 
                 topSalePeoples.addAll(it.topSalesPeople)
                 topMerchants.addAll(it.topMerchants)
-                topProducts.addAll(it.topMerchants)
-
-                var total = 0
-                topSalePeoples.forEach { nv ->
-                    total += nv.value.toInt()
-                }
+                topProducts.addAll(it.topProducts)
 
                 onTopPerformersLoadedLiveData.postValue(it)
             }, onError = {
@@ -119,11 +154,25 @@ class ReportsViewModel(
         }
     }
 
+    fun printBitmap(bitmap: Bitmap): PrintStatus {
+        val status = printerHelper.printBitmap(bitmap)
+        if(!status.status){
+            notifyErrorObserver(status.error, PresentationError.ERROR_TEXT)
+        }
+
+        return status
+    }
+
     fun getFormattedAmount(amount: Double): String = NumberFormat.getNumberInstance(Locale.US).format(amount.toInt())
     private fun getStartDateString(date: Date) = dateFormatter.getTimeWithFormmatter(date, "yyyy-MM-dd'T'00:00:00.000'Z'")
     private fun getEndDateString(date: Date) = dateFormatter.getTimeWithFormmatter(date, "yyyy-MM-dd'T'23:59:59.000'Z'")
 
     private fun getDateString(date: Date) = dateFormatter.getTimeWithFormmatter(date, "yyyy-MM-dd")
+    fun getDateRangeString() = String.format("%s - %s", dateFormatter.getTimeWithFormmatter(startDate, "dd MMM yyyy"), dateFormatter.getTimeWithFormmatter(endDate, "dd MMM yyyy"))
+
+    fun isYesterday(d: Date): Boolean {
+        return DateUtils.isToday(d.time + DateUtils.DAY_IN_MILLIS)
+    }
 
     class Factory(
         private val application: Application,
