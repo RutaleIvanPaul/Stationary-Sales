@@ -14,7 +14,6 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.createmerchant.presentation.CreateMerchantViewModel
-import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODEL
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderViewModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MerchantRouteModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MetaDataItem
@@ -54,18 +53,11 @@ class CreateNewMerchantDialog(
 
         if (viewModel is CreateMerchantViewModel) {
             viewModel.onMerchantAddedLiveData.observe(fragment) {
-                dialog_create_merchant_loader.visible(false)
-
-                onItemAdded(it)
-                cleanUI()
+                processMerchant(it)
             }
         } else if (viewModel is CreateOrderViewModel) {
             viewModel.onMerchantAddedLiveData.observe(fragment) {
-                dialog_create_merchant_loader.visible(false)
-
-                onItemAdded(it)
-
-                cleanUI()
+                processMerchant(it)
             }
         }
 
@@ -151,6 +143,8 @@ class CreateNewMerchantDialog(
                     metaData = mutableListOf(MetaDataItem("WalkIn", "WalkIn", "WalkIn"))
                 )
 
+                it.isEnabled = false
+
                 viewModel.registerMerchant(merchantRequest)
             } else if (viewModel is CreateOrderViewModel) {
                 val sellerId = viewModel.companyId
@@ -173,6 +167,8 @@ class CreateNewMerchantDialog(
                     metaData = mutableListOf(MetaDataItem("WalkIn", "WalkIn", "WalkIn"))
                 )
 
+                it.isEnabled = false
+
                 viewModel.registerMerchant(merchantRequest)
             }
         }
@@ -180,6 +176,20 @@ class CreateNewMerchantDialog(
 
     override fun onBackPressed() {
         openWarningDialog()
+    }
+
+    private fun processMerchant(response: Pair<MerchantModel?, String>) {
+        if (response.first != null) {
+            dialog_create_merchant_loader.visible(false)
+            dialog_create_merchant_add.isEnabled = true
+
+            cleanUI()
+            onItemAdded(response.first!!)
+        } else {
+            // Error
+            Toast.makeText(context, response.second, Toast.LENGTH_SHORT).show()
+            dialog_create_merchant_add.isEnabled = true
+        }
     }
 
     private fun openWarningDialog() {

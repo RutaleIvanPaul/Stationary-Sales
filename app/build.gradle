@@ -299,6 +299,9 @@ dependencies {
     // Famoco Printer
     implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
 
+    //Zebra Crossing ZXING
+    implementation 'com.google.zxing:core:3.4.1'
+
     //MobiIot
     implementation files('libs/MobiIotAPI.jar')
 }

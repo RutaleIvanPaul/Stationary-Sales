@@ -87,7 +87,7 @@ class CheckoutFragment : BaseFragment() {
 
         checkout_finish_order.setOnSingleClickListener {
             // Finish order operation
-            viewModel.postSales()
+            viewModel.saveSale()
         }
 
         initSubscribers()
@@ -109,11 +109,8 @@ class CheckoutFragment : BaseFragment() {
             updateMerchants()
         }
 
-        viewModel.onSaleSubmittedLiveData.observe(this) {
-            if (it) {
-                CREATE_ORDER_MODEL.clearAll()
-                flow.openOrderCompleted()
-            }
+        viewModel.onSaleSavedLoadedData.observe(this) { saleIdentify ->
+            flow.openOrderCompleted(saleIdentify)
         }
     }
 
@@ -176,7 +173,7 @@ class CheckoutFragment : BaseFragment() {
     private fun updateQuantity(position: Int, product: ProductModel) {
         val availableStockAmount = viewModel.getAvailableStockAmount(product)
 
-        val dialog = ProductQuantityDialog(requireActivity(), product, availableStockAmount, position) { position, product ->
+        val dialog = ProductQuantityDialog(requireActivity(), product, viewModel.isRestrictSalesByStockAssigned, availableStockAmount, position) { position, product ->
             productsAdapter.notifyItemChanged(position)
             updateUI()
         }

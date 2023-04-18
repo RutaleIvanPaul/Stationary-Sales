@@ -1,6 +1,8 @@
 package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -20,6 +22,7 @@ import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewMod
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
 import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
 import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import kotlinx.android.synthetic.main.fragment_create_order.*
 import org.kodein.di.generic.factory
@@ -68,8 +71,10 @@ class CreateOrderFragment : BaseFragment() {
             flow.openCheckout()
         }
 
-        initSubscribers()
-        updateCheckOutStatus()
+        Handler(Looper.getMainLooper()).postDelayed({
+            initSubscribers()
+            updateCheckOutStatus()
+        }, 300)
     }
 
     private fun initSubscribers() {
@@ -110,14 +115,16 @@ class CreateOrderFragment : BaseFragment() {
 
     override fun showError(error: String) {
         super.showError(error)
-        errorDialog(error)
+
+        if (MAIN_SHARED_MODEL.isOnline)
+            errorDialog(error)
     }
 
     private fun updateRV() {
         val keyword = create_order_search_textfield.text.trim().toString()
         val products = if (keyword.isNotEmpty()) viewModel.productList.filter { product -> product.name.contains(keyword, true) } else viewModel.productList
 
-        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.availableStockProductList) { item ->
+        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.isRestrictSalesByStockAssigned, viewModel.availableStockProductList) { item ->
             // Add or remove product from orders
             CREATE_ORDER_MODEL.addOrRemoveProduct(item)
 

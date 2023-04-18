@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.domainCore.prefs
 
 import io.ramani.ramaniStationary.domain.home.model.TaxInformationModel
+import io.ramani.ramaniStationary.domain.home.model.UserAccountDetailsModel
 
 
 /**
@@ -16,5 +17,6 @@ interface Prefs {
     var timeZone: String
     var lastSyncTime: String
     var currency:String
+    var userAccountDetails: UserAccountDetailsModel
     var taxInformation: TaxInformationModel
 }

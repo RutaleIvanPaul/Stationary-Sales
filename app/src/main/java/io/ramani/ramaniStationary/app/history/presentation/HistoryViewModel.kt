@@ -54,6 +54,7 @@ class HistoryViewModel(
     val historyActivityListOriginal = mutableListOf<Activity>()
 
     val orderDetailsLiveData = MutableLiveData<OrderDetailsResponse>()
+    val onPrintReceiptLiveData = MutableLiveData<Boolean>()
 
     override fun start(args: Map<String, Any?>) {
         isThereTaxObject()
@@ -136,6 +137,7 @@ class HistoryViewModel(
                 printText(it.toString())
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
@@ -162,6 +164,7 @@ class HistoryViewModel(
                 printText(it.toString())
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }
@@ -177,8 +180,10 @@ class HistoryViewModel(
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
                 printText(it.receiptText)
+                onPrintReceiptLiveData.postValue(true)
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
             })
         }
     }

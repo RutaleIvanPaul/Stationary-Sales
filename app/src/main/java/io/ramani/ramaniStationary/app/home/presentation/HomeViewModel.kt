@@ -2,17 +2,23 @@ package io.ramani.ramaniStationary.app.home.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
+import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
+import io.ramani.ramaniStationary.data.database.RamaniDatabase
 import io.ramani.ramaniStationary.data.home.models.request.*
+import io.ramani.ramaniStationary.data.home.models.response.UserAccountDetailsRemoteModel
 import io.ramani.ramaniStationary.domain.auth.manager.ISessionManager
 import io.ramani.ramaniStationary.domain.base.SingleLiveEvent
 import io.ramani.ramaniStationary.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniStationary.domain.createorder.model.SaleModel
 import io.ramani.ramaniStationary.domain.datetime.DateFormatter
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.home.model.*
@@ -27,13 +33,16 @@ class HomeViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
+    private val getUserAccountDetailsUseCase: BaseSingleUseCase<List<UserAccountDetailsModel>, GetUserAccountDetailsRequestModel>,
+    private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
     private val dailySalesStatsUseCase: BaseSingleUseCase<PagedList<DailySalesStatsModel>, DailySalesStatsRequestModel>,
     private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
     private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
     private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
-    private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
+    private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
     private val prefs: PrefsManager,
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: DateFormatter,
+    private val database: RamaniDatabase
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userId = ""
@@ -69,6 +78,28 @@ class HomeViewModel(
         }
     }
 
+    private fun getUserAccountDetails() {
+        val single = getUserAccountDetailsUseCase.getSingle(GetUserAccountDetailsRequestModel(companyId))
+        subscribeSingle(single, onSuccess = {
+            // Save it to pref
+            if (it.isNotEmpty())
+                prefs.userAccountDetails = it.first()
+
+        }, onError = {
+            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+        })
+    }
+
+    fun getTaxInformationForUser() {
+        val single = getTaxInformationUseCase.getSingle(GetTaxInformationRequestModel(userId))
+        subscribeSingle(single, onSuccess = {
+            // Save it to pref
+            prefs.taxInformation = it
+        }, onError = {
+            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+        })
+    }
+
     private fun getDailySalesStats(startDate: String, endDate: String) {
         isLoadingVisible = true
 
@@ -85,22 +116,6 @@ class HomeViewModel(
 //                    PresentationError.ERROR_TEXT
 //                )
             notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
-        })
-    }
-
-    private fun getTaxInformationForUser() {
-        isLoadingVisible = true
-
-        val single = getTaxInformationUseCase.getSingle(GetTaxInformationRequestModel(userId))
-        subscribeSingle(single, onSuccess = {
-            isLoadingVisible = false
-
-            // Save it to pref
-            prefs.taxInformation = it
-
-        }, onError = {
-            isLoadingVisible = false
-            //notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
         })
     }
 
@@ -231,8 +246,9 @@ class HomeViewModel(
 
         onDateChangedLiveData.postValue(dateFormatter.getCalendarTimeString(date))
 
-        getDailySalesStats()
+        getUserAccountDetails()
         getTaxInformationForUser()
+        getDailySalesStats()
     }
 
     private fun getDailySalesStats() {
@@ -248,17 +264,44 @@ class HomeViewModel(
     fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
     fun getFormattedAmountLong(amount: Double): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
+    // Sent unsent sales
+    fun tryToUnsentSale() {
+        try {
+            val saleJson = database.getSaleDao().getUnsentSale()
+
+            if (TextUtils.isEmpty(saleJson.request))
+                return
+
+            val sale = Gson().fromJson(saleJson.request, SaleRequestModel::class.java)
+
+            val single = postNewSaleStockUseCase.getSingle(sale)
+            subscribeSingle(single, onSuccess = {
+                database.getSaleDao().delete(saleJson)
+
+                tryToUnsentSale()
+            }, onError = {
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            })
+        } catch (e: Exception) {
+            // In this case, we assume there is no unsent sales
+            e.printStackTrace()
+        }
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
+        private val getUserAccountDetailsUseCase: BaseSingleUseCase<List<UserAccountDetailsModel>, GetUserAccountDetailsRequestModel>,
+        private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
         private val dailySalesStatsUseCase: BaseSingleUseCase<PagedList<DailySalesStatsModel>, DailySalesStatsRequestModel>,
         private val getTaxesUseCase: BaseSingleUseCase<PagedList<TaxModel>, GetTaxRequestModel>,
         private val getProductsUseCase: BaseSingleUseCase<PagedList<ProductModel>, GetProductRequestModel>,
         private val getMerchantsUseCase: BaseSingleUseCase<PagedList<MerchantModel>, GetMerchantRequestModel>,
-        private val getTaxInformationUseCase: BaseSingleUseCase<TaxInformationModel, GetTaxInformationRequestModel>,
+        private val postNewSaleStockUseCase: BaseSingleUseCase<SaleModel, SaleRequestModel>,
         private val prefs: PrefsManager,
-        private val dateFormatter: DateFormatter
+        private val dateFormatter: DateFormatter,
+        private val database: RamaniDatabase
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -267,9 +310,13 @@ class HomeViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase, getTaxInformationUseCase,
+                    getUserAccountDetailsUseCase,
+                    getTaxInformationUseCase,
+                    dailySalesStatsUseCase, getTaxesUseCase, getProductsUseCase, getMerchantsUseCase,
+                    postNewSaleStockUseCase,
                     prefs,
-                    dateFormatter
+                    dateFormatter,
+                    database
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")
