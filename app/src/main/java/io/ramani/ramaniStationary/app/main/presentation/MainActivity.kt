@@ -1,9 +1,14 @@
 package io.ramani.ramaniStationary.app.main.presentation
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import io.ramani.ramaniStationary.R
@@ -13,7 +18,6 @@ import io.ramani.ramaniStationary.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniStationary.app.common.presentation.extensions.gone
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
-
 import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.generic.factory
 
@@ -29,7 +33,9 @@ class MainActivity : BaseActivity() {
 //    private var leftMenuActionView: ActionMenuView? = null
 
     private val viewModelProvider: (BaseActivity) -> MainViewModel by factory()
+    private lateinit var connectivityManager: ConnectivityManager
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -59,6 +65,40 @@ class MainActivity : BaseActivity() {
         } else {
             flow.openLogin()
         }
+
+        // Monitoring network status
+        MAIN_SHARED_MODEL.onNetworkStatusChangedLiveData.observe(this) {
+            working_offline_tv.visible(!it)
+        }
+
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val builder = NetworkRequest.Builder()
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+        builder.addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+
+        val networkRequest = builder.build()
+        connectivityManager.registerNetworkCallback(networkRequest, object : ConnectivityManager.NetworkCallback () {
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    checkNetworkStatus()
+                }
+
+                override fun onLost(network: Network) {
+                    super.onLost(network)
+                    checkNetworkStatus()
+                }
+            })
+
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    private fun checkNetworkStatus() =
+        MAIN_SHARED_MODEL.updateNetworkStatus(viewModel.isOnline(getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager))
 }

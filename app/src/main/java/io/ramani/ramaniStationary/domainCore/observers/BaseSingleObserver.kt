@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.core.domain.observers
 
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.reactivex.observers.DisposableSingleObserver
 
 /**
@@ -10,6 +11,9 @@ open class BaseSingleObserver<T>(
     private val doOnError: (Throwable) -> Unit = {}
 ) : DisposableSingleObserver<T>() {
     override fun onSuccess(t: T) {
+        //[2023.4.13][Adrian] If network call is success, then it should be notified to show off "Offline" badge
+        MAIN_SHARED_MODEL.updateNetworkStatus(true)
+
         doOnSuccess(t)
     }
 

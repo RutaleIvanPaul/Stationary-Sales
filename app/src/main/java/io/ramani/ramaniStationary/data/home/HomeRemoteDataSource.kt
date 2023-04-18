@@ -6,22 +6,21 @@ import io.ramani.ramaniStationary.data.entities.PaginationMetaRemote
 import io.ramani.ramaniStationary.data.home.models.response.*
 import io.ramani.ramaniStationary.domain.base.mappers.ModelMapper
 import io.ramani.ramaniStationary.domain.base.mappers.mapFromWith
-import io.ramani.ramaniStationary.domain.createorder.model.AvailableStockModel
 import io.ramani.ramaniStationary.domain.entities.PagedList
 import io.ramani.ramaniStationary.domain.entities.PaginationMeta
 import io.ramani.ramaniStationary.domain.entities.exceptions.ParseResponseException
 import io.ramani.ramaniStationary.domain.home.HomeDataSource
 import io.ramani.ramaniStationary.domain.home.model.*
-import io.reactivex.Maybe
 import io.reactivex.Single
 
 class HomeRemoteDataSource(
     private val homeApi: HomeApi,
+    private val userAccountDetailsRemoteMapper: ModelMapper<UserAccountDetailsRemoteModel, UserAccountDetailsModel>,
+    private val taxInformationRemoteMapper: ModelMapper<TaxInformationRemoteModel, TaxInformationModel>,
     private val dailySalesStatsRemoteMapper: ModelMapper<DailySalesStatsRemoteModel, DailySalesStatsModel>,
     private val taxRemoteMapper: ModelMapper<TaxRemoteModel, TaxModel>,
     private val productRemoteMapper: ModelMapper<ProductRemoteModel, ProductModel>,
     private val merchantRemoteMapper: ModelMapper<MerchantRemoteModel, MerchantModel>,
-    private val taxInformationRemoteMapper: ModelMapper<TaxInformationRemoteModel, TaxInformationModel>,
     private val metaRemoteMapper: ModelMapper<PaginationMetaRemote, PaginationMeta>,
 ) : HomeDataSource, BaseRemoteDataSource() {
 
@@ -130,6 +129,18 @@ class HomeRemoteDataSource(
                 val data = it.data
                 if (data != null) {
                     Single.just(data.mapFromWith(taxInformationRemoteMapper))
+                } else {
+                    Single.error(ParseResponseException())
+                }
+            }
+        )
+
+    override fun getAccountDetails(companyId: String): Single<List<UserAccountDetailsModel>> =
+        callSingle(
+            homeApi.getAccountDetails(companyId).flatMap {
+                val data = it.data
+                if (data != null) {
+                    Single.just(data.mapFromWith(userAccountDetailsRemoteMapper))
                 } else {
                     Single.error(ParseResponseException())
                 }

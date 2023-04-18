@@ -56,7 +56,7 @@
                 android:id="@+id/dialog_create_merchant_phone_textfield"
                 style="@style/NormalTextField"
                 android:layout_height="37dp"
-                android:hint="@string/hint_mobile_number"
+                android:hint="767123456"
                 android:inputType="phone" />
         </LinearLayout>
 

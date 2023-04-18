@@ -19,6 +19,10 @@ data class SaleRequestModel (
     val totalCost: Int,
     val hasNewMerchantTIN: Boolean = false,
     val hasNewMerchantVRN: Boolean = false,
+    var printStatus: String = "Not Printed",
+    var wasCreatedOrderSelected: Boolean = true,
+    val RECEIPTCODE: String = "",
+    val VRN: String = "",
 
     // Those parameter always null, but required by backend
     val zoneId: String = "zoneId",
@@ -32,8 +36,6 @@ data class SaleRequestModel (
     val reregisteredLocation: Boolean = false,
     val batteryLife: Double = 100.0,
     val photoUrls: List<String> = mutableListOf(),
-    val VRN: String = "",
-    val RECEIPTCODE: String = ""
 ) : Params {
 
     override fun toString(): String {

@@ -49,4 +49,8 @@ interface HomeApi {
         @Query("userId") userId: String
     ): Single<BaseResponse<TaxInformationRemoteModel>>
 
+    @GET("/get/accounts/company/details/v2")
+    fun getAccountDetails(
+        @Query("companyId") companyId: String
+    ): Single<BaseResponse<List<UserAccountDetailsRemoteModel>>>
 }

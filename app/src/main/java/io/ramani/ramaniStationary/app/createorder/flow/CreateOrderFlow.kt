@@ -4,6 +4,6 @@ interface CreateOrderFlow {
     fun openAddItems()
     fun openCheckout()
 
-    fun openOrderCompleted()
+    fun openOrderCompleted(saleIdentify: Long)
     fun openPrintSuccessful()
 }

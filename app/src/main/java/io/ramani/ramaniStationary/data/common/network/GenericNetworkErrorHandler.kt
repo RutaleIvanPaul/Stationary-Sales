@@ -1,5 +1,6 @@
 package io.ramani.ramaniStationary.data.common.network
 
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.ramani.ramaniStationary.domain.entities.BaseErrorResponse
 import io.ramani.ramaniStationary.domain.entities.exceptions.ConnectionTimeoutException
 import io.ramani.ramaniStationary.domain.entities.exceptions.NoInternetConnectionException
@@ -28,11 +29,17 @@ class GenericNetworkErrorHandler(private val stringProvider: IStringProvider) :
             else -> throwable
         }
 
-    private fun handleNoConnectionException(): Throwable =
-        NoInternetConnectionException(stringProvider.getConnectionErrorMessage())
+    private fun handleNoConnectionException(): Throwable {
+        //[2023.4.13][Adrian] If no connection, then it should be notified to show "Offline" badge
+        MAIN_SHARED_MODEL.updateNetworkStatus(false)
+        return NoInternetConnectionException(stringProvider.getConnectionErrorMessage())
+    }
 
-    private fun handleConnectionTimeoutException(): Throwable =
-        ConnectionTimeoutException(stringProvider.getConnectionErrorMessage())
+    private fun handleConnectionTimeoutException(): Throwable {
+        //[2023.4.13][Adrian] If timeout due to down of service, then it should be notified to show "Offline" badge
+        MAIN_SHARED_MODEL.updateNetworkStatus(false)
+        return ConnectionTimeoutException(stringProvider.getConnectionErrorMessage())
+    }
 
     private fun handleHttpException(exception: HttpException): Throwable {
         val code = exception.code()
