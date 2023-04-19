@@ -102,7 +102,7 @@ class CreateOrderFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        if (isAdded)
+        if (isAdded && create_order_search_textfield != null)
             create_order_search_textfield.removeTextChangedListener(searchTextWatcher)
 
         super.onDestroy()
