@@ -90,36 +90,70 @@
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/reports_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/reports_day_select_layout"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fillViewport="true"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="70dp">
 
-                <LinearLayout
-                    android:id="@+id/reports_scrollview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <!-- Sale Summary -->
 
-                    <!-- Sale Summary -->
+                <LinearLayout style="@style/ReportsLayout">
 
-                    <LinearLayout style="@style/ReportsLayout">
+                    <TextView
+                        style="@style/BoldTextLabel"
+                        android:text="@string/sale_summary"
+                        android:textColor="@color/ramani_blue" />
+
+                    <LinearLayout style="@style/ReportsPartLayout">
 
                         <TextView
-                            style="@style/BoldTextLabel"
-                            android:text="@string/sale_summary"
-                            android:textColor="@color/ramani_blue" />
+                            style="@style/NormalTextLabel"
+                            android:text="@string/total_sales_value"
+                            android:textColor="@color/text_grey" />
 
-                        <LinearLayout style="@style/ReportsPartLayout">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="bottom"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/reports_total_sales_value_currency"
+                                style="@style/BoldTextLabel"
+                                android:text="TZS" />
+
+                            <TextView
+                                android:id="@+id/reports_total_sales_value"
+                                style="@style/BoldHugeTextLabel"
+                                android:layout_marginStart="5dp"
+                                android:text="329,0009,374" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            style="@style/ReportsPartLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1">
 
                             <TextView
                                 style="@style/NormalTextLabel"
-                                android:text="@string/total_sales_value"
+                                android:text="@string/total_sales_count"
                                 android:textColor="@color/text_grey" />
 
                             <LinearLayout
@@ -130,206 +164,172 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:id="@+id/reports_total_sales_value_currency"
+                                    android:id="@+id/reports_total_sales_count"
+                                    style="@style/BoldHugeTextLabel"
+                                    android:text="67" />
+
+                                <TextView
+                                    style="@style/BoldTextLabel"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/orders" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/ReportsPartLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1">
+
+                            <TextView
+                                style="@style/NormalTextLabel"
+                                android:text="@string/total_credit_given"
+                                android:textColor="@color/text_grey" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="bottom"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/reports_total_credit_given_currency"
                                     style="@style/BoldTextLabel"
                                     android:text="TZS" />
 
                                 <TextView
-                                    android:id="@+id/reports_total_sales_value"
+                                    android:id="@+id/reports_total_credit_given"
                                     style="@style/BoldHugeTextLabel"
                                     android:layout_marginStart="5dp"
-                                    android:text="329,0009,374" />
+                                    android:text="100,000" />
+
                             </LinearLayout>
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                style="@style/ReportsPartLayout"
-                                android:layout_width="0dp"
-                                android:layout_weight="1">
-
-                                <TextView
-                                    style="@style/NormalTextLabel"
-                                    android:text="@string/total_sales_count"
-                                    android:textColor="@color/text_grey" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="bottom"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/reports_total_sales_count"
-                                        style="@style/BoldHugeTextLabel"
-                                        android:text="67" />
-
-                                    <TextView
-                                        style="@style/BoldTextLabel"
-                                        android:layout_marginStart="5dp"
-                                        android:text="@string/orders" />
-
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                style="@style/ReportsPartLayout"
-                                android:layout_width="0dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="1">
-
-                                <TextView
-                                    style="@style/NormalTextLabel"
-                                    android:text="@string/total_credit_given"
-                                    android:textColor="@color/text_grey" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="bottom"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/reports_total_credit_given_currency"
-                                        style="@style/BoldTextLabel"
-                                        android:text="TZS" />
-
-                                    <TextView
-                                        android:id="@+id/reports_total_credit_given"
-                                        style="@style/BoldHugeTextLabel"
-                                        android:layout_marginStart="5dp"
-                                        android:text="100,000" />
-
-                                </LinearLayout>
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Top Customers -->
-
-                    <LinearLayout
-                        style="@style/ReportsLayout"
-                        android:layout_marginTop="10dp">
-
-                        <TextView
-                            style="@style/BoldTextLabel"
-                            android:text="@string/top_customers"
-                            android:textColor="@color/ramani_blue" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/rounded_rectangle_grey"
-                            android:orientation="vertical"
-                            android:padding="15dp">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    style="@style/BoldTextLabel"
-                                    android:layout_centerVertical="true"
-                                    android:text="@string/name" />
-
-                                <TextView
-                                    style="@style/BoldTextLabel"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    android:text="@string/amount" />
-                            </RelativeLayout>
-
-                            <View
-                                style="@style/Separator"
-                                android:layout_height="0.5dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/reports_top_customers_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:nestedScrollingEnabled="false"
-                                android:scrollbars="none" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Top Products -->
-
-                    <LinearLayout
-                        style="@style/ReportsLayout"
-                        android:layout_marginTop="10dp">
-
-                        <TextView
-                            style="@style/BoldTextLabel"
-                            android:text="@string/top_products"
-                            android:textColor="@color/ramani_blue" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/rounded_rectangle_grey"
-                            android:orientation="vertical"
-                            android:padding="15dp">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    style="@style/BoldTextLabel"
-                                    android:layout_centerVertical="true"
-                                    android:text="@string/name" />
-
-                                <TextView
-                                    style="@style/BoldTextLabel"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_centerVertical="true"
-                                    android:text="@string/revenue" />
-                            </RelativeLayout>
-
-                            <View
-                                style="@style/Separator"
-                                android:layout_height="0.5dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/reports_top_products_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:nestedScrollingEnabled="false"
-                                android:scrollbars="none" />
-
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
+                <!-- Top Customers -->
 
                 <LinearLayout
                     style="@style/ReportsLayout"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginTop="10dp">
 
                     <TextView
-                        android:id="@+id/reports_print_summary"
-                        style="@style/NormalActionButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:text="@string/print_summary" />
+                        style="@style/BoldTextLabel"
+                        android:text="@string/top_customers"
+                        android:textColor="@color/ramani_blue" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_rectangle_grey"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                style="@style/BoldTextLabel"
+                                android:layout_centerVertical="true"
+                                android:text="@string/name" />
+
+                            <TextView
+                                style="@style/BoldTextLabel"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/amount" />
+                        </RelativeLayout>
+
+                        <View
+                            style="@style/Separator"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reports_top_customers_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:scrollbars="none" />
+                    </LinearLayout>
                 </LinearLayout>
 
+                <!-- Top Products -->
+
+                <LinearLayout
+                    style="@style/ReportsLayout"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        style="@style/BoldTextLabel"
+                        android:text="@string/top_products"
+                        android:textColor="@color/ramani_blue" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_rectangle_grey"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                style="@style/BoldTextLabel"
+                                android:layout_centerVertical="true"
+                                android:text="@string/name" />
+
+                            <TextView
+                                style="@style/BoldTextLabel"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/revenue" />
+                        </RelativeLayout>
+
+                        <View
+                            style="@style/Separator"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reports_top_products_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:scrollbars="none" />
+
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <include layout="@layout/layout_reports_print"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            style="@style/ReportsLayout"
+            android:background="@drawable/checkout_bg"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/reports_print_summary"
+                style="@style/NormalActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="@string/print_summary" />
+
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/reports_loader"

@@ -10,6 +10,7 @@ interface ReportsApi {
     @GET("/api/v1/sales-summary-statistics")
     fun getSalesSummaryStatistics(
         @Query("companyId") companyId: String,
+        @Query("salesPersonUID") salesPersonUID: String,
         @Query("page") page: Int,
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String

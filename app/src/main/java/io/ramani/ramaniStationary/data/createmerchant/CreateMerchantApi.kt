@@ -12,6 +12,7 @@ interface CreateMerchantApi {
     @GET("/api/v1/top-performers")
     fun getTopPerformers(
         @Query("companyId") companyId: String,
+        @Query("salesPersonUID") salesPersonUID: String,
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String,
         @Query("size") size: Int

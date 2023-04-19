@@ -114,7 +114,7 @@ class ReportsViewModel(
         val endDateStr = if (endDate != null) getEndDateString(endDate) else getEndDateString(today)
 
         sessionManager.getLoggedInUser().subscribeBy { user ->
-            val single = getTopPerformersUseCase.getSingle(GetTopPerformersRequestModel(user.companyId, startDateStr, endDateStr, 1000))
+            val single = getTopPerformersUseCase.getSingle(GetTopPerformersRequestModel(user.companyId, user.uuid, startDateStr, endDateStr, 1000))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
 
@@ -141,7 +141,7 @@ class ReportsViewModel(
 
         sessionManager.getLoggedInUser().subscribeBy { user ->
             val single = getSalesSummaryStatisticsUseCase.getSingle(
-                GetSalesSummaryStatisticsRequestModel(user.companyId, 1, startDateStr, endDateStr)
+                GetSalesSummaryStatisticsRequestModel(user.companyId, user.uuid,1, startDateStr, endDateStr)
             )
             subscribeSingle(single, onSuccess = { summary ->
                 isLoadingVisible = false

@@ -17,7 +17,7 @@ class HomeLocalDataSource(
     private val db: RamaniDatabase
 ) : HomeDataSource, BaseRemoteDataSource() {
 
-    override fun getDailySalesStats(companyId: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>> {
+    override fun getDailySalesStats(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>> {
         TODO("Not yet implemented")
     }
     override fun getProducts(fromRemote: Boolean, companyId: String, startDate: String, endDate: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> =

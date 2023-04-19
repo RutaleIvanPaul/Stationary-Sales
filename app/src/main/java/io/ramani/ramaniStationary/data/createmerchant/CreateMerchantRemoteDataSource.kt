@@ -22,9 +22,9 @@ class CreateMerchantRemoteDataSource(
     private val metaRemoteMapper: ModelMapper<PaginationMetaRemote, PaginationMeta>,
 ) : CreateMerchantDataSource, BaseRemoteDataSource() {
 
-    override fun getTopPerformers(companyId: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel> =
+    override fun getTopPerformers(companyId: String, salesPersonUID: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel> =
         callSingle(
-            createMerchantApi.getTopPerformers(companyId, startDate, endDate, size).flatMap {
+            createMerchantApi.getTopPerformers(companyId, salesPersonUID, startDate, endDate, size).flatMap {
                 val data = it.data
                 if (data != null) {
                     Single.just(data.mapFromWith(topPerformersRemoteMapper))

@@ -10,8 +10,8 @@ class HomeRepository(
     private val localAuthDataSource: HomeDataSource
 ): HomeDataSource {
 
-    override fun getDailySalesStats(companyId: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>>  =
-        remoteAuthDataSource.getDailySalesStats(companyId, page, startDate, endDate)
+    override fun getDailySalesStats(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>>  =
+        remoteAuthDataSource.getDailySalesStats(companyId, salesPersonUID, page, startDate, endDate)
 
     override fun getTaxes(fromRemote: Boolean, companyId: String, userId: String, date: String, page: Int): Single<PagedList<TaxModel>>  =
         if (fromRemote) {

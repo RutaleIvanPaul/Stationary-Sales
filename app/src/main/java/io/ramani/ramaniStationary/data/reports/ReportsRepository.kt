@@ -9,7 +9,7 @@ class ReportsRepository(
     private val localReportsDataSource: ReportsDataSource
 ): ReportsDataSource {
 
-    override fun getSalesSummaryStatistics(companyId: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel> =
-        remoteReportsDataSource.getSalesSummaryStatistics(companyId, page, startDate, endDate)
+    override fun getSalesSummaryStatistics(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel> =
+        remoteReportsDataSource.getSalesSummaryStatistics(companyId, salesPersonUID, page, startDate, endDate)
 
 }

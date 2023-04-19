@@ -18,8 +18,17 @@ import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniStationary.app.reports.presentation.adapter.NameValueRVAdapter
+import io.ramani.ramaniStationary.app.reports.presentation.adapter.NameValueSmallRVAdapter
 import io.ramani.ramaniStationary.domain.reports.model.SalesSummaryStatisticsModel
 import kotlinx.android.synthetic.main.fragment_reports.*
+import kotlinx.android.synthetic.main.fragment_reports.reports_top_customers_list
+import kotlinx.android.synthetic.main.fragment_reports.reports_top_products_list
+import kotlinx.android.synthetic.main.fragment_reports.reports_total_credit_given
+import kotlinx.android.synthetic.main.fragment_reports.reports_total_credit_given_currency
+import kotlinx.android.synthetic.main.fragment_reports.reports_total_sales_count
+import kotlinx.android.synthetic.main.fragment_reports.reports_total_sales_value
+import kotlinx.android.synthetic.main.fragment_reports.reports_total_sales_value_currency
+import kotlinx.android.synthetic.main.layout_reports_print.*
 import org.kodein.di.generic.factory
 import java.util.*
 
@@ -37,6 +46,9 @@ class ReportsFragment : BaseFragment() {
 
     private lateinit var topCustomersAdapter: NameValueRVAdapter
     private lateinit var topProductsAdapter: NameValueRVAdapter
+
+    private lateinit var topCustomersSmallAdapter: NameValueSmallRVAdapter
+    private lateinit var topProductsSmallAdapter: NameValueSmallRVAdapter
 
     enum class DayRange {
         NONE, TODAY, YESTERDAY, LAST_7_DAYS, LAST_30_DAYS
@@ -81,7 +93,8 @@ class ReportsFragment : BaseFragment() {
         }
 
         reports_print_summary.setOnSingleClickListener {
-            val printView = reports_scrollview
+            val printView = reports_print_scrollview
+
             val bitmap = Bitmap.createBitmap(printView.width, printView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             val bgDrawable = printView.background
@@ -144,21 +157,41 @@ class ReportsFragment : BaseFragment() {
 
         reports_total_credit_given_currency.text = currency
         reports_total_credit_given.text = viewModel.getFormattedAmount(summary.totalCreditGiven.value)
+
+        // To support print layout
+        reports_print_total_sales_value_currency.text = currency
+        reports_print_total_sales_value.text = viewModel.getFormattedAmount(summary.totalSalesValue.value)
+
+        reports_print_total_sales_count.text = viewModel.getFormattedAmount(summary.totalSalesCount.value)
+
+        reports_print_total_credit_given_currency.text = currency
+        reports_print_total_credit_given.text = viewModel.getFormattedAmount(summary.totalCreditGiven.value)
     }
 
     private fun updateTopPerformers() {
         topCustomersAdapter = NameValueRVAdapter(viewModel.topMerchants.take(4).toMutableList())
-
         reports_top_customers_list.apply {
             layoutManager = LinearLayoutManager(requireActivity())
             adapter = topCustomersAdapter
         }
 
         topProductsAdapter = NameValueRVAdapter(viewModel.topProducts.take(4).toMutableList())
-
         reports_top_products_list.apply {
             layoutManager = LinearLayoutManager(requireActivity())
             adapter = topProductsAdapter
+        }
+
+        // To support print layout
+        topCustomersSmallAdapter = NameValueSmallRVAdapter(viewModel.topMerchants.take(4).toMutableList())
+        reports_print_top_customers_list.apply {
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = topCustomersSmallAdapter
+        }
+
+        topProductsSmallAdapter = NameValueSmallRVAdapter(viewModel.topProducts.take(4).toMutableList())
+        reports_print_top_products_list.apply {
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = topProductsSmallAdapter
         }
     }
 

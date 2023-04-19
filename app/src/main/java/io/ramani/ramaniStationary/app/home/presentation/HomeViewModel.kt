@@ -105,7 +105,7 @@ class HomeViewModel(
     private fun getDailySalesStats(startDate: String, endDate: String) {
         isLoadingVisible = true
 
-        val single = dailySalesStatsUseCase.getSingle(DailySalesStatsRequestModel(companyId, 1, startDate, endDate))
+        val single = dailySalesStatsUseCase.getSingle(DailySalesStatsRequestModel(companyId, userId, 1, startDate, endDate))
         subscribeSingle(single, onSuccess = {
             isLoadingVisible = false
 

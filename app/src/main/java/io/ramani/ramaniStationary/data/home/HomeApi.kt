@@ -9,6 +9,7 @@ interface HomeApi {
     @GET("/sales-activity/daily-sales-stats/16-02-2023")
     fun getDailyStats(
         @Query("companyId") companyId: String,
+        @Query("salesPersonUID") salesPersonUID: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("startDate") startDate: String,
