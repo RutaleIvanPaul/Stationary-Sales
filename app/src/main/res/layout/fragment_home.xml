@@ -53,6 +53,7 @@
                 <!-- Today Sales -->
 
                 <LinearLayout
+                    android:id="@+id/home_today_sales_all_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -79,13 +80,13 @@
                         android:textColor="@color/colorTextBlack" />
 
                     <TextView
-                        android:id="@+id/home_today_sales_all_view"
                         style="@style/TapToViewButton" />
                 </LinearLayout>
 
                 <!-- Total Customers -->
 
                 <LinearLayout
+                    android:id="@+id/home_total_customers_all_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -113,7 +114,6 @@
                         android:textColor="@color/colorTextBlack" />
 
                     <TextView
-                        android:id="@+id/home_total_customers_all_view"
                         style="@style/TapToViewButton" />
                 </LinearLayout>
             </LinearLayout>

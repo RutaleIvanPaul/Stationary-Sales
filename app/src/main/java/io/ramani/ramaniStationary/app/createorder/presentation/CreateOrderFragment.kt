@@ -102,7 +102,7 @@ class CreateOrderFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        if (isAdded)
+        if (isAdded && create_order_search_textfield != null)
             create_order_search_textfield.removeTextChangedListener(searchTextWatcher)
 
         super.onDestroy()
@@ -124,7 +124,7 @@ class CreateOrderFragment : BaseFragment() {
         val keyword = create_order_search_textfield.text.trim().toString()
         val products = if (keyword.isNotEmpty()) viewModel.productList.filter { product -> product.name.contains(keyword, true) } else viewModel.productList
 
-        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.isRestrictSalesByStockAssigned, viewModel.availableStockProductList) { item ->
+        productsAdapter = CreateOrderProductsRVAdapter(products as MutableList<ProductModel>, viewModel.isRestrictSalesByStockAssigned, viewModel.availableStockProductList, viewModel.currency) { item ->
             // Add or remove product from orders
             CREATE_ORDER_MODEL.addOrRemoveProduct(item)
 
@@ -146,7 +146,7 @@ class CreateOrderFragment : BaseFragment() {
 
     private fun updateCheckOutStatus() {
         create_order_checkout.isEnabled = CREATE_ORDER_MODEL.productsToBeOrdered.isNotEmpty()
-        create_order_total_price.text = String.format("TSH %s", viewModel.getFormattedAmount(CREATE_ORDER_MODEL.getTotalOrderedPrice()))
+        create_order_total_price.text = viewModel.getFormattedAmount(CREATE_ORDER_MODEL.getTotalOrderedPrice())
     }
 
     private val searchTextWatcher = object : TextWatcher {

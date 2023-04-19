@@ -43,6 +43,7 @@ class CheckoutFragment : BaseFragment() {
     override fun getLayoutResId(): Int = R.layout.fragment_checkout
 
     private lateinit var productsAdapter: CheckoutProductsRVAdapter
+    private lateinit var addMerchantDialog: CreateNewMerchantDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,16 +64,15 @@ class CheckoutFragment : BaseFragment() {
         }
 
         // Add new customer
+        addMerchantDialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { _ ->
+            updateMerchants()
+            checkout_select_customer_spinner.selectItemByIndex(0)
+            updateUI()
+            addMerchantDialog.dismiss()
+        }
+
         checkout_customer_add_new.setOnSingleClickListener {
-            val dialog = CreateNewMerchantDialog(requireActivity(), viewModel, this) { _ ->
-                updateMerchants()
-
-                checkout_select_customer_spinner.selectItemByIndex(0)
-
-                updateUI()
-            }
-
-            dialog.show()
+            addMerchantDialog.show()
         }
 
         checkout_payment_method_paid.setOnCheckedChangeListener { button, checked ->
@@ -154,7 +154,7 @@ class CheckoutFragment : BaseFragment() {
     private fun updateRV() {
         val products = CREATE_ORDER_MODEL.productsToBeOrdered
 
-        productsAdapter = CheckoutProductsRVAdapter(products) { position, item, type ->
+        productsAdapter = CheckoutProductsRVAdapter(products, viewModel.currency) { position, item, type ->
             when (type) {
                 ItemSelectionType.QTY -> updateQuantity(position, item)
                 ItemSelectionType.PRICE_CATEGORY -> updatePriceCategory(position, item)
@@ -182,7 +182,7 @@ class CheckoutFragment : BaseFragment() {
     }
 
     private fun updatePriceCategory(position: Int, product: ProductModel) {
-        val dialog = ProductPriceCategoryDialog(requireActivity(), product, position) { position, product ->
+        val dialog = ProductPriceCategoryDialog(requireActivity(), product, position, viewModel.currency) { position, product ->
             productsAdapter.notifyItemChanged(position)
             updateUI()
         }
@@ -222,11 +222,11 @@ class CheckoutFragment : BaseFragment() {
         val totalVat = CREATE_ORDER_MODEL.getTotalVat(viewModel.taxInformation)
         val total = totalPrice - totalDiscount + totalVat
 
-        checkout_subtotal.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalPrice))
-        checkout_discount.text = String.format("-TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalDiscount))
-        checkout_total_vat.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(totalVat))
-        checkout_total.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(total))
-        checkout_total_price_label.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(total))
+        checkout_subtotal.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(totalPrice))
+        checkout_discount.text = String.format("-%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(totalDiscount))
+        checkout_total_vat.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(totalVat))
+        checkout_total.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(total))
+        checkout_total_price_label.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(total))
 
         checkout_finish_order.isEnabled = CREATE_ORDER_MODEL.canFinishOrder()
     }

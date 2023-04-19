@@ -11,6 +11,7 @@ import java.util.*
 
 class CheckoutProductsRVAdapter(
     data: MutableList<ProductModel>,
+    private val currency: String,
     val onItemSelected: (Int, ProductModel, ItemSelectionType?) -> Unit
 ) :
     BaseQuickAdapter<ProductModel, BaseViewHolder>(R.layout.item_checkout_product, data) {
@@ -19,7 +20,7 @@ class CheckoutProductsRVAdapter(
             val price = item.selectedPriceCategory?.unitPrice ?: 0
 
             setText(R.id.item_checkout_product_name, item.name)
-            setText(R.id.item_checkout_product_price, String.format("%s Tsh", NumberFormat.getNumberInstance(Locale.US).format(price)))
+            setText(R.id.item_checkout_product_price, String.format("%s %s", NumberFormat.getNumberInstance(Locale.US).format(price), currency))
             setText(R.id.item_checkout_product_quantity, String.format("%d %s", item.selectedQuantity, item.selectedUnit))
 
             getView<View>(R.id.item_checkout_product_quantity_row).setOnSingleClickListener {

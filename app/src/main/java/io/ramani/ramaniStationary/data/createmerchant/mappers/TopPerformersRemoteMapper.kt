@@ -21,9 +21,15 @@ class TopPerformersRemoteMapper(
             topMerchants.add(nameValueRemoteMapper.mapFrom(it))
         }
 
+        val topProducts: ArrayList<NameValueModel> = ArrayList()
+        from.topProducts?.forEach {
+            topProducts.add(nameValueRemoteMapper.mapFrom(it))
+        }
+
         return TopPerformersModel.Builder()
                 .topSalesPeople(topSalesPeople)
                 .topMerchants(topMerchants)
+                .topProducts(topProducts)
                 .build()
     }
 
@@ -38,9 +44,15 @@ class TopPerformersRemoteMapper(
             topMerchants.add(nameValueRemoteMapper.mapTo(it))
         }
 
+        val topProducts: ArrayList<NameValueRemoteModel> = ArrayList()
+        to.topProducts.forEach {
+            topProducts.add(nameValueRemoteMapper.mapTo(it))
+        }
+
         return TopPerformersRemoteModel(
                 topSalesPeople,
-                topMerchants
+                topMerchants,
+                topProducts
             )
     }
 }

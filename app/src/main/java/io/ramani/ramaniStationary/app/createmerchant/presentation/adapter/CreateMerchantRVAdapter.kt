@@ -9,6 +9,7 @@ import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 class CreateMerchantRVAdapter(
     data: MutableList<MerchantModel>,
     private val topMerchants: MutableList<NameValueModel>,
+    private val currency: String,
     val onItemSelected: (Int, MerchantModel) -> Unit
 ) :
     BaseQuickAdapter<MerchantModel, BaseViewHolder>(R.layout.item_create_merchant_item, data) {
@@ -19,8 +20,8 @@ class CreateMerchantRVAdapter(
 
             val matchedMerchants = topMerchants.filter { merchant -> merchant.name.lowercase() == item.name.lowercase() }
 
-            val totalOrders = if (matchedMerchants.isNotEmpty()) matchedMerchants.first().value else "0"
-            setText(R.id.item_merchant_orders, String.format("%s Orders", totalOrders.replace("TSH ", "")))
+            val totalOrders = if (matchedMerchants.isNotEmpty()) matchedMerchants.first().value else "$currency 0"
+            setText(R.id.item_merchant_orders, totalOrders)
 
             itemView.setOnClickListener {
                 onItemSelected(getItemPosition(item), item)

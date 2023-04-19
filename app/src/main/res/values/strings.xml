@@ -50,6 +50,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name">Name</string>
+    <string name="value">Value</string>
     <string name="quantity">Quantity</string>
     <string name="outstanding">Outstanding</string>
     <string name="refresh">Refresh</string>
@@ -68,7 +69,7 @@
     <string name="add_product">+ Add product</string>
 
     <string name="out_of_stock">Out of Stock</string>
-    <string name="out_of_stock_na">N / A</string>
+    <string name="out_of_stock_na">N/A</string>
 
     <string name="qty">QTY</string>
     <string name="price_category">Price Category</string>
@@ -210,4 +211,22 @@
     <string name="title_total_number_of_merchants">Total Number of Merchants:</string>
     <string name="missing_dates">Missing Dates</string>
 
+    <!-- Reports -->
+    <string name="reports">Reports</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="last_7_days">Last 7 days</string>
+    <string name="last_30_days">Last 30 days</string>
+    <string name="sale_summary">Sale Summary</string>
+    <string name="total_sales_value">Total sales value</string>
+    <string name="total_sales_count">Total sales count</string>
+    <string name="total_credit_given">Total Credit Given</string>
+    <string name="top_customers">Top Customers</string>
+    <string name="amount">Amount</string>
+    <string name="revenue">Revenue</string>
+    <string name="top_products">Top Products</string>
+    <string name="print_summary">Print Summary</string>
+    <string name="orders">orders</string>
+    <string name="pick_start_date">Please pick start day for reports</string>
+    <string name="pick_end_date">Please pick end day for reports</string>
 </resources>

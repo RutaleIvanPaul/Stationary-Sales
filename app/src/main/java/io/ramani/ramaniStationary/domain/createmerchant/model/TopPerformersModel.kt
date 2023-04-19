@@ -6,12 +6,14 @@ import io.ramani.ramaniStationary.domainCore.entities.IBuilder
 
 data class TopPerformersModel(
     val topSalesPeople: List<NameValueModel> = listOf(),
-    val topMerchants: List<NameValueModel> = listOf()
+    val topMerchants: List<NameValueModel> = listOf(),
+    val topProducts: List<NameValueModel> = listOf()
 ) : Parcelable {
 
     class Builder : IBuilder<TopPerformersModel> {
         private var topSalesPeople: List<NameValueModel> = listOf()
         private var topMerchants: List<NameValueModel> = listOf()
+        private var topProducts: List<NameValueModel> = listOf()
 
         fun topSalesPeople(topSalesPeople: List<NameValueModel>): Builder {
             this.topSalesPeople = topSalesPeople
@@ -23,14 +25,21 @@ data class TopPerformersModel(
             return this
         }
 
+        fun topProducts(topProducts: List<NameValueModel>): Builder {
+            this.topProducts = topProducts
+            return this
+        }
+
         override fun build(): TopPerformersModel =
             TopPerformersModel(
                 topSalesPeople,
-                topMerchants
+                topMerchants,
+                topProducts
             )
     }
 
     constructor(parcel: Parcel) : this(
+        parcel.createTypedArrayList(NameValueModel) ?: listOf(),
         parcel.createTypedArrayList(NameValueModel) ?: listOf(),
         parcel.createTypedArrayList(NameValueModel) ?: listOf(),
     ) {
@@ -39,6 +48,7 @@ data class TopPerformersModel(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeTypedList(topSalesPeople)
         parcel.writeTypedList(topMerchants)
+        parcel.writeTypedList(topProducts)
     }
 
     override fun describeContents(): Int {

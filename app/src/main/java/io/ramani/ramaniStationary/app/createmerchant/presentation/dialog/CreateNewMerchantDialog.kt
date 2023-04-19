@@ -64,6 +64,17 @@ class CreateNewMerchantDialog(
         initView()
     }
 
+    private fun cleanUI() {
+        dialog_create_merchant_name_textfield.setText("")
+        dialog_create_merchant_phone_textfield.setText("")
+        dialog_create_merchant_type.text = ""
+        selectedMerchantType = -1
+        dialog_create_merchant_shopname_textfield.setText("")
+        dialog_create_merchant_location_textfield.setText("")
+        dialog_create_merchant_tin_textfield.setText("")
+        dialog_create_merchant_vrn_textfield.setText("")
+    }
+
     private fun initView() {
         val typeSpinner = findViewById<PowerSpinnerView>(R.id.dialog_create_merchant_type)
 
@@ -170,9 +181,10 @@ class CreateNewMerchantDialog(
     private fun processMerchant(response: Pair<MerchantModel?, String>) {
         if (response.first != null) {
             dialog_create_merchant_loader.visible(false)
+            dialog_create_merchant_add.isEnabled = true
 
+            cleanUI()
             onItemAdded(response.first!!)
-            dismiss()
         } else {
             // Error
             Toast.makeText(context, response.second, Toast.LENGTH_SHORT).show()

@@ -47,6 +47,7 @@ class HomeViewModel(
 
     var userId = ""
     var companyId = ""
+    var currency = ""
 
     val dailySalesStatsActionLiveData = MutableLiveData<List<DailySalesStatsModel>>()
     val onDateChangedLiveData = SingleLiveEvent<String>()
@@ -75,6 +76,7 @@ class HomeViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
+            currency = prefs.currency
         }
     }
 

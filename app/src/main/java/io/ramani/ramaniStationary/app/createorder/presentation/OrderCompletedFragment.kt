@@ -150,8 +150,8 @@ class OrderCompletedFragment : BaseFragment() {
             print_info_uni_tv.text = ""
             print_info_receipt_number_tv.text = ""
 
-            print_info_sub_total_tv.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(it.totalCost))
-            print_info_total_tv.text = String.format("TZS %s", NumberFormat.getNumberInstance(Locale.US).format(it.totalCost))
+            print_info_sub_total_tv.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(it.totalCost))
+            print_info_total_tv.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(it.totalCost))
             print_info_date_tv.text = it.fullActivityTimeStamp
             print_info_time_tv.text = it.checkInTime
         }

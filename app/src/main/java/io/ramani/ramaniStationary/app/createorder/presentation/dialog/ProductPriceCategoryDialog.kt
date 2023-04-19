@@ -22,6 +22,7 @@ class ProductPriceCategoryDialog(
     context: Context,
     private val product: ProductModel,
     private val itemPosition: Int,
+    private val currency: String,
     val onItemChanged: (Int, ProductModel) -> Unit
 ) : Dialog(context) {
 
@@ -52,7 +53,7 @@ class ProductPriceCategoryDialog(
     }
 
     private fun updateRV() {
-        categoryAdapter = CheckoutPriceCategoriesRVAdapter(product.productCategories as MutableList<ProductCategoryModel>, category) { cate ->
+        categoryAdapter = CheckoutPriceCategoriesRVAdapter(product.productCategories as MutableList<ProductCategoryModel>, category, currency) { cate ->
             category = cate
             updateRV()
         }
