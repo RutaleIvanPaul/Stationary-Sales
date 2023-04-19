@@ -83,6 +83,9 @@ class HistoryViewModel(
     fun printZreportLastMonth(){
         getZreportByRange(getDateLastMonthStart(), getDateLastMonthEnd())
     }
+    fun printCustomZreport(startDate: String, endDate: String){
+        getZreportByRange(startDate,endDate)
+    }
 
     fun isThereTaxObject(){
         isThereTaxObject.postValue(prefs.taxInformation.isNotNull())

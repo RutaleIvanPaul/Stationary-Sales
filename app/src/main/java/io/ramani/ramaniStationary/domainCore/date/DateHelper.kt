@@ -165,6 +165,16 @@ fun getDateLastMonthEnd(): String {
     return df.format(endLastMonth)
 }
 
+fun getYYYYMMdd(date: Date): String {
+    val df: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+    return df.format(date)
+}
+
+fun getddMMMyyyy(date: Date?): String? {
+    val df: DateFormat = SimpleDateFormat("dd MMM yyyy")
+    return df.format(date)
+}
+
 data class PeriodDisplay(val period: Int, val type: Int) {
     companion object {
         const val YEARS = 0
