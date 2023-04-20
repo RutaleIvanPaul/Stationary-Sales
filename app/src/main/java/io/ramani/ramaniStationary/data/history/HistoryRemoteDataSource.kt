@@ -162,7 +162,7 @@ class HistoryRemoteDataSource(
         month: String,
         year: Int
     ): Single<HistoryResponse?> = callSingle(
-        historyApi.getHistory(userId,day,month,year).flatMap {
+        historyApi.getHistory(userId,day,month,year,true).flatMap {
             Single.just(it.data)
         }
     )
