@@ -22,6 +22,19 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.CymChad.brvah", "-Xjvm-default=all"]
     }
 
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+        }
+
+        staging {
+            minifyEnabled false
+        }
+    }
 }
 
 // 打包源码jar

@@ -38,6 +38,21 @@ android {
         viewBinding = true
         dataBinding = true
     }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+        }
+
+        staging {
+            minifyEnabled false
+        }
+    }
+
 }
 
 dependencies {
