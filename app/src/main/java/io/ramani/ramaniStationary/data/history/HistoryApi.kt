@@ -6,6 +6,7 @@ import io.ramani.ramaniStationary.data.history.models.response.OrderDetailsRespo
 import io.ramani.ramaniStationary.data.history.models.response.TRAReceipt
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -38,7 +39,8 @@ interface HistoryApi {
         @Path("userId") userId: String,
         @Query("day") day: Int,
         @Query("month") month: String,
-        @Query("year") year: Int
+        @Query("year") year: Int,
+        @Header("invalidate_cache") invalidateCache: Boolean
     ): Single<BaseResponse<HistoryResponse>>
 
     @GET("/sfa/get/printable/receipt/v2")
