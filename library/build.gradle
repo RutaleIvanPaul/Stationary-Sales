@@ -12,13 +12,10 @@ android {
     }
 
     buildTypes {
-        release {
-            consumerProguardFiles 'proguard-rules.pro'
-        }
         debug {
             consumerProguardFiles 'proguard-rules.pro'
         }
-        hotfix {
+        release {
             consumerProguardFiles 'proguard-rules.pro'
         }
         staging {
