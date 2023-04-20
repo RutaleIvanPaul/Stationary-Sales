@@ -4,6 +4,7 @@ import io.ramani.ramaniStationary.domain.base.v2.Params
 
 data class GetSalesSummaryStatisticsRequestModel(
     val companyId:String,
+    val salesPersonUID:String,
     val page:Int,
     val startDate:String,
     val endDate:String,

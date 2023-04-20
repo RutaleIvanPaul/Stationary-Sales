@@ -98,7 +98,7 @@ class CreateMerchantViewModel(
         val endDate = dateFormatter.getTimeWithFormmatter(Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
         sessionManager.getLoggedInUser().subscribeBy { user ->
-            val single = getTopPerformersUseCase.getSingle(GetTopPerformersRequestModel(user.companyId, startDate, endDate, 1000))
+            val single = getTopPerformersUseCase.getSingle(GetTopPerformersRequestModel(user.companyId, user.uuid, startDate, endDate, 1000))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
 

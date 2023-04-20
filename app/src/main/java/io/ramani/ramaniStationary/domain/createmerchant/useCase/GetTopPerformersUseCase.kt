@@ -15,6 +15,6 @@ class GetTopPerformersUseCase(
 ): BaseSingleUseCase<TopPerformersModel, GetTopPerformersRequestModel>(threadExecutor,postThreadExecutor) {
 
     override fun buildUseCaseSingle(params: GetTopPerformersRequestModel?): Single<TopPerformersModel> =
-        createMerchantDataSource.getTopPerformers(params!!.companyId, params.startDate, params.endDate, params.size)
+        createMerchantDataSource.getTopPerformers(params!!.companyId, params.salesPersonUID, params.startDate, params.endDate, params.size)
 
 }

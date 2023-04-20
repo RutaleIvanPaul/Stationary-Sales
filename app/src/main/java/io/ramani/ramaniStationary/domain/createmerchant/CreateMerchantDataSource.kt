@@ -7,7 +7,7 @@ import io.reactivex.Maybe
 import io.reactivex.Single
 
 interface CreateMerchantDataSource {
-    fun getTopPerformers(companyId: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel>
+    fun getTopPerformers(companyId: String, salesPersonUID: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel>
     fun registerMerchant(merchant: RegisterMerchantRequestModel): Single<MerchantModel>
     fun saveMerchant(merchant: MerchantModel): Maybe<Long>
 }

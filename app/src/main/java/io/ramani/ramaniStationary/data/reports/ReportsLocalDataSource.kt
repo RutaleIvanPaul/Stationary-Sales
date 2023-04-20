@@ -12,7 +12,7 @@ class ReportsLocalDataSource(
     private val db: RamaniDatabase
 ) : ReportsDataSource, BaseRemoteDataSource() {
 
-    override fun getSalesSummaryStatistics(companyId: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel> {
+    override fun getSalesSummaryStatistics(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel> {
         TODO("Not yet implemented")
     }
 

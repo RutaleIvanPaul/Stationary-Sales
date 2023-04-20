@@ -14,9 +14,9 @@ class ReportsRemoteDataSource(
     private val salesSummaryStatisticsRemoteMapper: ModelMapper<SalesSummaryStatisticsRemoteModel, SalesSummaryStatisticsModel>
 ) : ReportsDataSource, BaseRemoteDataSource() {
 
-    override fun getSalesSummaryStatistics(companyId: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel> =
+    override fun getSalesSummaryStatistics(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel> =
         callSingle(
-            reportsApi.getSalesSummaryStatistics(companyId, page, startDate, endDate).flatMap {
+            reportsApi.getSalesSummaryStatistics(companyId, salesPersonUID, page, startDate, endDate).flatMap {
                 val data = it.data
                 if (data != null) {
                     Single.just(data.mapFromWith(salesSummaryStatisticsRemoteMapper))

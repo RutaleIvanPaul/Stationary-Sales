@@ -18,6 +18,6 @@ class DailySalesStatsUseCase(
 ) {
 
     override fun buildUseCaseSingle(params: DailySalesStatsRequestModel?) =
-        homeDataSource.getDailySalesStats(params!!.companyId, params.page, params.startDate, params.endDate)
+        homeDataSource.getDailySalesStats(params!!.companyId, params.salesPersonUID, params.page, params.startDate, params.endDate)
 
 }

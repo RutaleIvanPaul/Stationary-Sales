@@ -12,8 +12,8 @@ class CreateMerchantRepository(
     private val localCreateMerchantDataSource: CreateMerchantDataSource
 ): CreateMerchantDataSource {
 
-    override fun getTopPerformers(companyId: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel> =
-        remoteCreateMerchantDataSource.getTopPerformers(companyId, startDate, endDate, size)
+    override fun getTopPerformers(companyId: String, salesPersonUID: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel> =
+        remoteCreateMerchantDataSource.getTopPerformers(companyId, salesPersonUID, startDate, endDate, size)
 
     override fun registerMerchant(merchant: RegisterMerchantRequestModel): Single<MerchantModel> =
         remoteCreateMerchantDataSource.registerMerchant(merchant).flatMap {

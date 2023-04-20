@@ -17,6 +17,6 @@ class GetSalesSummaryStatisticsUseCase(
 ) {
 
     override fun buildUseCaseSingle(params: GetSalesSummaryStatisticsRequestModel?) =
-        reportsDataSource.getSalesSummaryStatistics(params!!.companyId, params.page, params.startDate, params.endDate)
+        reportsDataSource.getSalesSummaryStatistics(params!!.companyId, params.salesPersonUID, params.page, params.startDate, params.endDate)
 
 }

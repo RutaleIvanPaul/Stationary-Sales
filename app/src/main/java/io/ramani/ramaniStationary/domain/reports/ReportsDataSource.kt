@@ -4,6 +4,6 @@ import io.ramani.ramaniStationary.domain.reports.model.SalesSummaryStatisticsMod
 import io.reactivex.Single
 
 interface ReportsDataSource {
-    fun getSalesSummaryStatistics(companyId: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel>
+    fun getSalesSummaryStatistics(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<SalesSummaryStatisticsModel>
 
 }

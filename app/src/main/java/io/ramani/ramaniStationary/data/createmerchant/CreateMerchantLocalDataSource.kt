@@ -15,7 +15,7 @@ class CreateMerchantLocalDataSource(
     private val db: RamaniDatabase
 ) : CreateMerchantDataSource, BaseRemoteDataSource() {
 
-    override fun getTopPerformers(companyId: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel> {
+    override fun getTopPerformers(companyId: String, salesPersonUID: String, startDate: String, endDate: String, size: Int): Single<TopPerformersModel> {
         TODO("Not yet implemented")
     }
 

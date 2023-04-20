@@ -24,10 +24,11 @@ class HomeRemoteDataSource(
     private val metaRemoteMapper: ModelMapper<PaginationMetaRemote, PaginationMeta>,
 ) : HomeDataSource, BaseRemoteDataSource() {
 
-    override fun getDailySalesStats(companyId: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>> =
+    override fun getDailySalesStats(companyId: String, salesPersonUID: String, page: Int, startDate: String, endDate: String): Single<PagedList<DailySalesStatsModel>> =
         callSingle(
             homeApi.getDailyStats(
                 companyId,
+                salesPersonUID,
                 page,
                 ApiConstants.PAGINATION_PER_PAGE_SIZE,
                 startDate,
