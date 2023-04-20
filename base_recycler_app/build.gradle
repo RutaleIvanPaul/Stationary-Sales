@@ -24,6 +24,17 @@ android {
             zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        hotfix {
+            minifyEnabled false
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            minifyEnabled false
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
     }
 
     compileOptions {
@@ -38,21 +49,6 @@ android {
         viewBinding = true
         dataBinding = true
     }
-
-    buildTypes {
-        debug {
-            minifyEnabled false
-        }
-
-        release {
-            minifyEnabled false
-        }
-
-        staging {
-            minifyEnabled false
-        }
-    }
-
 }
 
 dependencies {
