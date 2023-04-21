@@ -71,10 +71,10 @@ class CreateOrderFragment : BaseFragment() {
             flow.openCheckout()
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            initSubscribers()
-            updateCheckOutStatus()
-        }, 300)
+        initSubscribers()
+        updateCheckOutStatus()
+
+        viewModel.updateData(1.0)
     }
 
     private fun initSubscribers() {

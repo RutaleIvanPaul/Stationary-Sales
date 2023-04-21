@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -91,11 +93,17 @@ class CreateOrderViewModel(
             companyId = it.companyId
             userModel = it
             currency = prefs.currency
+        }
+    }
 
+    fun updateData(delaySeconds: Double) {
+        isLoadingVisible = true
+
+        Handler(Looper.getMainLooper()).postDelayed({
             getProducts()
             getMerchants()
             getAvailableStockList()
-        }
+        }, (delaySeconds * 1000).toLong())
     }
 
     @SuppressLint("CheckResult")

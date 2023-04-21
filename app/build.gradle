@@ -99,10 +99,11 @@ android {
             applicationIdSuffix ".debug"
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-dev.herokuapp.com/\""
-            buildConfigField "String", 'APP_NAME', "\"ramani_stationary_sfa\""
+            buildConfigField "String", 'APP_NAME', "\"ramani_stationary_sfa_debug\""
         }
 
         release {
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, FALSE
             minifyEnabled false
             buildConfigField "String", 'BASE_URL', "\"https://ramani-app-server-production.herokuapp.com/\""
             buildConfigField "String", 'APP_NAME', "\"ramani_stationary_sfa\""
@@ -115,7 +116,7 @@ android {
             versionNameSuffix "-staging"
             applicationIdSuffix ".staging"
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-staging.herokuapp.com/\""
-            buildConfigField "String", 'APP_NAME', "\"stock_track_app_staging\""
+            buildConfigField "String", 'APP_NAME', "\"ramani_stationary_sfa_staging\""
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             signingConfig signingConfigs.debug
         }
