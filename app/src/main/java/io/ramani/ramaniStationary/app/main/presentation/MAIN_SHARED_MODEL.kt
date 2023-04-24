@@ -8,6 +8,8 @@ class MAIN_SHARED_MODEL {
         var isOnline = true
         val onNetworkStatusChangedLiveData = SingleLiveEvent<Boolean>()     // Use whenever network connection status is changed
 
+        var isSynching = false      // Indicate whether the operation of synchronize is being done
+
         fun updateNetworkStatus(isConnected: Boolean) {
             isOnline = isConnected
             onNetworkStatusChangedLiveData.postValue(isConnected)
