@@ -88,7 +88,7 @@
                 style="@style/CommonRailwayView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="9"
+                android:text=""
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/total_sales_label"
                 android:textColor="@color/black" />
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="0"
+                android:text=""
                 android:layout_toEndOf="@+id/total_discount_label"
                 android:textColor="@color/black" />
 
@@ -145,7 +145,7 @@
                 style="@style/CommonRailwayView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="9"
+                android:text=""
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/total_walkin_label"
                 android:textColor="@color/black" />
