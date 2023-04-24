@@ -162,7 +162,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun canNavigate() =
-        if (viewModel.isInSync) {
+        if (MAIN_SHARED_MODEL.isSynching) {
             errorDialog("Data sync is being done. Please wait until it's finished.")
             false
         } else {

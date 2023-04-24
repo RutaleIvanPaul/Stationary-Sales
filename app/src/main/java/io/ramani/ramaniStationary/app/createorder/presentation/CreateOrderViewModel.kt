@@ -41,6 +41,7 @@ import io.ramani.ramaniStationary.domainCore.printer.PrintStatus
 import io.ramani.ramaniStationary.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -99,11 +100,13 @@ class CreateOrderViewModel(
     fun updateData(delaySeconds: Double) {
         isLoadingVisible = true
 
-        Handler(Looper.getMainLooper()).postDelayed({
+        CoroutineScope(Dispatchers.IO).launch{
+            delay((delaySeconds * 1000).toLong())
+
             getProducts()
             getMerchants()
             getAvailableStockList()
-        }, (delaySeconds * 1000).toLong())
+        }
     }
 
     @SuppressLint("CheckResult")

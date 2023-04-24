@@ -134,8 +134,6 @@ class OrderCompletedFragment : BaseFragment() {
             flow.openPrintSuccessful()
         */
 
-        viewModel.updatePrintStatus(saleIdentify, "Printed")
-
         if (viewModel.doPrintReceipt(saleIdentify).status) {
             viewModel.updatePrintStatus(saleIdentify, "Printed")
 

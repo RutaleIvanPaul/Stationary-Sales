@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import io.ramani.ramaniStationary.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.ramani.ramaniStationary.data.common.prefs.PrefsManager
 import io.ramani.ramaniStationary.data.createorder.models.request.SaleRequestModel
 import io.ramani.ramaniStationary.data.database.RamaniDatabase
@@ -52,7 +53,6 @@ class HomeViewModel(
     val dailySalesStatsActionLiveData = MutableLiveData<List<DailySalesStatsModel>>()
     val onDateChangedLiveData = SingleLiveEvent<String>()
     val onDataSyncCompletedLiveData = SingleLiveEvent<String>()
-    var isInSync = false
 
     val merchantList = mutableListOf<MerchantModel>()
     private var merchantPage = 1
@@ -122,7 +122,7 @@ class HomeViewModel(
     }
 
     fun syncData() {
-        if (isInSync)
+        if (MAIN_SHARED_MODEL.isSynching)
             return
 
         val now = dateFormatter.getCalendarTimeWithDashesFull(Date())
@@ -134,7 +134,7 @@ class HomeViewModel(
         taxPage = 1
         productPage = 1
 
-        isInSync = true
+        MAIN_SHARED_MODEL.isSynching = true
 
         isLoadingVisible = true
 
@@ -168,7 +168,7 @@ class HomeViewModel(
                     checkSyncStatus(endDate)
                 }
             }, onError = {
-                onMerchantsLoaded = false
+                onMerchantsLoaded = true
                 checkSyncStatus(endDate)
             })
         }
@@ -195,7 +195,7 @@ class HomeViewModel(
                 }
 
             }, onError = {
-                onProductsLoaded = false
+                onProductsLoaded = true
                 checkSyncStatus(endDate)
             })
         }
@@ -222,7 +222,7 @@ class HomeViewModel(
                     checkSyncStatus(date)
                 }
             }, onError = {
-                onTaxesLoaded = false
+                onTaxesLoaded = true
                 checkSyncStatus(date)
             })
         }
@@ -231,12 +231,13 @@ class HomeViewModel(
     private fun checkSyncStatus(datetime: String) {
         val allCompleted = onMerchantsLoaded && onTaxesLoaded && onProductsLoaded
 
-        if (allCompleted)
+        if (allCompleted) {
             prefs.lastSyncTime = datetime
+            isLoadingVisible = false
+            MAIN_SHARED_MODEL.isSynching = false
+            onDataSyncCompletedLiveData.postValue(datetime)
+        }
 
-        isLoadingVisible = false
-        isInSync = false
-        onDataSyncCompletedLiveData.postValue(datetime)
     }
 
     fun updateDate(year: Int?, monthOfYear: Int?, dayOfMonth: Int?) {

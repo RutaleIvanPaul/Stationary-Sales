@@ -94,7 +94,7 @@ class CheckoutFragment : BaseFragment() {
         updateRV()
         updateUI()
 
-        viewModel.updateData(1.0)
+        viewModel.updateData(0.5)
     }
 
     private fun initSubscribers() {
