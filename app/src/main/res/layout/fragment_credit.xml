@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/history_main_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/sales_history_numbers_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="49dp"
+        android:orientation="vertical">
+
+        <!--Total Sales-->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/total_outstanding_label"
+                style="@style/ListItemTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_outstanding"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_outstanding_value"
+                style="@style/CommonRailwayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/total_outstanding_label"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <!--Total discounts-->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/total_discount_label"
+                style="@style/ListItemTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_number_of_orders"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_discount_value"
+                style="@style/CommonRailwayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="0"
+                android:layout_toEndOf="@+id/total_discount_label"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <!--Total Walkin Customers-->
+
+        <RelativeLayout
+            android:id="@+id/summary_credit_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:id="@+id/total_walkin_label"
+                style="@style/ListItemTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_number_of_merchants"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_order_value"
+                style="@style/CommonRailwayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/total_walkin_label"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sales_history_numbers_container"
+        android:padding="20dp">
+
+        <!-- Search Bar -->
+
+        <!-- List -->
+
+        <EditText
+            android:id="@+id/search_history"
+            style="@style/SearchTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/rounded_nonsolid_button"
+            android:hint="Search All Orders"
+            android:imeOptions="actionSearch" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sales_history_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/search_history"
+            android:layout_marginTop="10dp" />
+
+
+        <ProgressBar
+            android:id="@+id/sales_history_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/sales_history_no_activities"
+            style="@style/CommonRailwayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_activities"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+</RelativeLayout>

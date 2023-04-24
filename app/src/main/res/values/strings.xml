@@ -229,4 +229,7 @@
     <string name="orders">orders</string>
     <string name="pick_start_date">Please pick start day for reports</string>
     <string name="pick_end_date">Please pick end day for reports</string>
+    <string name="total_outstanding">Total Outstanding:</string>
+    <string name="total_number_of_orders">Total Number of Orders:</string>
+    <string name="total_number_of_merchants">Total Number of Merchants:</string>
 </resources>
