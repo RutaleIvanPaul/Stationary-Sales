@@ -46,14 +46,82 @@ class CreditViewModel(
     var companyId = ""
     var currency = ""
 
+    var isLoadingLocations = false
+    val locationList = mutableListOf<LocationModel>()
+    private var locationPage = 1
+    val onLocationLoadedLiveData = SingleLiveEvent<Boolean>()
+
+    var totalOutstanding = 0.0
+    var totalOrders = 0
+    var totalMerchants = 0
+
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
             currency = prefs.currency
+
+            getCredits(true)
         }
     }
+
+    @SuppressLint("CheckResult")
+    fun getCredits(isRefresh: Boolean = false) {
+        isLoadingLocations = true
+        isLoadingVisible = true
+
+        if (isRefresh)
+            locationPage = 1
+
+        if (locationPage == 1) {
+            locationList.clear()
+        }
+
+        sessionManager.getLoggedInUser().subscribeBy {
+            val single = getListLocationsUseCase.getSingle(GetLocationsRequestModel(companyId, true, locationPage))
+            subscribeSingle(single, onSuccess = {
+                locationList.addAll(it.data)
+
+                if (it.paginationMeta.hasNext) {
+                    locationPage++
+                    getCredits()
+                } else {
+                    isLoadingVisible = false
+                    isLoadingLocations = false
+                    processLocations()
+                }
+            }, onError = {
+                isLoadingVisible = false
+                isLoadingLocations = false
+                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
+            })
+        }
+    }
+
+    private fun processLocations() {
+        totalOutstanding = 0.0
+        totalOrders = 0
+        totalMerchants = 0
+
+        locationList.forEach { location ->
+            totalOutstanding += location.creditOrders.outstandingCredit
+            totalOrders += location.creditOrders.unpaidOrderIds.size
+            totalMerchants ++
+        }
+
+        onLocationLoadedLiveData.postValue(true)
+    }
+
+    fun getFormattedAmount(amount: Double, withCurrency: Boolean = false): String {
+        var value = NumberFormat.getNumberInstance(Locale.US).format(amount)
+        if (withCurrency)
+            value = "$value ${prefs.currency}"
+
+        return value
+    }
+
+    fun getFormattedAmount(amount: Int): String = NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     class Factory(
         private val application: Application,

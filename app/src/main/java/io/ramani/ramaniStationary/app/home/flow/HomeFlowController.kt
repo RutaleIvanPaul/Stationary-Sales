@@ -9,6 +9,7 @@ import io.ramani.ramaniStationary.app.common.presentation.dialogs.BaseNavigation
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.createmerchant.presentation.CreateMerchantFragment
 import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragment
+import io.ramani.ramaniStationary.app.credit.presentation.CreditFragment
 import io.ramani.ramaniStationary.app.history.presentation.HistoryFragment
 import io.ramani.ramaniStationary.app.home.presentation.HomeFragment
 import io.ramani.ramaniStationary.app.orderdetails.presentation.OrderDetailsFragment
@@ -75,7 +76,12 @@ class HomeFlowController(
     }
 
     override fun openCredit() {
-        // TODO("Not yet implemented")
+        val fragment = CreditFragment.newInstance()
+        navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.REPLACE,
+            needAnimation = false
+        )
     }
 
     override fun openAllTodaySales() {

@@ -229,4 +229,11 @@
     <string name="orders">orders</string>
     <string name="pick_start_date">Please pick start day for reports</string>
     <string name="pick_end_date">Please pick end day for reports</string>
+
+    <!-- Credit -->
+    <string name="outstanding_payments">Outstanding payments</string>
+    <string name="hint_search_all_credits">Search all credits</string>
+    <string name="max_credit">Max Credit</string>
+    <string name="outstanding_credit">Outstanding Credit</string>
+    <string name="mark_as_paid">Mark as Paid</string>
 </resources>

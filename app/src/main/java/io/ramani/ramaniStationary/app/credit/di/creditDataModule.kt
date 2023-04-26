@@ -7,14 +7,17 @@ import io.ramani.ramaniStationary.data.credit.CreditApi
 import io.ramani.ramaniStationary.data.credit.CreditLocalDataSource
 import io.ramani.ramaniStationary.data.credit.CreditRemoteDataSource
 import io.ramani.ramaniStationary.data.credit.CreditRepository
+import io.ramani.ramaniStationary.data.credit.mappers.CreditOrdersRemoteMapper
 import io.ramani.ramaniStationary.data.credit.mappers.LocationRemoteMapper
 import io.ramani.ramaniStationary.data.credit.mappers.MerchantRouteRemoteMapper
 import io.ramani.ramaniStationary.data.credit.mappers.MetaDataItemRemoteMapper
+import io.ramani.ramaniStationary.data.credit.models.response.CreditOrdersRemoteModel
 import io.ramani.ramaniStationary.data.credit.models.response.LocationRemoteModel
 import io.ramani.ramaniStationary.data.credit.models.response.MerchantRouteRemoteModel
 import io.ramani.ramaniStationary.data.credit.models.response.MetaDataItemRemoteModel
 import io.ramani.ramaniStationary.domain.base.mappers.ModelMapper
 import io.ramani.ramaniStationary.domain.credit.CreditDataSource
+import io.ramani.ramaniStationary.domain.credit.model.CreditOrdersModel
 import io.ramani.ramaniStationary.domain.credit.model.LocationModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -54,8 +57,13 @@ val creditDataModule = Kodein.Module("creditDataModule") {
     bind<ModelMapper<LocationRemoteModel, LocationModel>>() with provider {
         LocationRemoteMapper(
             instance(),
+            instance(),
             instance()
         )
+    }
+
+    bind<ModelMapper<CreditOrdersRemoteModel, CreditOrdersModel>>() with provider {
+        CreditOrdersRemoteMapper()
     }
 
     bind<ModelMapper<MerchantRouteRemoteModel, MerchantRouteModel>>() with provider {

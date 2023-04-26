@@ -13,7 +13,7 @@ data class LocationRemoteModel(
     @SerializedName("salesPersonUuid")
     val salesPersonUuid: String?,
     @SerializedName("creditOrders")
-    val creditOrders: CreditOrdersModel?,
+    val creditOrders: CreditOrdersRemoteModel?,
     @SerializedName("maxCredit")
     val maxCredit: Double?,
     @SerializedName("memberNumber")

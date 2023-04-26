@@ -2,6 +2,7 @@ package io.ramani.ramaniStationary.data.credit.mappers
 
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MerchantRouteModel
 import io.ramani.ramaniStationary.data.createmerchant.models.request.MetaDataItem
+import io.ramani.ramaniStationary.data.credit.models.response.CreditOrdersRemoteModel
 import io.ramani.ramaniStationary.data.credit.models.response.LocationRemoteModel
 import io.ramani.ramaniStationary.data.credit.models.response.MerchantRouteRemoteModel
 import io.ramani.ramaniStationary.data.credit.models.response.MetaDataItemRemoteModel
@@ -10,6 +11,7 @@ import io.ramani.ramaniStationary.domain.credit.model.CreditOrdersModel
 import io.ramani.ramaniStationary.domain.credit.model.LocationModel
 
 class LocationRemoteMapper(
+    private val creditOrdersRemoteMapper: ModelMapper<CreditOrdersRemoteModel, CreditOrdersModel>,
     private val merchantRouteRemoteMapper: ModelMapper<MerchantRouteRemoteModel, MerchantRouteModel>,
     private val metaDataItemRemoteMapper: ModelMapper<MetaDataItemRemoteModel, MetaDataItem>
 ) : ModelMapper<LocationRemoteModel, LocationModel> {
@@ -29,7 +31,7 @@ class LocationRemoteMapper(
                 .name(from.name ?: "")
                 .salesPersonName(from.salesPersonName ?: "")
                 .salesPersonUuid(from.salesPersonUuid ?: "")
-                .creditOrders(from.creditOrders ?: CreditOrdersModel())
+                .creditOrders(creditOrdersRemoteMapper.mapFrom(from.creditOrders ?: CreditOrdersRemoteModel(null, null)))
                 .maxCredit(from.maxCredit ?: 0.0)
                 .memberNumber(from.memberNumber ?: "")
                 .merchantId(from.merchantId ?: "")
@@ -59,7 +61,7 @@ class LocationRemoteMapper(
                 to.name,
                 to.salesPersonName,
                 to.salesPersonUuid,
-                to.creditOrders,
+                creditOrdersRemoteMapper.mapTo(to.creditOrders),
                 to.maxCredit,
                 to.memberNumber,
                 to.merchantId,

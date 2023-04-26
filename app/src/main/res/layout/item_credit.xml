@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_sales_activity_history_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/rounded_nonsolid_button"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_credit_name"
+        style="@style/HugeTextLabel"
+        android:layout_width="match_parent"
+        android:background="@drawable/history_item_header_bg"
+        android:padding="13dp"
+        android:text="James Shop"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <!--Order Id -->
+
+        <TextView
+            android:id="@+id/item_credit_max_credit_label"
+            style="@style/NormalTextLabel"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/max_credit"
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/item_credit_max_credit_value"
+            style="@style/BoldTextLabel"
+            android:layout_alignBottom="@+id/item_credit_max_credit_label"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:text="#jp99032" />
+
+        <!--Order Status -->
+
+        <TextView
+            android:id="@+id/item_credit_outstanding_credit_label"
+            style="@style/NormalTextLabel"
+            android:layout_below="@+id/item_credit_max_credit_label"
+            android:layout_marginTop="10dp"
+            android:text="@string/outstanding_credit"
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/item_credit_outstanding_credit_value"
+            style="@style/BoldTextLabel"
+            android:layout_alignBottom="@+id/item_credit_outstanding_credit_label"
+            android:layout_alignParentEnd="true"
+            android:text="#jp99032"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+        <!-- Actions -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_credit_outstanding_credit_label"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/item_credit_mark_as_paid_btn"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_grey_outline_with_no_border"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/mark_as_paid"
+                android:textColor="@color/text_grey"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/item_credit_view_order_btn"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_green_action_button"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/view_order"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

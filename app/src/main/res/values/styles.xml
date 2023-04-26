@@ -72,6 +72,10 @@
         <item name="fontFamily">@font/raleway_bold</item>
     </style>
 
+    <style name="HugeTextLabel" parent="NormalTextLabel">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="NormalButton" parent="NormalTextLabel">
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_centerVertical">true</item>

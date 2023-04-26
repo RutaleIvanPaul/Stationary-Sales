@@ -30,7 +30,7 @@ class CreditRemoteDataSource(
                 val meta = it.meta
                 Single.just(
                     PagedList.Builder<LocationModel>()
-                        .data(data?.mapFromWith(locationRemoteMapper) ?: listOf())
+                        .data(data?.docs?.mapFromWith(locationRemoteMapper) ?: listOf())
                         .paginationMeta(
                             meta?.
                             mapFromWith(metaRemoteMapper)?:
