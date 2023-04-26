@@ -229,4 +229,13 @@
     <string name="orders">orders</string>
     <string name="pick_start_date">Please pick start day for reports</string>
     <string name="pick_end_date">Please pick end day for reports</string>
+
+    <!-- Side Menu -->
+    <string name="reset_activity">Reset Current Activity</string>
+    <string name="training_manual_string">User Manual (Maelekezo)</string>
+    <string name="training_video_string">Training Video</string>
+    <string name="title_clear_cache">Clear Cache</string>
+    <string name="bluetooth_connect">Connect To Bluetooth Printer</string>
+    <string name="title_sync_data">Sync Data</string>
+    <string name="view_sales_report">View sales reports</string>
 </resources>

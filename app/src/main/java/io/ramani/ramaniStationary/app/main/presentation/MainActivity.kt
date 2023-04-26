@@ -91,6 +91,8 @@ class MainActivity : BaseActivity() {
                 }
             })
 
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -98,6 +100,7 @@ class MainActivity : BaseActivity() {
         super.onResume()
 
     }
+
 
     private fun checkNetworkStatus() =
         MAIN_SHARED_MODEL.updateNetworkStatus(viewModel.isOnline(getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager))
