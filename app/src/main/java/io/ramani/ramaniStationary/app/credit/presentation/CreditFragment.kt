@@ -107,8 +107,7 @@ class CreditFragment : BaseFragment() {
     }
 
     private fun updateRV() {
-        val keyword = credit_search_textfield.text.trim().toString()
-        val filteredList = if (keyword.isNotEmpty()) viewModel.locationList.filter { location -> location.name.contains(keyword, true) } else viewModel.locationList
+        val filteredList = viewModel.filteredLocations(credit_search_textfield.text.trim().toString())
 
         creditAdapter = CreditRVAdapter(filteredList as MutableList<LocationModel>, viewModel.currency) { item ->
             flow.openOrderDetails(item)

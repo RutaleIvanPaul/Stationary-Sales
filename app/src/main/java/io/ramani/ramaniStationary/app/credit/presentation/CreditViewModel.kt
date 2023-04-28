@@ -151,6 +151,9 @@ class CreditViewModel(
         })
     }
 
+    fun filteredLocations(keyword: String) =
+        if (keyword.isNotEmpty()) locationList.filter { location -> location.name.contains(keyword, true) } else locationList
+
     fun getFormattedAmount(amount: Double, withCurrency: Boolean = false): String {
         var value = NumberFormat.getNumberInstance(Locale.US).format(amount)
         if (withCurrency)
