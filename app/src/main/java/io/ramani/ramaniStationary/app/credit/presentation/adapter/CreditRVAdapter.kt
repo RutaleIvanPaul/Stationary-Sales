@@ -1,6 +1,8 @@
-package io.ramani.ramaniStationary.app.credit.presentation
+package io.ramani.ramaniStationary.app.credit.presentation.adapter
 
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniStationary.R
@@ -23,6 +25,19 @@ class CreditRVAdapter(
 
             getView<TextView>(R.id.item_credit_view_order_btn).setOnSingleClickListener {
                 //item.orderId?.let { it1 -> onItemClick(it1) }
+            }
+
+            getView<RecyclerView>(R.id.item_credit_unpaid_orders_list).apply {
+                var unpaidOrders = item.creditOrders.unpaidOrderIds
+                if (unpaidOrders.isEmpty())
+                    unpaidOrders = ArrayList()
+
+                val _adapter = CreditUnpaidOrderRVAdapter(unpaidOrders as MutableList<String>) { unpaidItem ->
+                    onItemClick(unpaidItem)
+                }
+
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = _adapter
             }
         }
     }

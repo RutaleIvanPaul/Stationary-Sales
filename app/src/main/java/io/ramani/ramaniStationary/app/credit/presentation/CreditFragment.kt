@@ -1,31 +1,24 @@
 package io.ramani.ramaniStationary.app.credit.presentation
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniStationary.R
-import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
-import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.hideKeyboard
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlow
-import io.ramani.ramaniStationary.app.createorder.flow.CreateOrderFlowController
-import io.ramani.ramaniStationary.app.createorder.presentation.adapter.CreateOrderProductsRVAdapter
-import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
+import io.ramani.ramaniStationary.app.credit.flow.CreditFlow
+import io.ramani.ramaniStationary.app.credit.flow.CreditFlowController
+import io.ramani.ramaniStationary.app.credit.presentation.adapter.CreditRVAdapter
 import io.ramani.ramaniStationary.domain.credit.model.LocationModel
-import io.ramani.ramaniStationary.domain.home.model.ProductModel
-import kotlinx.android.synthetic.main.fragment_create_order.*
 import kotlinx.android.synthetic.main.fragment_credit.*
 import org.kodein.di.generic.factory
 
@@ -39,8 +32,7 @@ class CreditFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow: CreateOrderFlow
-    private lateinit var authFlow: AuthFlow
+    private lateinit var flow: CreditFlow
 
     override fun getLayoutResId(): Int = R.layout.fragment_credit
 
@@ -49,14 +41,13 @@ class CreditFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        setToolbarTitle("")
     }
 
     override fun initView(view: View?) {
         super.initView(view)
 
-        flow = CreateOrderFlowController(baseActivity!!, R.id.main_fragment_container)
-        authFlow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
+        flow = CreditFlowController(baseActivity!!, R.id.main_fragment_container)
+        requireActivity().findViewById<TextView>(R.id.appbar).visible(visible = false)
 
         credit_search_textfield.addTextChangedListener(searchTextWatcher)
         credit_search_textfield.setOnEditorActionListener { v, actionId, event ->
@@ -75,6 +66,7 @@ class CreditFragment : BaseFragment() {
         }
 
         initSubscribers()
+        viewModel.getCredits(true)
     }
 
     private fun initSubscribers() {
@@ -90,6 +82,10 @@ class CreditFragment : BaseFragment() {
         viewModel.onLocationLoadedLiveData.observe(this) {
             updateUI()
             updateRV()
+        }
+
+        CreditViewModel.onCreditChangedLiveData.observe(this) {
+            viewModel.getCredits(true)
         }
     }
 
@@ -115,7 +111,7 @@ class CreditFragment : BaseFragment() {
         val filteredList = if (keyword.isNotEmpty()) viewModel.locationList.filter { location -> location.name.contains(keyword, true) } else viewModel.locationList
 
         creditAdapter = CreditRVAdapter(filteredList as MutableList<LocationModel>, viewModel.currency) { item ->
-
+            flow.openOrderDetails(item)
         }
 
         credit_list.apply {

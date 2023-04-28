@@ -18,6 +18,8 @@ val creditModule = Module("creditModule") {
             fragment, CreditViewModel.Factory(
                 instance(), instance(), instance(),
                 instance("GetListLocationsUseCase"),
+                instance("GetOrderDetailsUseCase"),
+                instance("UpdateOrderPaymentStatusUseCase"),
                 instance(),
                 instance(),
                 instance()

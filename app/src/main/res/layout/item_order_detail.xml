@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_grey_outline_with_no_border"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/GreyRoundLayout"
+            android:background="@color/transparent">
+
+            <TextView
+                android:id="@+id/item_name_textView"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hennessey"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <View
+                style="@style/Separator"
+                android:layout_height="0.3dp"
+                android:background="@color/dark_grey" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- QTY -->
+
+                <TextView
+                    android:id="@+id/item_qty_label"
+                    style="@style/DetailNameTextView"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/order_detail_item_quantity" />
+
+                <TextView
+                    android:id="@+id/item_qty_textView"
+                    style="@style/DetailValueTextView"
+                    android:layout_alignBottom="@+id/item_qty_label"
+                    android:text="x50 Cases" />
+
+                <!-- VAT A 18.00% -->
+
+                <LinearLayout
+                    android:id="@+id/layer_vat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/item_qty_label"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/labal_item_vat_title"
+                        style="@style/DetailNameTextView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="VAT A 18.00%" />
+
+                    <TextView
+                        android:id="@+id/item_vat_value_textView"
+                        style="@style/DetailValueTextView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="0 TSh" />
+                </LinearLayout>
+
+                <!-- Price Category -->
+
+                <RelativeLayout
+                    android:id="@+id/container_custom_price_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layer_vat"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/labal_item_custom_price"
+                        style="@style/DetailNameTextView"
+                        android:text="@string/order_detail_item_price_category" />
+
+                    <TextView
+                        android:id="@+id/textView_price_category_name"
+                        style="@style/DetailValueTextView"
+                        android:layout_alignBottom="@+id/labal_item_custom_price"
+                        android:text="Standard" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/order_detail_item_footer_bg"
+            android:gravity="center"
+            android:paddingStart="15dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="8dp">
+
+            <!-- Total inclusive VAT -->
+
+            <TextView
+                android:id="@+id/labal_item_total_cost"
+                style="@style/DetailNameTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/order_detail_item_total_inclusive_vat"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/item_cost_textView"
+                style="@style/DetailValueTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="5,000,000 TSh"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -235,5 +235,12 @@
     <string name="hint_search_all_credits">Search all credits</string>
     <string name="max_credit">Max Credit</string>
     <string name="outstanding_credit">Outstanding Credit</string>
+    <string name="unpaid_orders">Unpaid Orders</string>
     <string name="mark_as_paid">Mark as Paid</string>
+    <string name="summary">Summary</string>
+    <string name="supplier">Supplier</string>
+    <string name="order_total">Order total</string>
+    <string name="no_comment">No Comment</string>
+    <string name="payment_status">Payment Status</string>
+
 </resources>
