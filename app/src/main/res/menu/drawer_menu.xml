@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_reset_activity"
+            android:icon="@drawable/reset_activity"
+            android:title="@string/reset_activity" />
+
+        <item
+            android:id="@+id/nav_view_sales_report"
+            android:icon="@drawable/view_sales_reports"
+            android:title="@string/view_sales_report" />
+    </group>
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_onboarding_video"
+            android:icon="@drawable/ic_training_video"
+            android:title="@string/training_video_string" />
+
+        <item
+            android:id="@+id/nav_onboarding_slides"
+            android:icon="@drawable/ic_user_manual"
+            android:title="@string/training_manual_string" />
+
+    </group>
+
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_clear_cache"
+            android:icon="@drawable/ic_clear_cache"
+            android:title="@string/title_clear_cache" />
+
+        <item
+            android:id="@+id/nav_scan_bluetooth"
+            android:icon="@drawable/ic_bluetooth_printer"
+            android:title="@string/bluetooth_connect" />
+
+        <item
+            android:id="@+id/nav_sync_data"
+            android:icon="@drawable/ic_sync_data"
+            android:title="@string/title_sync_data" />
+
+    </group>
+
+    <group
+        android:id="@+id/group4"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_log_out"
+            android:icon="@drawable/logout"
+            android:title="@string/logout" />
+
+    </group>
+
+</menu>
