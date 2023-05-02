@@ -243,4 +243,12 @@
     <string name="no_comment">No Comment</string>
     <string name="payment_status">Payment Status</string>
 
+    <!-- Side Menu -->
+    <string name="reset_activity">Reset Current Activity</string>
+    <string name="training_manual_string">User Manual (Maelekezo)</string>
+    <string name="training_video_string">Training Video</string>
+    <string name="title_clear_cache">Clear Cache</string>
+    <string name="bluetooth_connect">Connect To Bluetooth Printer</string>
+    <string name="title_sync_data">Sync Data</string>
+    <string name="view_sales_report">View sales reports</string>
 </resources>

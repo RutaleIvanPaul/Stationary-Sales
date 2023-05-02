@@ -2,15 +2,17 @@ package io.ramani.ramaniStationary.app.home.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
-import io.ramani.ramaniStationary.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
-import io.ramani.ramaniStationary.app.common.presentation.extensions.showSelectPopUp
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
@@ -18,11 +20,12 @@ import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODE
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
 import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.kodein.di.generic.factory
 import java.util.*
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -121,18 +124,22 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setupMenu() {
+        navigation_view_side_menu.setNavigationItemSelectedListener(this)
         home_menu.setOnSingleClickListener {
-            home_menu.showSelectPopUp(listOf(getString(R.string.logout)),
-                wrapWidth = true,
-                onItemClick = { _, _, _ ->
-                    showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
-                        viewModel.logout {
-                            authFlow.openLogin()
-                        }
-                    })
-                })
+//            home_menu.showSelectPopUp(listOf(getString(R.string.logout)),
+//                wrapWidth = true,
+//                onItemClick = { _, _, _ ->
+//                    showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
+//                        viewModel.logout {
+//                            authFlow.openLogin()
+//                        }
+//                    })
+//                })
+            side_menu_drawer.openDrawer(Gravity.LEFT)
         }
     }
+
+
 
     private fun setupNav() {
         home_today_sales_all_view.setOnSingleClickListener {
@@ -173,4 +180,9 @@ class HomeFragment : BaseFragment() {
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             viewModel.updateDate(year, monthOfYear, dayOfMonth)
         }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        side_menu_drawer.closeDrawer(Gravity.LEFT)
+        return false
+    }
 }
