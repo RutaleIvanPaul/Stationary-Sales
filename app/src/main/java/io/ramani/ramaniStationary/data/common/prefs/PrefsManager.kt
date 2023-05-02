@@ -62,10 +62,12 @@ open class PrefsManager(context: Context) : Prefs {
         }
 
     override var lastSyncTime: String
-        get() = sharedPrefs.getString(PrefsConstants.PREF_LAST_SYNC_TIME, null) ?: "1970-01-01T00:00:00"
+        get() {
+            val value = sharedPrefs.getString(PrefsConstants.PREF_LAST_SYNC_TIME, "") ?: ""
+            return value.ifEmpty { "1970-01-01T00:00:00" }
+        }
         set(value) {
-            sharedPrefs.edit()
-                .putString(PrefsConstants.PREF_LAST_SYNC_TIME, value).apply()
+            sharedPrefs.edit().putString(PrefsConstants.PREF_LAST_SYNC_TIME, value).apply()
         }
 
     override var currency: String

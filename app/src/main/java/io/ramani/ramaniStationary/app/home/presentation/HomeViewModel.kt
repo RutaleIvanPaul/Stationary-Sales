@@ -130,6 +130,14 @@ class HomeViewModel(
         // Get last sync data
         val lastSyncTime = prefs.lastSyncTime
 
+        // If this is new logged user, then we'll refresh all data
+        if (lastSyncTime.startsWith("1970-01-01")) {
+            // Delete all database
+            database.getProductDao().deleteAll()
+            database.getMerchantDao().deleteAll()
+            database.getTaxDao().deleteAll()
+        }
+
         merchantPage = 1
         taxPage = 1
         productPage = 1

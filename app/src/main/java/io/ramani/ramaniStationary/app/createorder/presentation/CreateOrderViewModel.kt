@@ -100,13 +100,13 @@ class CreateOrderViewModel(
     fun updateData(delaySeconds: Double) {
         isLoadingVisible = true
 
-        CoroutineScope(Dispatchers.IO).launch{
-            delay((delaySeconds * 1000).toLong())
+        Handler(Looper.getMainLooper()).postDelayed({
 
             getProducts()
             getMerchants()
             getAvailableStockList()
-        }
+
+        }, (delaySeconds * 1000).toLong())
     }
 
     @SuppressLint("CheckResult")
@@ -114,35 +114,44 @@ class CreateOrderViewModel(
         merchantList.clear()
         merchantNameList.clear()
 
-        database.getMerchantDao().getMerchants().apply {
-            merchantList.addAll(sortedByDescending { merchant -> merchant.updatedAt })
+        val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(false, companyId, "", "", true, 1))
+        subscribeSingle(single, onSuccess = {
+            merchantList.addAll(it.data.sortedByDescending { merchant -> merchant.updatedAt })
 
             merchantList.forEach { merchant ->
                 merchantNameList.add(merchant.name)
             }
 
             onMerchantsLoadedLiveData.postValue(merchantList)
-        }
+        }, onError = {
+            onMerchantsLoadedLiveData.postValue(merchantList)
+        })
     }
 
     @SuppressLint("CheckResult")
     fun getProducts() {
         productList.clear()
 
-        database.getProductDao().getProducts().apply {
-            productList.addAll(this)
+        val single = getProductsUseCase.getSingle(GetProductRequestModel(false, companyId, "", "",false, 1))
+        subscribeSingle(single, onSuccess = {
+            productList.addAll(it.data)
             onProductsLoadedLiveData.postValue(productList)
-        }
+        }, onError = {
+            onProductsLoadedLiveData.postValue(productList)
+        })
     }
 
     @SuppressLint("CheckResult")
     fun getTaxes() {
         taxesList.clear()
 
-        database.getTaxDao().getTaxes().apply {
-            taxesList.addAll(this)
+        val single = getTaxesUseCase.getSingle(GetTaxRequestModel(false, companyId, userId, "", 1))
+        subscribeSingle(single, onSuccess = {
+            taxesList.addAll(it.data)
             onTaxesLoadedLiveData.postValue(taxesList)
-        }
+        }, onError = {
+            onTaxesLoadedLiveData.postValue(taxesList)
+        })
     }
 
     @SuppressLint("CheckResult")

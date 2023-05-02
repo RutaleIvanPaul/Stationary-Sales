@@ -44,7 +44,7 @@ class CreateOrderProductsRVAdapter(
 
             val quantityTextView = getView<EditText>(R.id.item_product_quantity)
             quantityTextView.apply {
-                isEnabled = if (!onlineMode) true else availableStockAmount > 0
+                isEnabled = if (!onlineMode || !isRestrictSalesByStockAssigned) true else availableStockAmount > 0
 
                 addTextChangedListener(object: TextWatcher {
                     override fun afterTextChanged(s: Editable) {}
@@ -68,6 +68,7 @@ class CreateOrderProductsRVAdapter(
                                     onItemChanged(item)
                                 }
                             } else {
+                                item.selectedQuantity = amount
                                 onItemChanged(item)
                             }
                         } catch (e: java.lang.Exception) {
