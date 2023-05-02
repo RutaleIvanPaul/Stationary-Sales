@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/order_details_container_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <!-- Header -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/fragment_order_detail_credit_detail_back"
+                    style="@style/BackButton" />
+
+                <TextView
+                    android:id="@+id/order_details_title"
+                    style="@style/BoldLargeTextLabel"
+                    android:layout_toEndOf="@+id/fragment_order_detail_credit_detail_back"
+                    android:text="@string/outstanding_credit" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="6dp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:id="@+id/fragment_order_detail_credit_order_menu"
+                        style="@style/NormalActionButton"
+                        android:text="@string/mark_as_paid" />
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+
+            <!-- Order Details -->
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/order_details_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/view_order_status_summary" />
+
+                    <!-- Summary -->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/order_summary_title"
+                            style="@style/CommonRailwayView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/summary"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <!-- Supplier -->
+
+                        <TextView
+                            android:id="@+id/order_supplier_title"
+                            style="@style/DetailNameTextView"
+                            android:layout_below="@+id/order_summary_title"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/supplier" />
+
+                        <TextView
+                            android:id="@+id/order_supplier_name_textView"
+                            style="@style/DetailValueTextView"
+                            android:layout_alignBottom="@+id/order_supplier_title"
+                            android:text="Unilever Tanzania" />
+
+                        <!-- Order date -->
+
+                        <TextView
+                            android:id="@+id/order_date_title"
+                            style="@style/DetailNameTextView"
+                            android:layout_below="@+id/order_supplier_title"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/order_date" />
+
+                        <TextView
+                            android:id="@+id/order_date__textview"
+                            style="@style/DetailValueTextView"
+                            android:layout_alignBottom="@+id/order_date_title"
+                            android:text="April 15, 2019" />
+
+                        <!-- Order total -->
+
+                        <TextView
+                            android:id="@+id/order_total_title"
+                            style="@style/DetailNameTextView"
+                            android:layout_below="@+id/order_date_title"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/order_total" />
+
+                        <TextView
+                            android:id="@+id/order_total__textView"
+                            style="@style/DetailValueTextView"
+                            android:layout_alignBottom="@+id/order_total_title"
+                            android:text="0 tsh" />
+                    </RelativeLayout>
+
+                    <View style="@style/Separator" />
+
+                    <!-- Delivery -->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/order_delivery_title"
+                            style="@style/CommonRailwayView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_delivery"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <!-- Status -->
+
+                        <TextView
+                            android:id="@+id/delivery_status_title"
+                            style="@style/DetailNameTextView"
+                            android:layout_below="@+id/order_delivery_title"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/order_delivery_status" />
+
+                        <TextView
+                            android:id="@+id/delivery_status_textView"
+                            style="@style/DetailValueTextView"
+                            android:layout_alignBottom="@+id/delivery_status_title"
+                            android:text="Delivered" />
+
+                        <!-- Branch -->
+
+                        <TextView
+                            android:id="@+id/deliver_branch_title"
+                            style="@style/DetailNameTextView"
+                            android:layout_below="@+id/delivery_status_title"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/order_delivery_branch" />
+
+                        <TextView
+                            android:id="@+id/deliver_branch_textView"
+                            style="@style/DetailValueTextView"
+                            android:layout_alignBottom="@+id/deliver_branch_title"
+                            android:text="Masaki, Shoppers Plaza" />
+
+                        <!-- ETA -->
+
+                        <TextView
+                            android:id="@+id/order_eta_title"
+                            style="@style/DetailNameTextView"
+                            android:layout_below="@+id/deliver_branch_title"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/order_delivery_eta" />
+
+                        <TextView
+                            android:id="@+id/delivery_eta__textView"
+                            style="@style/DetailValueTextView"
+                            android:layout_alignBottom="@+id/order_eta_title"
+                            android:text="June 30, 2019" />
+                    </RelativeLayout>
+
+                    <View style="@style/Separator" />
+
+                    <!-- Items -->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/order_items_title"
+                            style="@style/CommonRailwayView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_detail_items"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/order_items_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/order_items_title"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:nestedScrollingEnabled="false"
+                            android:scrollbars="none" />
+
+                    </RelativeLayout>
+
+                    <!-- Comment -->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/order_details_comment_title"
+                            style="@style/CommonRailwayView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/comment"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_comment_textView"
+                            style="@style/CommonRailwayView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/order_details_comment_title"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="30dp"
+                            android:text="@string/no_comment"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/fragment_order_detail_credit_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

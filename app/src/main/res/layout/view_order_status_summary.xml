@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/order_id_container"
+    style="@style/GreyRoundLayout">
+
+    <TextView
+        android:id="@+id/order_status_label"
+        style="@style/DetailNameTextView"
+        android:text="@string/order_status" />
+
+    <TextView
+        android:id="@+id/order_status__textView"
+        style="@style/DetailValueTextView"
+        android:text="Complete" />
+
+    <TextView
+        android:id="@+id/order_id_label"
+        style="@style/DetailNameTextView"
+        android:layout_below="@+id/order_status_label"
+        android:layout_marginTop="8dp"
+        android:text="@string/order_id" />
+
+    <TextView
+        android:id="@+id/order_id_textView"
+        style="@style/DetailValueTextView"
+        android:layout_alignBottom="@+id/order_id_label"
+        android:text="#id" />
+
+    <TextView
+        android:id="@+id/order_payment_status_label"
+        style="@style/DetailNameTextView"
+        android:layout_below="@+id/order_id_label"
+        android:layout_marginTop="8dp"
+        android:text="@string/payment_status" />
+
+    <TextView
+        android:id="@+id/order_id_textView_payment_status"
+        style="@style/DetailValueTextView"
+        android:layout_alignBottom="@+id/order_payment_status_label"
+        android:text="@string/paid" />
+
+    <TextView
+        android:id="@+id/order_print_status_label"
+        style="@style/CommonRailwayView"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/order_payment_status_label"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_blue_action_button"
+        android:gravity="center"
+        android:paddingStart="15dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="7dp"
+        android:text="@string/print_status"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+</RelativeLayout>
