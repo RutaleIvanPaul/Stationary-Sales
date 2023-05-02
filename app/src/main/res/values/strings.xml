@@ -230,6 +230,19 @@
     <string name="pick_start_date">Please pick start day for reports</string>
     <string name="pick_end_date">Please pick end day for reports</string>
 
+    <!-- Credit -->
+    <string name="outstanding_payments">Outstanding payments</string>
+    <string name="hint_search_all_credits">Search all credits</string>
+    <string name="max_credit">Max Credit</string>
+    <string name="outstanding_credit">Outstanding Credit</string>
+    <string name="unpaid_orders">Unpaid Orders</string>
+    <string name="mark_as_paid">Mark as Paid</string>
+    <string name="summary">Summary</string>
+    <string name="supplier">Supplier</string>
+    <string name="order_total">Order total</string>
+    <string name="no_comment">No Comment</string>
+    <string name="payment_status">Payment Status</string>
+
     <!-- Side Menu -->
     <string name="reset_activity">Reset Current Activity</string>
     <string name="training_manual_string">User Manual (Maelekezo)</string>
