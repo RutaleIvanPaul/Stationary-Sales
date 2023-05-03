@@ -6,12 +6,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.ramani.ramaniStationary.domain.home.model.TaxModel
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface TaxDao {
 
     @Query("SELECT * FROM Tax")
-    fun getTaxes(): List<TaxModel>
+    fun getTaxes(): Single<List<TaxModel>>
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insert(tax: TaxModel):Maybe<Long>

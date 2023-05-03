@@ -21,34 +21,40 @@ class HomeLocalDataSource(
         TODO("Not yet implemented")
     }
     override fun getProducts(fromRemote: Boolean, companyId: String, startDate: String, endDate: String, archived: Boolean, page: Int): Single<PagedList<ProductModel>> =
-        Single.just(
-            PagedList.Builder<ProductModel>()
-                .data(db.getProductDao().getProducts())
-                .paginationMeta(
-                    PaginationMeta(hasNext = false)
-                )
-                .build()
-        )
+        db.getProductDao().getProducts().flatMap {
+            Single.just(
+                PagedList.Builder<ProductModel>()
+                    .data(it)
+                    .paginationMeta(
+                        PaginationMeta(hasNext = false)
+                    )
+                    .build()
+            )
+        }
 
     override fun getMerchants(fromRemote: Boolean, companyId: String, startDate: String, endDate: String, isActive: Boolean, page: Int): Single<PagedList<MerchantModel>> =
-        Single.just(
-            PagedList.Builder<MerchantModel>()
-                .data(db.getMerchantDao().getMerchants())
-                .paginationMeta(
-                    PaginationMeta(hasNext = false)
-                )
-                .build()
-        )
+        db.getMerchantDao().getMerchants().flatMap {
+             Single.just(
+                PagedList.Builder<MerchantModel>()
+                    .data(it)
+                    .paginationMeta(
+                        PaginationMeta(hasNext = false)
+                    )
+                    .build()
+            )
+        }
 
     override fun getTaxes(fromRemote: Boolean, companyId: String, userId: String, date: String, page: Int): Single<PagedList<TaxModel>> =
-        Single.just(
-            PagedList.Builder<TaxModel>()
-                .data(db.getTaxDao().getTaxes())
-                .paginationMeta(
-                    PaginationMeta(hasNext = false)
-                )
-                .build()
-        )
+        db.getTaxDao().getTaxes().flatMap {
+            Single.just(
+                PagedList.Builder<TaxModel>()
+                    .data(it)
+                    .paginationMeta(
+                        PaginationMeta(hasNext = false)
+                    )
+                    .build()
+            )
+        }
 
     override fun getTaxInformationByUserId(userId: String): Single<TaxInformationModel> {
         TODO("Not yet implemented")

@@ -1,8 +1,6 @@
 package io.ramani.ramaniStationary.app.createorder.presentation
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -111,6 +109,11 @@ class CreateOrderFragment : BaseFragment() {
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
         loader.visible(visible)
+    }
+
+    override fun onBackButtonPressed(): Boolean {
+        CREATE_ORDER_MODEL.clear()
+        return super.onBackButtonPressed()
     }
 
     override fun showError(error: String) {

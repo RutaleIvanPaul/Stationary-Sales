@@ -50,9 +50,12 @@ class HomeViewModel(
     var companyId = ""
     var currency = ""
 
+    val onDataSyncStartedLiveData = MutableLiveData<Boolean>()
+    val onDataSyncUpdateLiveData = MutableLiveData<Pair<Int, Int>>()
+    val onDataSyncCompletedLiveData = SingleLiveEvent<String>()
+
     val dailySalesStatsActionLiveData = MutableLiveData<List<DailySalesStatsModel>>()
     val onDateChangedLiveData = SingleLiveEvent<String>()
-    val onDataSyncCompletedLiveData = SingleLiveEvent<String>()
 
     val merchantList = mutableListOf<MerchantModel>()
     private var merchantPage = 1
@@ -130,17 +133,25 @@ class HomeViewModel(
         // Get last sync data
         val lastSyncTime = prefs.lastSyncTime
 
+        // If this is new logged user, then we'll refresh all data
+        if (lastSyncTime.startsWith("1970-01-01")) {
+            // Delete all database
+            database.getProductDao().deleteAll()
+            database.getMerchantDao().deleteAll()
+            database.getTaxDao().deleteAll()
+        }
+
         merchantPage = 1
         taxPage = 1
         productPage = 1
 
         MAIN_SHARED_MODEL.isSynching = true
 
-        isLoadingVisible = true
-
         onMerchantsLoaded = false
         onProductsLoaded = false
         onTaxesLoaded = false
+
+        onDataSyncStartedLiveData.postValue(true)
 
         getMerchants(lastSyncTime, now)
         getProducts(lastSyncTime, now)
@@ -149,8 +160,6 @@ class HomeViewModel(
 
     @SuppressLint("CheckResult")
     fun getMerchants(startDate: String, endDate: String) {
-        isLoadingVisible = true
-
         if (merchantPage == 1) {
             merchantList.clear()
         }
@@ -159,6 +168,8 @@ class HomeViewModel(
             val single = getMerchantsUseCase.getSingle(GetMerchantRequestModel(true, companyId, startDate, endDate, true, merchantPage))
             subscribeSingle(single, onSuccess = {
                 merchantList.addAll(it.data)
+
+                onDataSyncUpdateLiveData.postValue(Pair(it.paginationMeta.totalPages, merchantPage))
 
                 if (it.paginationMeta.hasNext) {
                     merchantPage++
@@ -176,8 +187,6 @@ class HomeViewModel(
 
     @SuppressLint("CheckResult")
     fun getProducts(startDate: String, endDate: String) {
-        isLoadingVisible = true
-
         if (productPage == 1) {
             productList.clear()
         }
@@ -203,8 +212,6 @@ class HomeViewModel(
 
     @SuppressLint("CheckResult")
     fun getTaxes(date: String) {
-        isLoadingVisible = true
-
         if (taxPage == 1) {
             taxesList.clear()
         }
@@ -233,7 +240,6 @@ class HomeViewModel(
 
         if (allCompleted) {
             prefs.lastSyncTime = datetime
-            isLoadingVisible = false
             MAIN_SHARED_MODEL.isSynching = false
             onDataSyncCompletedLiveData.postValue(datetime)
         }

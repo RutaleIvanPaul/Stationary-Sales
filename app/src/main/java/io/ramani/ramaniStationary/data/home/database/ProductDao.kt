@@ -7,12 +7,13 @@ import androidx.room.Query
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface ProductDao {
 
     @Query("SELECT * FROM Product")
-    fun getProducts(): List<ProductModel>
+    fun getProducts(): Single<List<ProductModel>>
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insert(product: ProductModel):Maybe<Long>

@@ -79,10 +79,20 @@ class HomeHostFragment : BaseFragment() {
     }
 
     private fun subscribeResponse() {
-        viewModel.onDataSyncCompletedLiveData.observe(this) {
-
+        viewModel.onDataSyncStartedLiveData.observe(this) {
+            home_host_data_sync_layout.visible(true)
         }
 
+        viewModel.onDataSyncUpdateLiveData.observe(this) {
+            home_host_progress.apply {
+                max = it.first
+                progress = it.second
+            }
+        }
+
+        viewModel.onDataSyncCompletedLiveData.observe(this) {
+            home_host_data_sync_layout.visible(false)
+        }
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
