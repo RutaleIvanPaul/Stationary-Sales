@@ -12,7 +12,9 @@ import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlow
 import io.ramani.ramaniStationary.app.auth.flow.AuthFlowController
 import io.ramani.ramaniStationary.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniStationary.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniStationary.app.common.presentation.extensions.showSelectPopUp
 import io.ramani.ramaniStationary.app.common.presentation.extensions.visible
 import io.ramani.ramaniStationary.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniStationary.app.common.presentation.viewmodels.BaseViewModel
@@ -126,15 +128,6 @@ class HomeFragment : BaseFragment(), NavigationView.OnNavigationItemSelectedList
     private fun setupMenu() {
         navigation_view_side_menu.setNavigationItemSelectedListener(this)
         home_menu.setOnSingleClickListener {
-//            home_menu.showSelectPopUp(listOf(getString(R.string.logout)),
-//                wrapWidth = true,
-//                onItemClick = { _, _, _ ->
-//                    showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
-//                        viewModel.logout {
-//                            authFlow.openLogin()
-//                        }
-//                    })
-//                })
             side_menu_drawer.openDrawer(Gravity.LEFT)
         }
     }
@@ -183,6 +176,19 @@ class HomeFragment : BaseFragment(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         side_menu_drawer.closeDrawer(Gravity.LEFT)
+        when(item.itemId) {
+            R.id.nav_log_out -> {
+                showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
+                    viewModel.logout {
+                        authFlow.openLogin()
+                    }
+                })
+        }
+            R.id.nav_sync_data -> {
+                viewModel.syncData()
+            }
+        }
         return false
     }
+    
 }

@@ -1,6 +1,7 @@
 package io.ramani.ramaniStationary.app.home.presentation
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import io.ramani.ramaniStationary.app.createorder.presentation.CREATE_ORDER_MODE
 import io.ramani.ramaniStationary.app.home.flow.HomeFlow
 import io.ramani.ramaniStationary.app.home.flow.HomeFlowController
 import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_host.*
 import org.kodein.di.generic.factory
 
@@ -176,7 +178,10 @@ class HomeHostFragment : BaseFragment() {
 
         if (rootPage != Page.HOME) {
             gotoPage(Page.HOME)
-        } else {
+        } else if (side_menu_drawer.isDrawerOpen(Gravity.LEFT)){
+            side_menu_drawer.closeDrawer(Gravity.LEFT)
+        }
+        else {
             requireActivity().finish()
         }
 
