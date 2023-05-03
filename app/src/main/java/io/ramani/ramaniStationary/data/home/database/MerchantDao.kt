@@ -6,12 +6,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.ramani.ramaniStationary.domain.home.model.MerchantModel
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface MerchantDao {
 
     @Query("SELECT * FROM Merchant")
-    fun getMerchants(): List<MerchantModel>
+    fun getMerchants(): Single<List<MerchantModel>>
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insert(merchant: MerchantModel):Maybe<Long>
