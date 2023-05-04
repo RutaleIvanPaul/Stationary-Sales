@@ -190,5 +190,5 @@ class HomeFragment : BaseFragment(), NavigationView.OnNavigationItemSelectedList
         }
         return false
     }
-    
+
 }

@@ -366,7 +366,4 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="sidemenu_text">
-        <item name="itemTextColor">#7287A1</item>
-    </style>
 </resources>
