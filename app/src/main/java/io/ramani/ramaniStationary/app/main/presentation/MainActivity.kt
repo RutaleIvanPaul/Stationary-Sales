@@ -37,6 +37,8 @@ class MainActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = viewModelProvider(this as BaseActivity)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -46,7 +48,6 @@ class MainActivity : BaseActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         }
-        viewModel = viewModelProvider(this as BaseActivity)
         flow = AuthFlowController(this, R.id.main_fragment_container)
         subscribeError(viewModel)
         observerError(viewModel, this)
@@ -90,15 +91,11 @@ class MainActivity : BaseActivity() {
                     checkNetworkStatus()
                 }
             })
-
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume() {
         super.onResume()
-
     }
 
 
