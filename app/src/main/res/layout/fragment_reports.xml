@@ -137,7 +137,7 @@
                                 android:id="@+id/reports_total_sales_value"
                                 style="@style/BoldHugeTextLabel"
                                 android:layout_marginStart="5dp"
-                                android:text="329,0009,374" />
+                                android:text="0" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -166,7 +166,7 @@
                                 <TextView
                                     android:id="@+id/reports_total_sales_count"
                                     style="@style/BoldHugeTextLabel"
-                                    android:text="67" />
+                                    android:text="0" />
 
                                 <TextView
                                     style="@style/BoldTextLabel"
@@ -203,7 +203,7 @@
                                     android:id="@+id/reports_total_credit_given"
                                     style="@style/BoldHugeTextLabel"
                                     android:layout_marginStart="5dp"
-                                    android:text="100,000" />
+                                    android:text="0" />
 
                             </LinearLayout>
                         </LinearLayout>

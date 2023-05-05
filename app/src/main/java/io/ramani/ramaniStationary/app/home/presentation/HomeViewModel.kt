@@ -124,9 +124,11 @@ class HomeViewModel(
         })
     }
 
-    fun syncData() {
-        if (MAIN_SHARED_MODEL.isSynching)
-            return
+    fun syncData(force: Boolean = false) {
+        if (!force) {
+            if (MAIN_SHARED_MODEL.isSynching)
+                return
+        }
 
         val now = dateFormatter.getCalendarTimeWithDashesFull(Date())
 

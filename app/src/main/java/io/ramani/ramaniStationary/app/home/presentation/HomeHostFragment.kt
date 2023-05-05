@@ -75,7 +75,7 @@ class HomeHostFragment : BaseFragment() {
         observerError(viewModel, this)
         subscribeResponse()
         viewModel.start()
-        viewModel.syncData()
+        viewModel.syncData(force = true)
     }
 
     private fun subscribeResponse() {
