@@ -34,7 +34,6 @@ class CreateOrderProductsRVAdapter(
 
             setText(R.id.item_product_add_name, item.name)
             setText(R.id.item_product_add_price, String.format("%s %s", currency, NumberFormat.getNumberInstance(Locale.US).format(price)))
-            setText(R.id.item_product_quantity, item.selectedQuantity.toString())
 
             getView<ImageView>(R.id.item_product_add_imageview).loadImage(item.imagePath, R.mipmap.ic_holder, R.mipmap.ic_holder)
 
@@ -43,39 +42,43 @@ class CreateOrderProductsRVAdapter(
             val availableStockAmount = if (availableStockProducts.isNotEmpty()) availableStockProducts.first().quantity else 0
 
             val quantityTextView = getView<EditText>(R.id.item_product_quantity)
+            val quantityWatcher = object: TextWatcher {
+                override fun afterTextChanged(s: Editable) {
+                    try {
+                        val amount = s.trim().toString().toInt()
+
+                        if (onlineMode && isRestrictSalesByStockAssigned) {
+                            if (amount <= availableStockAmount) {
+                                quantityTextView.setTextColor(Color.BLACK)
+                                item.selectedQuantity = amount
+                                onItemChanged(item)
+                            } else {
+                                quantityTextView.setTextColor(Color.RED)
+                                item.selectedQuantity = 0
+                                onItemChanged(item)
+                            }
+                        } else {
+                            item.selectedQuantity = amount
+                            onItemChanged(item)
+                        }
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            }
+
+            quantityTextView.setText(item.selectedQuantity.toString())
             quantityTextView.apply {
                 isEnabled = if (!onlineMode || !isRestrictSalesByStockAssigned) true else availableStockAmount > 0
 
-                addTextChangedListener(object: TextWatcher {
-                    override fun afterTextChanged(s: Editable) {}
-                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                        try {
-                            val amount = s.trim().toString().toInt()
-
-                            if (onlineMode && isRestrictSalesByStockAssigned) {
-                                if (amount <= availableStockAmount) {
-                                    getView<EditText>(R.id.item_product_quantity).setTextColor(
-                                        Color.BLACK
-                                    )
-                                    item.selectedQuantity = amount
-                                    onItemChanged(item)
-                                } else {
-                                    getView<EditText>(R.id.item_product_quantity).setTextColor(
-                                        Color.RED
-                                    )
-                                    item.selectedQuantity = 0
-                                    onItemChanged(item)
-                                }
-                            } else {
-                                item.selectedQuantity = amount
-                                onItemChanged(item)
-                            }
-                        } catch (e: java.lang.Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                })
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus)
+                        addTextChangedListener(quantityWatcher)
+                    else
+                        removeTextChangedListener(quantityWatcher)
+                }
             }
 
             getView<ImageView>(R.id.item_product_add_plus_button).apply {
