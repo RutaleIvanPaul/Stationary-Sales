@@ -90,7 +90,7 @@ class CREATE_ORDER_MODEL {
             return vat.toInt()
         }
 
-        fun createSaleRequestModel(totalPrice: Int, timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String, receiptCode: String, vrn: String): SaleRequestModel {
+        fun createSaleRequestModel(timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String, receiptCode: String, vrn: String): SaleRequestModel {
             val orderItems = mutableListOf<SaleOrderItemModel>()
             productsToBeOrdered.forEach {
                 orderItems.add(SaleOrderItemModel(
@@ -106,6 +106,8 @@ class CREATE_ORDER_MODEL {
                 ))
             }
 
+            val totalPrice = getTotalOrderedPrice()
+
             val order = SaleOrderModel(
                 userId,
                 customer?.id ?: "",
@@ -114,9 +116,9 @@ class CREATE_ORDER_MODEL {
                 deliveryDate,
                 deliveryDate,
                 comment,
-                getTotalOrderedPrice().toDouble(),
+                totalPrice.toDouble(),
                 2.0,
-                0.0,
+                if (paymentMethod == "Paid") 0.0 else 1.0,
                 orderItems
             )
 
