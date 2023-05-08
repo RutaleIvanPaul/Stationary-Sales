@@ -72,7 +72,7 @@ class CREATE_ORDER_MODEL {
             return totalPrice.toInt()
         }
 
-        fun getTotalVat(taxInformation: TaxInformationModel): Double {
+        fun getTotalVat(taxInformation: TaxInformationModel): Int {
             var vat = 0.0
 
             productsToBeOrdered.forEach {
@@ -87,10 +87,10 @@ class CREATE_ORDER_MODEL {
                 }
             }
 
-            return vat
+            return vat.toInt()
         }
 
-        fun createSaleRequestModel(timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String, receiptCode: String, vrn: String): SaleRequestModel {
+        fun createSaleRequestModel(totalPrice: Int, timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String, receiptCode: String, vrn: String): SaleRequestModel {
             val orderItems = mutableListOf<SaleOrderItemModel>()
             productsToBeOrdered.forEach {
                 orderItems.add(SaleOrderItemModel(
@@ -134,7 +134,7 @@ class CREATE_ORDER_MODEL {
                 customerVrnNumber,
                 listOf(order),
                 "",
-                totalCost = getTotalOrderedPrice(),
+                totalCost = totalPrice,
                 hasNewMerchantTIN = customer != null,
                 hasNewMerchantVRN = customer != null,
                 printStatus = "Not Printed",

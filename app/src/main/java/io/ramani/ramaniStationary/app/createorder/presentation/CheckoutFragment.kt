@@ -87,7 +87,8 @@ class CheckoutFragment : BaseFragment() {
 
         checkout_finish_order.setOnSingleClickListener {
             // Finish order operation
-            viewModel.saveSale()
+            val total = checkout_total_price_label.text.toString().toInt()
+            viewModel.saveSale(total)
         }
 
         initSubscribers()

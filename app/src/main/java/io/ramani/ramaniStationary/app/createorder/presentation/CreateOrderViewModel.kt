@@ -184,7 +184,7 @@ class CreateOrderViewModel(
     }
 
     @SuppressLint("CheckResult")
-    fun saveSale() {
+    fun saveSale(totalPrice: Int) {
         isLoadingVisible = true
 
         sessionManager.getLoggedInUser().subscribeBy {
@@ -199,7 +199,7 @@ class CreateOrderViewModel(
             val receiptCode = prefs.taxInformation.receiptCode
             val vrn = prefs.taxInformation.vrn
 
-            val request = CREATE_ORDER_MODEL.createSaleRequestModel(date.time, companyId, companyName, userId, userName, fullTimeStamp, checkTime, deliveryDate, receiptCode, vrn)
+            val request = CREATE_ORDER_MODEL.createSaleRequestModel(totalPrice, date.time, companyId, companyName, userId, userName, fullTimeStamp, checkTime, deliveryDate, receiptCode, vrn)
             val requestJson = Gson().toJson(request)
             val saleJson = SaleJsonModel(date.time, false, requestJson)
             database.getSaleDao().insert(saleJson).subscribeBy { identify ->
