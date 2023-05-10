@@ -224,11 +224,11 @@ class CheckoutFragment : BaseFragment() {
         val totalVat = CREATE_ORDER_MODEL.getTotalVat(viewModel.taxInformation)
         val total = totalPrice - totalDiscount + totalVat
 
-        checkout_subtotal.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(totalPrice))
-        checkout_discount.text = String.format("-%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(totalDiscount))
-        checkout_total_vat.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(totalVat))
-        checkout_total.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(total))
-        checkout_total_price_label.text = String.format("%s %s", viewModel.currency.uppercase(), NumberFormat.getNumberInstance(Locale.US).format(total))
+        checkout_subtotal.text = viewModel.getFormattedAmount(totalPrice)
+        checkout_discount.text = viewModel.getFormattedAmount(totalDiscount)
+        checkout_total_vat.text = viewModel.getFormattedAmount(totalVat)
+        checkout_total.text = viewModel.getFormattedAmount(total)
+        checkout_total_price_label.text = viewModel.getFormattedAmount(total)
 
         checkout_finish_order.isEnabled = CREATE_ORDER_MODEL.canFinishOrder()
     }

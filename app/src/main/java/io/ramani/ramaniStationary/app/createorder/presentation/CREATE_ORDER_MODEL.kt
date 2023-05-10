@@ -61,7 +61,7 @@ class CREATE_ORDER_MODEL {
             return if (plist.isNotEmpty()) plist.first() else null
         }
 
-        fun getTotalOrderedPrice(): Int {
+        fun getTotalOrderedPrice(): Double {
             var totalPrice = 0.0
 
             productsToBeOrdered.forEach {
@@ -69,7 +69,7 @@ class CREATE_ORDER_MODEL {
                     totalPrice += (it.selectedPriceCategory?.unitPrice ?: 0.0) * it.selectedQuantity
             }
 
-            return totalPrice.toInt()
+            return totalPrice
         }
 
         fun getTotalVat(taxInformation: TaxInformationModel): Double {
@@ -106,6 +106,8 @@ class CREATE_ORDER_MODEL {
                 ))
             }
 
+            val totalPrice = getTotalOrderedPrice()
+
             val order = SaleOrderModel(
                 userId,
                 customer?.id ?: "",
@@ -114,9 +116,9 @@ class CREATE_ORDER_MODEL {
                 deliveryDate,
                 deliveryDate,
                 comment,
-                getTotalOrderedPrice().toDouble(),
+                totalPrice.toDouble(),
                 2.0,
-                0.0,
+                if (paymentMethod == "Paid") 0.0 else 1.0,
                 orderItems
             )
 
@@ -134,7 +136,7 @@ class CREATE_ORDER_MODEL {
                 customerVrnNumber,
                 listOf(order),
                 "",
-                totalCost = getTotalOrderedPrice(),
+                totalCost = totalPrice,
                 hasNewMerchantTIN = customer != null,
                 hasNewMerchantVRN = customer != null,
                 printStatus = "Not Printed",

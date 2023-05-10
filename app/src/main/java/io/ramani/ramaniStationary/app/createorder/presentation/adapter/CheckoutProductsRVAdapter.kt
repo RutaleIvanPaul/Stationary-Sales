@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -20,7 +21,7 @@ class CheckoutProductsRVAdapter(
             val price = item.selectedPriceCategory?.unitPrice ?: 0
 
             setText(R.id.item_checkout_product_name, item.name)
-            setText(R.id.item_checkout_product_price, String.format("%s %s", NumberFormat.getNumberInstance(Locale.US).format(price), currency))
+            setText(R.id.item_checkout_product_price, String.format("%s %s", DecimalFormat("#,###.##").format(price), currency))
             setText(R.id.item_checkout_product_quantity, String.format("%d %s", item.selectedQuantity, item.selectedUnit))
 
             getView<View>(R.id.item_checkout_product_quantity_row).setOnSingleClickListener {
