@@ -72,7 +72,7 @@ class CREATE_ORDER_MODEL {
             return totalPrice
         }
 
-        fun getTotalVat(taxInformation: TaxInformationModel): Int {
+        fun getTotalVat(taxInformation: TaxInformationModel): Double {
             var vat = 0.0
 
             productsToBeOrdered.forEach {
@@ -87,7 +87,7 @@ class CREATE_ORDER_MODEL {
                 }
             }
 
-            return vat.toInt()
+            return vat
         }
 
         fun createSaleRequestModel(timeSeconds: Long, companyId: String, companyName: String, userId: String, userName: String, fullTimeStamp: String, checkTime: String, deliveryDate: String, receiptCode: String, vrn: String): SaleRequestModel {
