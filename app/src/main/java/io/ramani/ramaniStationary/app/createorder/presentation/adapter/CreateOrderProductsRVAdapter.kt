@@ -17,6 +17,7 @@ import io.ramani.ramaniStationary.app.createorder.presentation.CreateOrderFragme
 import io.ramani.ramaniStationary.app.main.presentation.MAIN_SHARED_MODEL
 import io.ramani.ramaniStationary.domain.createorder.model.AvailableProductModel
 import io.ramani.ramaniStationary.domain.home.model.ProductModel
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -30,10 +31,10 @@ class CreateOrderProductsRVAdapter(
     BaseQuickAdapter<ProductModel, BaseViewHolder>(R.layout.item_product_add, data) {
     override fun convert(holder: BaseViewHolder, item: ProductModel) {
         with(holder) {
-            val price = if (item.productCategories.isNotEmpty()) item.productCategories[0].unitPrice.toInt() else 0
+            val price = if (item.productCategories.isNotEmpty()) item.productCategories[0].unitPrice else 0
 
             setText(R.id.item_product_add_name, item.name)
-            setText(R.id.item_product_add_price, String.format("%s %s", currency, NumberFormat.getNumberInstance(Locale.US).format(price)))
+            setText(R.id.item_product_add_price, String.format("%s %s", currency, DecimalFormat("#,###.##").format(price)))
 
             getView<ImageView>(R.id.item_product_add_imageview).loadImage(item.imagePath, R.mipmap.ic_holder, R.mipmap.ic_holder)
 

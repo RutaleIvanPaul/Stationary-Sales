@@ -42,6 +42,7 @@ import io.ramani.ramaniStationary.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -373,7 +374,8 @@ class CreateOrderViewModel(
         return qrBitmap
     }
 
-    fun getFormattedAmount(amount: Int): String = String.format("${prefs.currency} ${NumberFormat.getNumberInstance(Locale.US).format(amount)}")
+    fun getFormattedAmount(amount: Int): String = String.format("${prefs.currency} ${DecimalFormat("#,###").format(amount)}")
+    fun getFormattedAmount(amount: Double): String = String.format("${prefs.currency} ${DecimalFormat("#,###.##").format(amount)}")
 
     class Factory(
         private val application: Application,

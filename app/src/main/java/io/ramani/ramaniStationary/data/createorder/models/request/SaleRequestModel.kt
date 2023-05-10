@@ -16,7 +16,7 @@ data class SaleRequestModel (
     val merchantVRN: String?,
     val createdOrders: List<SaleOrderModel>,
     val notes: String,
-    val totalCost: Int,
+    val totalCost: Double,
     val hasNewMerchantTIN: Boolean = false,
     val hasNewMerchantVRN: Boolean = false,
     var printStatus: String = "Not Printed",

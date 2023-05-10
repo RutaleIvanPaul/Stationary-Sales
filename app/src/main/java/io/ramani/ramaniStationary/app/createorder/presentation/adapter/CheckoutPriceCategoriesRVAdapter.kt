@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniStationary.R
 import io.ramani.ramaniStationary.domain.home.model.ProductCategoryModel
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -25,7 +26,7 @@ class CheckoutPriceCategoriesRVAdapter(
                 isChecked = selectedCategory?.name == item.name
             }
 
-            getView<TextView>(R.id.item_checkout_price_category_price).text = "${currency.uppercase()} ${NumberFormat.getNumberInstance(Locale.US).format(item.unitPrice)}"
+            getView<TextView>(R.id.item_checkout_price_category_price).text = "${currency.uppercase()} ${DecimalFormat("#,###.##").format(item.unitPrice)}"
 
             itemView.setOnClickListener {
                 onItemSelected(item)

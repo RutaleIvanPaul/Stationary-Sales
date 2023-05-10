@@ -61,7 +61,7 @@ class CREATE_ORDER_MODEL {
             return if (plist.isNotEmpty()) plist.first() else null
         }
 
-        fun getTotalOrderedPrice(): Int {
+        fun getTotalOrderedPrice(): Double {
             var totalPrice = 0.0
 
             productsToBeOrdered.forEach {
@@ -69,7 +69,7 @@ class CREATE_ORDER_MODEL {
                     totalPrice += (it.selectedPriceCategory?.unitPrice ?: 0.0) * it.selectedQuantity
             }
 
-            return totalPrice.toInt()
+            return totalPrice
         }
 
         fun getTotalVat(taxInformation: TaxInformationModel): Int {
