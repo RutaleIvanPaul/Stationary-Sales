@@ -11,6 +11,7 @@ data class UserModel(
     val phoneNumber: String = "",
     val token: String = "",
     val companyId: String = "",
+    val companyName: String = "",
     val currency: String = "",
     val timeZone: String = "",
 ) : Parcelable {
@@ -22,6 +23,7 @@ data class UserModel(
         private var phoneNumber: String = ""
         private var token: String = ""
         private var companyId: String = ""
+        private var companyName: String = ""
         private var currency: String = ""
         private var timeZone: String = ""
         fun phoneNumber(phoneNumber: String): Builder {
@@ -41,6 +43,11 @@ data class UserModel(
 
         fun companyId(companyId: String): Builder {
             this.companyId = companyId
+            return this
+        }
+
+        fun companyName(companyName: String): Builder {
+            this.companyName = companyName
             return this
         }
 
@@ -66,6 +73,7 @@ data class UserModel(
                 phoneNumber,
                 token,
                 companyId,
+                companyName,
                 currency,
                 timeZone
             )
@@ -73,6 +81,7 @@ data class UserModel(
 
 
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -92,6 +101,7 @@ data class UserModel(
         parcel.writeString(phoneNumber)
         parcel.writeString(token)
         parcel.writeString(companyId)
+        parcel.writeString(companyName)
         parcel.writeString(currency)
         parcel.writeString(timeZone)
     }

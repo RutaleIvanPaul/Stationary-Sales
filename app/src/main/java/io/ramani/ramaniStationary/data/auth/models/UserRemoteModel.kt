@@ -13,6 +13,8 @@ data class UserRemoteModel(
     val token: String = "",
     @SerializedName("companyId")
     val companyId: String = "",
+    @SerializedName("companyName")
+    val companyName: String = "",
     @SerializedName("currency")
     val currency: String = "",
     @SerializedName("timeZone")

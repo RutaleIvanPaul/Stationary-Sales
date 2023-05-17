@@ -12,6 +12,7 @@ class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
             .phoneNumber(from.phoneNumber)
             .token(from.token)
             .companyId(from.companyId)
+            .companyName(from.companyName)
             .currency(from.currency)
             .timeZone(from.timeZone)
             .build()
@@ -23,6 +24,7 @@ class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
             to.phoneNumber,
             to.token,
             to.companyId,
+            to.companyName,
             to.currency,
             to.timeZone
         )
