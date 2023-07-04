@@ -1,0 +1,254 @@
+<resources>
+    <string name="app_name">Ramani Stationary Sfa</string>
+    <string name="yes">yes</string>
+    <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
+    <string name="cancel">cancel</string>
+    <string name="close">close</string>
+    <string name="ok_button">ok</string>
+    <string name="retry">retry</string>
+    <string name="oops_no_signal_check_your_internet_connection">Oops no signal! check your internet connection</string>
+    <string name="title_sign_in">sign in</string>
+    <string name="confirm_title">Confirm</string>
+    <string name="title_welcome_to">Welcome to</string>
+    <string name="title_our_privacy_policy">our privacy policy</string>
+    <string name="required_field">This field is required</string>
+    <string name="logout">Logout</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
+    <string name="phone_number_hint">e.g 78733...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="select_account">Select Account</string>
+    <string name="select_warehouse">Select Warehouse</string>
+    <string name="warehouse">Warehouse</string>
+    <string name="accounts">Accounts</string>
+    <string name="has_auth">Has Authentication</string>
+    <string name="user_name">Username</string>
+    <string name="password">Password</string>
+    <string name="n_a">N/A</string>
+
+    <string name="working_offline">Working Offline</string>
+
+    <!-- Home -->
+    <string name="today_sales">Today Sales</string>
+    <string name="total_customers">Total Customers</string>
+    <string name="tap_to_view">Tap to View</string>
+    <string name="quick_actions">Quick actions</string>
+    <string name="create_new_order">Create new order</string>
+    <string name="create_new_order_tr">(Weka oda)</string>
+    <string name="sales_report">Sales Report</string>
+    <string name="sales_report_tr">(Mauzo)</string>
+    <string name="customers">Customers</string>
+    <string name="customers_tr">(Wateja)</string>
+    <string name="customers_full">Customers (Wateja)</string>
+    <string name="last_updated">Last updated %s</string>
+
+    <string name="home">Home</string>
+    <string name="stock">Stock</string>
+    <string name="history">History</string>
+    <string name="credit">Credit</string>
+
+    <string name="last_updated_at">Last updated</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+    <string name="value">Value</string>
+    <string name="quantity">Quantity</string>
+    <string name="outstanding">Outstanding</string>
+    <string name="refresh">Refresh</string>
+    <string name="spaced_refresh">  Refresh</string>
+
+
+    <!-- Create Order -->
+    <string name="add_items">Add Items</string>
+    <string name="hint_search_products">Search products</string>
+    <string name="checkout">Checkout</string>
+    <string name="order_date">Order date:</string>
+    <string name="subtotal">Subtotal:</string>
+    <string name="discount">Discount:</string>
+    <string name="total_vat">Total VAT:</string>
+    <string name="items">Items</string>
+    <string name="add_product">+ Add product</string>
+
+    <string name="out_of_stock">Out of Stock</string>
+    <string name="out_of_stock_na">N/A</string>
+
+    <string name="qty">QTY</string>
+    <string name="price_category">Price Category</string>
+    <string name="standard_price">Standard Price</string>
+    <string name="no_discount">No Discount</string>
+    <string name="rewards">Rewards</string>
+    <string name="no_reward">No Reward</string>
+
+    <string name="delete">Delete</string>
+    <string name="warning_delete_product_item">Are you sure you want to delete this item from the list?</string>
+
+    <string name="select_customer">Select Customer (optional)</string>
+    <string name="customer_tin_number">Customer TIN number (optional)</string>
+    <string name="hint_customer_tin_number">Enter TIN number</string>
+    <string name="customer_vrn_number">Customer VRN number (optional)</string>
+    <string name="hint_customer_vrn_number">Enter VRN number</string>
+    <string name="add_new">New +</string>
+
+    <string name="payment_method">Payment Method</string>
+    <string name="paid">Paid</string>
+    <string name="comment">Comment</string>
+    <string name="hint_enter_comment">Enter Comments</string>
+    <string name="total">Total:</string>
+    <string name="finish_order">Finish Order</string>
+
+
+    <!-- History -->
+    <string name="print_z_report">Print Z Report</string>
+    <string name="all_orders">All Orders</string>
+    <string name="ready_to_print">Ready to print</string>
+    <string name="print_status">Print Status</string>
+    <string name="not_printed">Not Printed</string>
+    <string name="view_order">View order</string>
+
+    <string name="check_in">Check-in</string>
+    <string name="check_out">Check-out</string>
+    <string name="order_id">Order ID</string>
+    <string name="order_status">Order Status</string>
+    <string name="saving">Saving...</string>
+
+    <string name="receipt_printed">Receipt\nPrinted</string>
+    <string name="receipt_no_printed">Receipt Not\nPrinted</string>
+
+    <string name="title_total_sales">Total Sales:</string>
+    <string name="title_total_discount">Total Discount:</string>
+    <string name="title_total_orders">Total Orders:</string>
+    <string name="title_total_number_orders">Total Number Of Orders:</string>
+    <string name="title_total_walkin_customers">Total Walkin Customers:</string>
+    <string name="no_activities">No Activities</string>
+
+    <string name="today_stylized"><font color='black'><b>Today</b></font>&#xA0;<font color='#4eaff5'>(Leo)</font></string>
+    <string name="yesterday_stylized"><font color='black'><b>Yesterday</b></font>&#xA0;<font color='#4eaff5'>(Jana)</font></string>
+    <string name="last_month_stylized"><font color='black'><b>Last Month</b></font>&#xA0;<font color='#4eaff5'>(Mwezi uliopita)</font></string>
+    <string name="selected_date_stylized"><font color='black'><b>Selected Date</b></font>&#xA0;<font color='#4eaff5'>(Chagua tarehe)</font></string>
+
+    <string name="custom_z_report">Custom Z Report</string>
+    <string name="custom_z_report_hint">Select a date range to print your Z Report</string>
+    <string name="confirm_and_print">Confirm and Print</string>
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="select_start_date">Select start date</string>
+    <string name="select_end_date">Select end date</string>
+    <string name="warning_select_start_date">Please select start date.</string>
+    <string name="warning_future_date">The start date should be past day.</string>
+    <string name="warning_date_validation">The start date should be earlier than end date.</string>
+
+
+    <!-- Order Details -->
+    <string name="more">More</string>
+    <string name="order_delivery">Delivery</string>
+    <string name="order_delivery_status">Status</string>
+    <string name="order_delivery_branch">Branch</string>
+    <string name="order_delivery_eta">ETA</string>
+    <string name="order_detail_items">Items</string>
+    <string name="delivery_status">Delivery Status</string>
+    <string name="delivery_status_delivered">Delivered</string>
+
+    <string name="order_detail_item_quantity">QTY</string>
+    <string name="order_detail_item_total_exclusive_vat">Total Exclusive of VAT</string>
+    <string name="order_detail_item_total_inclusive_vat">Total Cost</string>
+    <string name="order_detail_item_price_category">Price Category</string>
+
+    <string name="dialog_send_receipt_title">Enter receipient phone number</string>
+    <string name="fully_paid">No outstanding payments</string>
+
+    <string name="error_no_tax_info">You do not have Tax Information and cannot print Receipts!</string>
+    <string name="processing_receipt">Processing Receipt please wait...</string>
+    <string name="payment_already_paid">Payment status is already paid</string>
+    <string name="order_already_cancelled">Order already canceled</string>
+    <string name="warning_out_of_stock">The quantity entered is greater than\nwhat you have in stock</string>
+    <string name="okay">Okay</string>
+
+    <string name="price_discount">Price Discount</string>
+    <string name="custom">Custom</string>
+    <string name="predefined">Predefined</string>
+    <string name="original_price">Original Price</string>
+    <string name="new_price">New Price</string>
+    <string name="half_price">Half price</string>
+    <string name="back_to_school_discount">Back to school discount</string>
+    <string name="black_friday">Black Friday</string>
+
+    <!-- Merchant -->
+    <string name="customer_name">Customer Name</string>
+    <string name="hint_customer_name">Enter Customer Name</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="hint_mobile_number">Enter mobile number</string>
+    <string name="customer_type">Customer type</string>
+    <string name="hint_customer_type">Select Customer type</string>
+    <string name="shop_name">Shop name</string>
+    <string name="hint_shop_name">Enter shop name</string>
+    <string name="location">Location (optional)</string>
+    <string name="hint_location">Enter street name</string>
+    <string name="add_customer">Add Customer</string>
+
+    <string-array name="merchant_types">
+        <item>Retail Shop</item>
+        <item>Wholesale</item>
+        <item>Consumer</item>
+    </string-array>
+
+    <string name="order_complete">Order Complete</string>
+    <string name="order_complete_message">Your order has been placed successfully. Click\nbelow to start a new order or finish and return home.</string>
+    <string name="new_sale">New sale</string>
+    <string name="print_receipt">Print Receipt</string>
+
+    <string name="printing_successful">Printing Successful</string>
+    <string name="printing_successful_message">Your receipt is printed\nsuccessfully.</string>
+
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
+
+    <!-- Merchant -->
+    <string name="hint_search_merchant">Search all Customers</string>
+    <string name="invalid_phone_number">Phone numbers should be 9 or 10 digits long</string>
+    <string name="warning_cancel_creating_merchant">Are you sure you want to cancel creating merchant?</string>
+    <string name="title_total_outstanding">Total Outstanding:</string>
+    <string name="title_total_number_of_orders">Total Number of Orders:</string>
+    <string name="title_total_number_of_merchants">Total Number of Merchants:</string>
+    <string name="missing_dates">Missing Dates</string>
+
+    <!-- Reports -->
+    <string name="reports">Reports</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="last_7_days">Last 7 days</string>
+    <string name="last_30_days">Last 30 days</string>
+    <string name="sale_summary">Sale Summary</string>
+    <string name="total_sales_value">Total sales value</string>
+    <string name="total_sales_count">Total sales count</string>
+    <string name="total_credit_given">Total Credit Given</string>
+    <string name="top_customers">Top Customers</string>
+    <string name="amount">Amount</string>
+    <string name="revenue">Revenue</string>
+    <string name="top_products">Top Products</string>
+    <string name="print_summary">Print Summary</string>
+    <string name="orders">orders</string>
+    <string name="pick_start_date">Please pick start day for reports</string>
+    <string name="pick_end_date">Please pick end day for reports</string>
+
+    <!-- Credit -->
+    <string name="outstanding_payments">Outstanding payments</string>
+    <string name="hint_search_all_credits">Search all credits</string>
+    <string name="max_credit">Max Credit</string>
+    <string name="outstanding_credit">Outstanding Credit</string>
+    <string name="unpaid_orders">Unpaid Orders</string>
+    <string name="mark_as_paid">Mark as Paid</string>
+    <string name="summary">Summary</string>
+    <string name="supplier">Supplier</string>
+    <string name="order_total">Order total</string>
+    <string name="no_comment">No Comment</string>
+    <string name="payment_status">Payment Status</string>
+
+    <!-- Side Menu -->
+    <string name="reset_activity">Reset Current Activity</string>
+    <string name="training_manual_string">User Manual (Maelekezo)</string>
+    <string name="training_video_string">Training Video</string>
+    <string name="title_clear_cache">Clear Cache</string>
+    <string name="bluetooth_connect">Connect To Bluetooth Printer</string>
+    <string name="title_sync_data">Sync Data</string>
+    <string name="view_sales_report">View sales reports</string>
+</resources>

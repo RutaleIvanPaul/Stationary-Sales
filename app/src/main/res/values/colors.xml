@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#03A701</color>
+
+    <color name="colorDarkGreen">#1E222E</color>
+    
+    <color name="colorTextNormal">#000</color>
+    <color name="colorTextGrey">#5C6370</color>
+    <color name="colorTextBlack">#40403F</color>
+
+    <color name="colorLightGrey">#28FFFFFF</color>
+    <color name="colorNavTextGrey">#A0AEC0</color>
+
+    <color name="dark_grey">#A9A9A9</color>
+    <color name="light_grey">#F0F0F0</color>
+    <color name="mid_dark_grey">#d9dbdd</color>
+    <color name="light_white_grey">#FAFAFA</color>
+    <color name="text_hint_color">#AEAEAE</color>
+    <color name="light_blue">#ced9e1</color>
+    <color name="light_grey_background">#f9f9f9</color>
+
+    <color name="ramani_green">#04C401</color>
+    <color name="ramani_blue">#1D8CF8</color>
+    <color name="ramani_light_blue">#F0F8FF</color>
+    <color name="ramani_grey">#E5E8F0</color>
+    <color name="text_grey">#8799B0</color>
+    <color name="dark_green">#03A701</color>
+    <color name="light_green">#87be61</color>
+    <color name="text_green">#04C401</color>
+    <color name="grey_separator">#969696</color>
+    <color name="gloss_red">#E71837</color>
+    <color name="matte_black">#292929</color>
+    <color name="darkish_blue">#5884a1</color>
+
+    <color name="black">#000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_30">#1effffff</color>
+    <color name="white_50">#32ffffff</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="side_menu_grey">#7287A1</color>
+
+</resources>

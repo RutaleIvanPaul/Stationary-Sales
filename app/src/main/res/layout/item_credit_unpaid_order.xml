@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_credit_unpaid_order"
+    style="@style/NormalTextLabel"
+    android:layout_marginEnd="@dimen/_5sdp"
+    android:background="@drawable/round_grey_outline_with_no_border"
+    android:gravity="center"
+    android:padding="@dimen/_5sdp"
+    android:textColor="@color/text_grey" />

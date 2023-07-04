@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_sales_activity_history_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/rounded_nonsolid_button"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/layout_sales_activity_history_shop_name"
+        style="@style/CommonRailwayView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/history_item_header_bg"
+        android:padding="10dp"
+        android:text="James Shop"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <!--Order Id -->
+
+        <TextView
+            android:id="@+id/layout_sales_activity_orders_label"
+            style="@style/CommonRailwayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/order_id"
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/layout_sales_activity_order_id"
+            style="@style/CommonRailwayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/layout_sales_activity_orders_label"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="#jp99032"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <!--Order Status -->
+
+        <TextView
+            android:id="@+id/layout_sales_activity_orders_status_label"
+            style="@style/CommonRailwayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_sales_activity_orders_label"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/order_status"
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/layout_sales_activity_order_status_value"
+            style="@style/CommonRailwayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/layout_sales_activity_orders_status_label"
+            android:layout_alignParentEnd="true"
+            android:text="#jp99032"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+        <!-- Actions -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_sales_activity_orders_status_label"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/layout_sales_activity_print_status_label"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_grey_outline_with_no_border"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/print_status"
+                android:textColor="@color/text_grey"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/layout_sales_activity_view_order_button"
+                style="@style/CommonRailwayView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:padding="6dp"
+                android:background="@drawable/round_green_action_button"
+                android:text="@string/view_order"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

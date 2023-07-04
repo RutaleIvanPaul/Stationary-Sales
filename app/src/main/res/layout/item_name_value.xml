@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_name_value_name"
+            style="@style/NormalTextLabel"
+            android:layout_centerVertical="true"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/item_name_value_value"
+            style="@style/NormalTextLabel"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="Tsh 673452030" />
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+</LinearLayout>
